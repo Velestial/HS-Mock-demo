@@ -13,6 +13,7 @@ interface NavbarProps {
   onNavigateTackle?: () => void;
   onNavigateEbooks?: () => void;
   onNavigateRods?: () => void;
+  onNavigateFinalChance?: () => void;
   onNavigateAccount?: () => void;
   onProductSelect?: (product: Product) => void;
 }
@@ -25,7 +26,7 @@ const shopItems = [
   { name: 'E-Books', href: '#ebooks', desc: 'Guides & Spots' }
 ];
 
-const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNavigateBundles, onNavigateBait, onNavigateTackle, onNavigateEbooks, onNavigateRods, onNavigateAccount, onProductSelect }) => {
+const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNavigateBundles, onNavigateBait, onNavigateTackle, onNavigateEbooks, onNavigateRods, onNavigateFinalChance, onNavigateAccount, onProductSelect }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeHover, setActiveHover] = useState<string | null>(null);
   const [isShopExpandedMobile, setIsShopExpandedMobile] = useState(false);
@@ -178,6 +179,10 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
 
           <a
             href="#final-chance"
+            onClick={(e) => {
+              e.preventDefault();
+              if (onNavigateFinalChance) onNavigateFinalChance();
+            }}
             className="text-xs font-bold uppercase tracking-widest hover:underline decoration-1 underline-offset-4"
           >
             Final Chance

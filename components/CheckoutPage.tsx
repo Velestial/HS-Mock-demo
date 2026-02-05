@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Turnstile } from '@marsidev/react-turnstile';
 import { useCart } from '../context/CartContext';
 import { ArrowLeft, CreditCard, ShieldCheck, Lock, MapPin, Truck, Smartphone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,10 +9,10 @@ interface CheckoutPageProps {
 }
 
 const US_STATES = [
-  "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", 
-  "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", 
-  "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", 
-  "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", 
+  "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+  "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland",
+  "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+  "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina",
   "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
 ];
 
@@ -34,6 +35,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
     expiry: '',
     cvc: ''
   });
+  const [turnstileToken, setTurnstileToken] = useState<string>('');
 
   // Calculate costs
   const shippingCost = items.some(item => item.id === 'travel-rod-92') ? 15.00 : 0;
@@ -46,8 +48,14 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!turnstileToken && paymentMethod === 'stripe') {
+      alert("Please complete the security check.");
+      return;
+    }
+
     setStep('processing');
-    
+
     // Simulate payment processing
     setTimeout(() => {
       setStep('success');
@@ -68,7 +76,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
         <p className="max-w-md text-neutral-600 mb-12 leading-relaxed">
           Thank you for your purchase. A confirmation email has been sent to <span className="font-bold text-black">{formData.email}</span> with your tracking details.
         </p>
-        <button 
+        <button
           onClick={onBack}
           className="border border-black px-12 py-4 text-sm font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-all"
         >
@@ -81,10 +89,10 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
   return (
     <div className="min-h-screen bg-neutral-50 pt-24 pb-12 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
-        
+
         {/* Left Column: Forms */}
         <div className="lg:col-span-7">
-          <button 
+          <button
             onClick={onBack}
             className="flex items-center gap-2 text-xs font-mono uppercase text-neutral-500 hover:text-black mb-8 transition-colors"
           >
@@ -92,7 +100,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
           </button>
 
           <form onSubmit={handleSubmit} className="space-y-8">
-            
+
             {/* Contact */}
             <div className="bg-white p-8 border border-black/10 shadow-sm">
               <h3 className="text-xl font-black uppercase tracking-tight mb-6 flex items-center gap-3">
@@ -102,9 +110,9 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
               <div className="grid gap-6">
                 <div>
                   <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">Email Address</label>
-                  <input 
+                  <input
                     required
-                    type="email" 
+                    type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
@@ -117,7 +125,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
 
             {/* Shipping */}
             <div className="bg-white p-8 border border-black/10 shadow-sm">
-               <h3 className="text-xl font-black uppercase tracking-tight mb-6 flex items-center gap-3">
+              <h3 className="text-xl font-black uppercase tracking-tight mb-6 flex items-center gap-3">
                 <span className="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-xs font-mono">2</span>
                 Shipping Details
               </h3>
@@ -144,7 +152,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
                 </div>
                 <div className="col-span-2 md:col-span-1">
                   <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">First Name</label>
-                  <input 
+                  <input
                     required
                     name="firstName"
                     value={formData.firstName}
@@ -154,7 +162,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
                 </div>
                 <div className="col-span-2 md:col-span-1">
                   <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">Last Name</label>
-                  <input 
+                  <input
                     required
                     name="lastName"
                     value={formData.lastName}
@@ -164,7 +172,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
                 </div>
                 <div className="col-span-2">
                   <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">Address</label>
-                  <input 
+                  <input
                     required
                     name="address"
                     value={formData.address}
@@ -175,7 +183,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
                 </div>
                 <div className="col-span-2">
                   <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">Apartment, suite, etc. (optional)</label>
-                  <input 
+                  <input
                     name="address2"
                     value={formData.address2}
                     onChange={handleInputChange}
@@ -184,55 +192,55 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
                   />
                 </div>
                 <div className="col-span-2 md:col-span-1">
-                   <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">City</label>
-                   <input 
+                  <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">City</label>
+                  <input
                     required
                     name="city"
                     value={formData.city}
                     onChange={handleInputChange}
                     className="w-full bg-neutral-50 border-b border-black/20 p-3 outline-none focus:border-black transition-colors"
-                   />
+                  />
                 </div>
                 <div className="col-span-2 md:col-span-1">
-                   <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">
-                     {formData.country === 'United States' ? 'State' : 'Province / State'}
-                   </label>
-                   {formData.country === 'United States' ? (
-                     <select
-                        required
-                        name="state"
-                        value={formData.state}
-                        onChange={handleInputChange}
-                        className="w-full bg-neutral-50 border-b border-black/20 p-3 outline-none focus:border-black transition-colors appearance-none cursor-pointer"
-                     >
-                       <option value="" disabled>Select State</option>
-                       {US_STATES.map(state => (
-                         <option key={state} value={state}>{state}</option>
-                       ))}
-                     </select>
-                   ) : (
-                     <input 
+                  <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">
+                    {formData.country === 'United States' ? 'State' : 'Province / State'}
+                  </label>
+                  {formData.country === 'United States' ? (
+                    <select
+                      required
+                      name="state"
+                      value={formData.state}
+                      onChange={handleInputChange}
+                      className="w-full bg-neutral-50 border-b border-black/20 p-3 outline-none focus:border-black transition-colors appearance-none cursor-pointer"
+                    >
+                      <option value="" disabled>Select State</option>
+                      {US_STATES.map(state => (
+                        <option key={state} value={state}>{state}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
                       required
                       name="state"
                       value={formData.state}
                       onChange={handleInputChange}
                       className="w-full bg-neutral-50 border-b border-black/20 p-3 outline-none focus:border-black transition-colors"
-                     />
-                   )}
+                    />
+                  )}
                 </div>
                 <div className="col-span-2 md:col-span-1">
-                   <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">Postal Code</label>
-                   <input 
+                  <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">Postal Code</label>
+                  <input
                     required
                     name="zip"
                     value={formData.zip}
                     onChange={handleInputChange}
                     className="w-full bg-neutral-50 border-b border-black/20 p-3 outline-none focus:border-black transition-colors"
-                   />
+                  />
                 </div>
                 <div className="col-span-2 md:col-span-1">
                   <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">Phone Number</label>
-                  <input 
+                  <input
                     required
                     type="tel"
                     name="phone"
@@ -247,14 +255,14 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
 
             {/* Payment */}
             <div className="bg-white p-8 border border-black/10 shadow-sm">
-               <h3 className="text-xl font-black uppercase tracking-tight mb-6 flex items-center gap-3">
+              <h3 className="text-xl font-black uppercase tracking-tight mb-6 flex items-center gap-3">
                 <span className="w-6 h-6 bg-black text-white rounded-full flex items-center justify-center text-xs font-mono">3</span>
                 Payment
               </h3>
-              
+
               <div className="mb-6 p-4 bg-neutral-50 border border-black/5 rounded-sm flex items-center gap-3">
-                 <Lock className="w-4 h-4 text-green-600" />
-                 <span className="text-xs font-mono uppercase text-neutral-500">Payments are secure and encrypted.</span>
+                <Lock className="w-4 h-4 text-green-600" />
+                <span className="text-xs font-mono uppercase text-neutral-500">Payments are secure and encrypted.</span>
               </div>
 
               {/* Payment Method Selector */}
@@ -272,7 +280,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
                   onClick={() => setPaymentMethod('paypal')}
                   className={`p-4 border text-center flex flex-col items-center gap-2 transition-all ${paymentMethod === 'paypal' ? 'border-black bg-black text-white' : 'border-black/20 hover:border-black text-neutral-500 hover:text-black'}`}
                 >
-                   <span className="w-6 h-6 font-bold italic serif">P</span>
+                  <span className="w-6 h-6 font-bold italic serif">P</span>
                   <span className="text-xs font-bold uppercase tracking-wider">PayPal</span>
                 </button>
               </div>
@@ -280,45 +288,45 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
               {/* Stripe (Credit Card) Fields */}
               {paymentMethod === 'stripe' && (
                 <div className="grid gap-6 animate-in fade-in slide-in-from-top-4 duration-300">
-                   <div>
-                      <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">Card Number</label>
-                      <div className="relative">
-                        <input 
-                          required={paymentMethod === 'stripe'}
-                          type="text"
-                          name="cardNumber"
-                          value={formData.cardNumber}
-                          onChange={handleInputChange}
-                          placeholder="0000 0000 0000 0000"
-                          className="w-full bg-neutral-50 border-b border-black/20 p-3 outline-none focus:border-black transition-colors pl-10 font-mono"
-                        />
-                        <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
-                      </div>
-                   </div>
-                   <div className="grid grid-cols-2 gap-6">
-                      <div>
-                          <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">Expiry Date</label>
-                          <input 
-                              required={paymentMethod === 'stripe'}
-                              name="expiry"
-                              placeholder="MM / YY"
-                              value={formData.expiry}
-                              onChange={handleInputChange}
-                              className="w-full bg-neutral-50 border-b border-black/20 p-3 outline-none focus:border-black transition-colors font-mono"
-                          />
-                      </div>
-                      <div>
-                          <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">CVC</label>
-                          <input 
-                              required={paymentMethod === 'stripe'}
-                              name="cvc"
-                              placeholder="123"
-                              value={formData.cvc}
-                              onChange={handleInputChange}
-                              className="w-full bg-neutral-50 border-b border-black/20 p-3 outline-none focus:border-black transition-colors font-mono"
-                          />
-                      </div>
-                   </div>
+                  <div>
+                    <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">Card Number</label>
+                    <div className="relative">
+                      <input
+                        required={paymentMethod === 'stripe'}
+                        type="text"
+                        name="cardNumber"
+                        value={formData.cardNumber}
+                        onChange={handleInputChange}
+                        placeholder="0000 0000 0000 0000"
+                        className="w-full bg-neutral-50 border-b border-black/20 p-3 outline-none focus:border-black transition-colors pl-10 font-mono"
+                      />
+                      <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">Expiry Date</label>
+                      <input
+                        required={paymentMethod === 'stripe'}
+                        name="expiry"
+                        placeholder="MM / YY"
+                        value={formData.expiry}
+                        onChange={handleInputChange}
+                        className="w-full bg-neutral-50 border-b border-black/20 p-3 outline-none focus:border-black transition-colors font-mono"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[10px] font-mono uppercase text-neutral-500 mb-1">CVC</label>
+                      <input
+                        required={paymentMethod === 'stripe'}
+                        name="cvc"
+                        placeholder="123"
+                        value={formData.cvc}
+                        onChange={handleInputChange}
+                        className="w-full bg-neutral-50 border-b border-black/20 p-3 outline-none focus:border-black transition-colors font-mono"
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -328,28 +336,38 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
                   <p className="text-sm font-medium text-neutral-600 mb-2">You will be redirected to PayPal to securely complete your payment.</p>
                 </div>
               )}
+
+              {/* Turnstile Widget */}
+              <div className="mt-6">
+                <Turnstile
+                  siteKey="1x00000000000000000000AA"
+                  onSuccess={setTurnstileToken}
+                  onError={() => setTurnstileToken('')}
+                  onExpire={() => setTurnstileToken('')}
+                />
+              </div>
             </div>
 
-            <button 
-                type="submit"
-                disabled={step === 'processing'}
-                className="w-full bg-black text-white h-16 flex items-center justify-between px-8 hover:bg-neutral-800 transition-all shadow-xl shadow-black/10 disabled:opacity-70 disabled:cursor-not-allowed group"
+            <button
+              type="submit"
+              disabled={step === 'processing'}
+              className="w-full bg-black text-white h-16 flex items-center justify-between px-8 hover:bg-neutral-800 transition-all shadow-xl shadow-black/10 disabled:opacity-70 disabled:cursor-not-allowed group"
             >
-                {step === 'processing' ? (
-                     <div className="flex items-center gap-4 mx-auto">
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                        <span className="font-bold uppercase tracking-widest">Processing Securely...</span>
-                     </div>
-                ) : (
-                    <>
-                        <span className="font-bold uppercase tracking-widest text-sm">
-                            {paymentMethod === 'paypal' ? 'Proceed to PayPal' : `Pay $${finalTotal.toFixed(2)}`}
-                        </span>
-                        <div className="flex items-center gap-2 font-mono text-xs group-hover:translate-x-1 transition-transform">
-                            SECURE_CHECKOUT <ShieldCheck className="w-4 h-4" />
-                        </div>
-                    </>
-                )}
+              {step === 'processing' ? (
+                <div className="flex items-center gap-4 mx-auto">
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  <span className="font-bold uppercase tracking-widest">Processing Securely...</span>
+                </div>
+              ) : (
+                <>
+                  <span className="font-bold uppercase tracking-widest text-sm">
+                    {paymentMethod === 'paypal' ? 'Proceed to PayPal' : `Pay $${finalTotal.toFixed(2)}`}
+                  </span>
+                  <div className="flex items-center gap-2 font-mono text-xs group-hover:translate-x-1 transition-transform">
+                    SECURE_CHECKOUT <ShieldCheck className="w-4 h-4" />
+                  </div>
+                </>
+              )}
             </button>
 
           </form>
@@ -357,56 +375,56 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
 
         {/* Right Column: Order Summary */}
         <div className="lg:col-span-5">
-            <div className="sticky top-32">
-                <div className="bg-white p-8 border border-black shadow-lg">
-                    <h3 className="font-black uppercase tracking-widest text-sm mb-6 pb-4 border-b border-black">Order Summary</h3>
-                    
-                    <div className="space-y-4 mb-8">
-                        {items.map((item) => (
-                            <div key={item.id} className="flex gap-4">
-                                <div className="w-16 h-16 bg-neutral-100 border border-neutral-200 flex-shrink-0">
-                                    <img src={item.image} alt={item.name} className="w-full h-full object-cover mix-blend-multiply" />
-                                </div>
-                                <div className="flex-grow">
-                                    <div className="flex justify-between items-start">
-                                        <h4 className="font-bold uppercase text-xs w-[70%]">{item.name}</h4>
-                                        <span className="font-mono text-xs">${(item.price * item.quantity).toFixed(2)}</span>
-                                    </div>
-                                    <span className="font-mono text-[10px] text-neutral-500 uppercase block mt-1">Qty: {item.quantity}</span>
-                                    {item.specs && <span className="font-mono text-[10px] text-neutral-400 uppercase block">{item.specs}</span>}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+          <div className="sticky top-32">
+            <div className="bg-white p-8 border border-black shadow-lg">
+              <h3 className="font-black uppercase tracking-widest text-sm mb-6 pb-4 border-b border-black">Order Summary</h3>
 
-                    <div className="space-y-3 font-mono text-xs uppercase border-t border-black/10 pt-6">
-                        <div className="flex justify-between text-neutral-500">
-                            <span>Subtotal</span>
-                            <span>${cartTotal.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between text-neutral-500">
-                            <span>Shipping</span>
-                            <span>{shippingCost > 0 ? `$${shippingCost.toFixed(2)}` : 'Free'}</span>
-                        </div>
-                        <div className="flex justify-between text-neutral-500">
-                            <span>Taxes (Est.)</span>
-                            <span>${taxAmount.toFixed(2)}</span>
-                        </div>
-                        <div className="flex justify-between text-lg font-bold text-black border-t border-black pt-4 mt-2">
-                            <span>Total</span>
-                            <span>${finalTotal.toFixed(2)}</span>
-                        </div>
+              <div className="space-y-4 mb-8">
+                {items.map((item) => (
+                  <div key={item.id} className="flex gap-4">
+                    <div className="w-16 h-16 bg-neutral-100 border border-neutral-200 flex-shrink-0">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover mix-blend-multiply" />
                     </div>
-                    
-                    <div className="mt-8 flex items-start gap-3 bg-neutral-50 p-4 border border-black/5">
-                        <Truck className="w-5 h-5 text-neutral-400 flex-shrink-0" />
-                        <p className="text-[10px] font-mono text-neutral-500 uppercase leading-relaxed">
-                            Orders placed before 2PM EST ship same day. All rods ship in reinforced protective tubes.
-                        </p>
+                    <div className="flex-grow">
+                      <div className="flex justify-between items-start">
+                        <h4 className="font-bold uppercase text-xs w-[70%]">{item.name}</h4>
+                        <span className="font-mono text-xs">${(item.price * item.quantity).toFixed(2)}</span>
+                      </div>
+                      <span className="font-mono text-[10px] text-neutral-500 uppercase block mt-1">Qty: {item.quantity}</span>
+                      {item.specs && <span className="font-mono text-[10px] text-neutral-400 uppercase block">{item.specs}</span>}
                     </div>
+                  </div>
+                ))}
+              </div>
 
+              <div className="space-y-3 font-mono text-xs uppercase border-t border-black/10 pt-6">
+                <div className="flex justify-between text-neutral-500">
+                  <span>Subtotal</span>
+                  <span>${cartTotal.toFixed(2)}</span>
                 </div>
+                <div className="flex justify-between text-neutral-500">
+                  <span>Shipping</span>
+                  <span>{shippingCost > 0 ? `$${shippingCost.toFixed(2)}` : 'Free'}</span>
+                </div>
+                <div className="flex justify-between text-neutral-500">
+                  <span>Taxes (Est.)</span>
+                  <span>${taxAmount.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-lg font-bold text-black border-t border-black pt-4 mt-2">
+                  <span>Total</span>
+                  <span>${finalTotal.toFixed(2)}</span>
+                </div>
+              </div>
+
+              <div className="mt-8 flex items-start gap-3 bg-neutral-50 p-4 border border-black/5">
+                <Truck className="w-5 h-5 text-neutral-400 flex-shrink-0" />
+                <p className="text-[10px] font-mono text-neutral-500 uppercase leading-relaxed">
+                  Orders placed before 2PM EST ship same day. All rods ship in reinforced protective tubes.
+                </p>
+              </div>
+
             </div>
+          </div>
         </div>
 
       </div>

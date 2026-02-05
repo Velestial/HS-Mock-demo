@@ -18,15 +18,17 @@ import ProductPage from './components/ProductPage';
 import PrivacyPolicyPage from './components/PrivacyPolicyPage';
 import TermsPage from './components/TermsPage';
 import RodWarrantyPage from './components/RodWarrantyPage';
+import FinalChancePage from './components/FinalChancePage';
 import AuthWrapper from './components/AuthWrapper';
 import ScrollToTop from './components/ScrollToTop';
+import EmotivePopup from './components/EmotivePopup';
 
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { Product } from './data/products';
 
 const App: React.FC = () => {
-  const [view, setView] = useState<'home' | 'checkout' | 'faq' | 'bundles' | 'bait' | 'tackle' | 'ebooks' | 'rods' | 'product' | 'privacy' | 'terms' | 'warranty' | 'account'>('home');
+  const [view, setView] = useState<'home' | 'checkout' | 'faq' | 'bundles' | 'bait' | 'tackle' | 'ebooks' | 'rods' | 'product' | 'privacy' | 'terms' | 'warranty' | 'account' | 'final-chance'>('home');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Scroll to top when view changes
@@ -38,6 +40,7 @@ const App: React.FC = () => {
     <AuthProvider>
       <CartProvider>
         <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white flex flex-col relative">
+          <EmotivePopup />
           <div className="max-w-[1920px] w-full mx-auto border-x border-black bg-white shadow-2xl shadow-black/5 relative">
             <Navbar
               onNavigateHome={() => setView('home')}
@@ -47,6 +50,7 @@ const App: React.FC = () => {
               onNavigateTackle={() => setView('tackle')}
               onNavigateEbooks={() => setView('ebooks')}
               onNavigateRods={() => setView('rods')}
+              onNavigateFinalChance={() => setView('final-chance')}
               onNavigateAccount={() => setView('account')}
               onProductSelect={(product) => {
                 setSelectedProduct(product);
@@ -113,6 +117,15 @@ const App: React.FC = () => {
               )}
               {view === 'warranty' && (
                 <RodWarrantyPage onBack={() => setView('home')} />
+              )}
+              {view === 'final-chance' && (
+                <FinalChancePage
+                  onNavigateHome={() => setView('home')}
+                  onProductClick={(product) => {
+                    setSelectedProduct(product);
+                    setView('product');
+                  }}
+                />
               )}
               {view === 'account' && (
                 <AuthWrapper onBack={() => setView('home')} />
