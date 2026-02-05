@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 - Emotive popup component (mock implementation).
 - New product pages for bait items.
 - Legal pages: Terms & Conditions, Privacy Policy, Rod Warranty.
+- New "Shop All" page with filtering and sorting.
+- Search functionality in Navbar.
 
 ### Changed
 - Updated products list in `data/products.ts` (removed legacy e-books, updated bait prices).

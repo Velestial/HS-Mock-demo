@@ -12,6 +12,7 @@ import FAQPage from './components/FAQPage';
 import BundlesPage from './components/BundlesPage';
 import BaitPage from './components/BaitPage';
 import TacklePage from './components/TacklePage';
+import ShopPage from './components/ShopPage';
 import EbooksPage from './components/EbooksPage';
 import RodPage from './components/RodPage';
 import ProductPage from './components/ProductPage';
@@ -30,7 +31,7 @@ import { AuthProvider } from './context/AuthContext';
 import { Product } from './data/products';
 
 const App: React.FC = () => {
-  const [view, setView] = useState<'home' | 'checkout' | 'faq' | 'bundles' | 'bait' | 'tackle' | 'ebooks' | 'rods' | 'product' | 'privacy' | 'terms' | 'warranty' | 'account' | 'final-chance'>('home');
+  const [view, setView] = useState<'home' | 'checkout' | 'faq' | 'bundles' | 'bait' | 'tackle' | 'shop' | 'ebooks' | 'rods' | 'product' | 'privacy' | 'terms' | 'warranty' | 'account' | 'final-chance'>('home');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Scroll to top when view changes
@@ -51,6 +52,7 @@ const App: React.FC = () => {
               onNavigateBundles={() => setView('bundles')}
               onNavigateBait={() => setView('bait')}
               onNavigateTackle={() => setView('tackle')}
+              onNavigateShop={() => setView('shop')}
               onNavigateEbooks={() => setView('ebooks')}
               onNavigateRods={() => setView('rods')}
               onNavigateFinalChance={() => setView('final-chance')}
@@ -104,6 +106,15 @@ const App: React.FC = () => {
               )}
               {view === 'tackle' && (
                 <TacklePage
+                  onBack={() => setView('home')}
+                  onProductSelect={(product) => {
+                    setSelectedProduct(product);
+                    setView('product');
+                  }}
+                />
+              )}
+              {view === 'shop' && (
+                <ShopPage
                   onBack={() => setView('home')}
                   onProductSelect={(product) => {
                     setSelectedProduct(product);

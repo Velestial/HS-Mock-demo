@@ -15,6 +15,7 @@ interface NavbarProps {
   onNavigateRods?: () => void;
   onNavigateFinalChance?: () => void;
   onNavigateAccount?: () => void;
+  onNavigateShop?: () => void;
   onProductSelect?: (product: Product) => void;
 }
 
@@ -26,7 +27,7 @@ const shopItems = [
   { name: 'E-Books', href: '#ebooks', desc: 'Guides & Spots' }
 ];
 
-const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNavigateBundles, onNavigateBait, onNavigateTackle, onNavigateEbooks, onNavigateRods, onNavigateFinalChance, onNavigateAccount, onProductSelect }) => {
+const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNavigateBundles, onNavigateBait, onNavigateTackle, onNavigateShop, onNavigateEbooks, onNavigateRods, onNavigateFinalChance, onNavigateAccount, onProductSelect }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeHover, setActiveHover] = useState<string | null>(null);
   const [isShopExpandedMobile, setIsShopExpandedMobile] = useState(false);
@@ -154,6 +155,13 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
           >
             <a
               href="#shop"
+              onClick={(e) => {
+                e.preventDefault();
+                if (onNavigateShop) {
+                  onNavigateShop();
+                  setIsMenuOpen(false);
+                }
+              }}
               className="text-xs font-bold uppercase tracking-widest hover:underline decoration-1 underline-offset-4 flex items-center gap-1"
             >
               Shop
@@ -193,13 +201,13 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
         <div className="flex items-center space-x-6">
           {/* Social Icons */}
           <div className="hidden md:flex items-center gap-4 border-r border-black/10 pr-6">
-            <a href="#" className="hover:text-neutral-500 transition-colors">
+            <a href="https://www.facebook.com/heyskipperfishing/" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-500 transition-colors">
               <Facebook className="w-4 h-4" strokeWidth={1.5} />
             </a>
-            <a href="#" className="hover:text-neutral-500 transition-colors">
+            <a href="https://www.youtube.com/channel/UC2eTeSNnXaRctWQ0kltSoOA" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-500 transition-colors">
               <Youtube className="w-4 h-4" strokeWidth={1.5} />
             </a>
-            <a href="#" className="hover:text-neutral-500 transition-colors">
+            <a href="https://www.instagram.com/heyskipperofficial/?hl=en" target="_blank" rel="noopener noreferrer" className="hover:text-neutral-500 transition-colors">
               <Instagram className="w-4 h-4" strokeWidth={1.5} />
             </a>
           </div>
@@ -320,11 +328,25 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
               {/* Mobile Shop Accordion */}
               <div>
                 <button
-                  onClick={() => setIsShopExpandedMobile(!isShopExpandedMobile)}
+                  onClick={() => {
+                    // Toggle accordion OR navigate if clicking the text part
+                    if (onNavigateShop) {
+                      onNavigateShop();
+                      setIsMenuOpen(false);
+                    }
+                  }}
                   className="flex justify-between items-center w-full text-2xl font-black uppercase tracking-tight"
                 >
                   Shop
-                  <ChevronDown className={`w-6 h-6 transition-transform ${isShopExpandedMobile ? 'rotate-180' : ''}`} />
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsShopExpandedMobile(!isShopExpandedMobile)
+                    }}
+                    className="p-2"
+                  >
+                    <ChevronDown className={`w-6 h-6 transition-transform ${isShopExpandedMobile ? 'rotate-180' : ''}`} />
+                  </div>
                 </button>
                 <AnimatePresence>
                   {isShopExpandedMobile && (
@@ -357,9 +379,9 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
               <button onClick={handleFAQClick} className="text-2xl font-black uppercase tracking-tight text-left">FAQ</button>
 
               <div className="flex gap-6 pt-6 mt-4 border-t border-black/10">
-                <a href="#" className="text-black hover:text-neutral-500"><Facebook className="w-5 h-5" strokeWidth={1.5} /></a>
-                <a href="#" className="text-black hover:text-neutral-500"><Youtube className="w-5 h-5" strokeWidth={1.5} /></a>
-                <a href="#" className="text-black hover:text-neutral-500"><Instagram className="w-5 h-5" strokeWidth={1.5} /></a>
+                <a href="https://www.facebook.com/heyskipperfishing/" target="_blank" rel="noopener noreferrer" className="text-black hover:text-neutral-500"><Facebook className="w-5 h-5" strokeWidth={1.5} /></a>
+                <a href="https://www.youtube.com/channel/UC2eTeSNnXaRctWQ0kltSoOA" target="_blank" rel="noopener noreferrer" className="text-black hover:text-neutral-500"><Youtube className="w-5 h-5" strokeWidth={1.5} /></a>
+                <a href="https://www.instagram.com/heyskipperofficial/?hl=en" target="_blank" rel="noopener noreferrer" className="text-black hover:text-neutral-500"><Instagram className="w-5 h-5" strokeWidth={1.5} /></a>
               </div>
             </div>
           </motion.div>
