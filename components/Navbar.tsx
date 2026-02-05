@@ -136,7 +136,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
         <div className="flex items-center">
           <a href="#" onClick={handleLogoClick}>
             <img
-              src="https://www.heyskipperfishing.com/wp-content/uploads/2023/01/heyskipperlogo.jpg"
+              src="/assets/blkheyskipper.png"
               alt="Hey Skipper"
               className="h-10 w-auto object-contain"
             />
