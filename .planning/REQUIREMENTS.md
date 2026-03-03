@@ -41,6 +41,12 @@ Requirements for launch. Each maps to roadmap phases.
 - [ ] **PAGE-04**: Both landing pages include a FAQ accordion addressing common purchase objections
 - [ ] **PAGE-05**: Both landing pages include a "You might also need" cross-sell section with complementary products
 
+### Navigation
+
+- [ ] **NAV-01**: Navbar includes a "Shop" mega menu with links to Rod, Bundles, Bait, Tackle, and E-Books pages
+- [ ] **NAV-02**: Top bar includes a link to the FAQ page
+- [ ] **NAV-03**: Top bar includes a link to the Final Chance page
+
 ### UI Refresh
 
 - [ ] **UI-01**: BentoGrid component is implemented as a reusable layout primitive (columns, cell span)
@@ -114,50 +120,53 @@ Which phases cover which requirements. Populated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFRA-01 | — | Pending |
-| INFRA-02 | — | Pending |
-| INFRA-03 | — | Pending |
-| AUTH-01 | — | Pending |
-| AUTH-02 | — | Pending |
-| AUTH-03 | — | Pending |
-| AUTH-04 | — | Pending |
-| AUTH-05 | — | Pending |
-| AUTH-06 | — | Pending |
-| PAY-01 | — | Pending |
-| PAY-02 | — | Pending |
-| PAY-03 | — | Pending |
-| DATA-01 | — | Pending |
-| DATA-02 | — | Pending |
-| PAGE-01 | — | Pending |
-| PAGE-02 | — | Pending |
-| PAGE-03 | — | Pending |
-| PAGE-04 | — | Pending |
-| PAGE-05 | — | Pending |
-| UI-01 | — | Pending |
-| UI-02 | — | Pending |
-| UI-03 | — | Pending |
-| UI-04 | — | Pending |
-| ORDER-01 | — | Pending |
-| ORDER-02 | — | Pending |
-| INT-01 | — | Pending |
-| INT-02 | — | Pending |
-| INT-03 | — | Pending |
-| INT-04 | — | Pending |
-| CODE-01 | — | Pending |
-| CODE-02 | — | Pending |
-| CODE-03 | — | Pending |
-| CODE-04 | — | Pending |
-| CODE-05 | — | Pending |
-| CODE-06 | — | Pending |
-| ANLT-01 | — | Pending |
-| ANLT-02 | — | Pending |
-| ANLT-03 | — | Pending |
+| INFRA-01 | Phase 1 | Pending |
+| INFRA-02 | Phase 1 | Pending |
+| INFRA-03 | Phase 1 | Pending |
+| AUTH-01 | Phase 2 | Pending |
+| AUTH-02 | Phase 2 | Pending |
+| AUTH-03 | Phase 2 | Pending |
+| AUTH-04 | Phase 2 | Pending |
+| AUTH-05 | Phase 2 | Pending |
+| AUTH-06 | Phase 2 | Pending |
+| PAY-01 | Phase 3 | Pending |
+| PAY-02 | Phase 3 | Pending |
+| PAY-03 | Phase 3 | Pending |
+| DATA-01 | Phase 3 | Pending |
+| DATA-02 | Phase 3 | Pending |
+| PAGE-01 | Phase 6 | Pending |
+| PAGE-02 | Phase 6 | Pending |
+| PAGE-03 | Phase 6 | Pending |
+| PAGE-04 | Phase 6 | Pending |
+| PAGE-05 | Phase 6 | Pending |
+| NAV-01 | Phase 6 | Pending |
+| NAV-02 | Phase 6 | Pending |
+| NAV-03 | Phase 6 | Pending |
+| UI-01 | Phase 4 | Pending |
+| UI-02 | Phase 6 | Pending |
+| UI-03 | Phase 4 | Pending |
+| UI-04 | Phase 4 | Pending |
+| ORDER-01 | Phase 7 | Pending |
+| ORDER-02 | Phase 7 | Pending |
+| INT-01 | Phase 5 | Pending |
+| INT-02 | Phase 5 | Pending |
+| INT-03 | Phase 5 | Pending |
+| INT-04 | Phase 5 | Pending |
+| CODE-01 | Phase 4 | Pending |
+| CODE-02 | Phase 4 | Pending |
+| CODE-03 | Phase 4 | Pending |
+| CODE-04 | Phase 4 | Pending |
+| CODE-05 | Phase 4 | Pending |
+| CODE-06 | Phase 4 | Pending |
+| ANLT-01 | Phase 5 | Pending |
+| ANLT-02 | Phase 5 | Pending |
+| ANLT-03 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 38 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 38 ⚠️
+- v1 requirements: 41 total
+- Mapped to phases: 41
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-02*
-*Last updated: 2026-03-02 after initial definition*
+*Last updated: 2026-03-02 — added NAV-01, NAV-02, NAV-03 (Shop mega menu, FAQ and Final Chance top bar links)*
