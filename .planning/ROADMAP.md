@@ -31,12 +31,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Product pages load live WooCommerce data through the Express proxy (not seed data or direct WooCommerce calls)
   3. CORS requests from a non-allowlisted domain are rejected with a CORS error
   4. All API routes (auth, products, orders, customers, payments) return responses rather than 404
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: Audit and reconstruct Express server endpoints (auth, products, orders, customers, payments)
-- [ ] 01-02: Deploy to TitanHostingHub staging and verify connectivity with frontend
-- [ ] 01-03: Lock CORS allowlist to production and staging domains
+- [ ] 01-01-PLAN.md — Build full Express server (all proxy routes, CORS allowlist, env guard, dev workflow)
+- [ ] 01-02-PLAN.md — Deploy to TitanHostingHub staging, configure PM2 and Nginx, verify public endpoint
 
 ### Phase 2: Auth and Security
 **Goal**: Users can securely log in, register, and maintain sessions using real WooCommerce JWT authentication, with no customer PII stored beyond identity fields
@@ -144,10 +143,10 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Infrastructure | 0/3 | Not started | - |
+| 1. Infrastructure | 0/2 | Not started | - |
 | 2. Auth and Security | 0/3 | Not started | - |
 | 3. Data Integrity and Payment Hardening | 0/3 | Not started | - |
 | 4. Code Quality and UI Foundations | 0/4 | Not started | - |
 | 5. Analytics and Third-Party Integrations | 0/3 | Not started | - |
-| 6. Landing Pages | 0/3 | Not started | - |
+| 6. Landing Pages | 0/4 | Not started | - |
 | 7. Order Tracking | 0/1 | Not started | - |
