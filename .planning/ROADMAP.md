@@ -34,7 +34,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Build full Express server (all proxy routes, CORS allowlist, env guard, dev workflow)
+- [x] 01-01-PLAN.md — Build full Express server (all proxy routes, CORS allowlist, env guard, dev workflow)
 - [ ] 01-02-PLAN.md — Deploy to TitanHostingHub staging, configure PM2 and Nginx, verify public endpoint
 
 ### Phase 2: Auth and Security
@@ -143,7 +143,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Infrastructure | 0/2 | Not started | - |
+| 1. Infrastructure | 1/2 | In progress | - |
 | 2. Auth and Security | 0/3 | Not started | - |
 | 3. Data Integrity and Payment Hardening | 0/3 | Not started | - |
 | 4. Code Quality and UI Foundations | 0/4 | Not started | - |

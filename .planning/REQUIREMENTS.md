@@ -9,9 +9,9 @@ Requirements for launch. Each maps to roadmap phases.
 
 ### Infrastructure
 
-- [ ] **INFRA-01**: Express API server is fully implemented with all endpoints (products, orders, customers, payments, auth)
+- [x] **INFRA-01**: Express API server is fully implemented with all endpoints (products, orders, customers, payments, auth)
 - [ ] **INFRA-02**: Server deployed to TitanHostingHub and accessible from frontend on staging domain
-- [ ] **INFRA-03**: CORS origin allowlist configured for production and staging domains only (not open wildcard)
+- [x] **INFRA-03**: CORS origin allowlist configured for production and staging domains only (not open wildcard)
 
 ### Authentication
 
