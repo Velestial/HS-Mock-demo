@@ -12,7 +12,7 @@ HeySkipper is a headless React/TypeScript storefront that replaces a slow WordPr
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Infrastructure** - Reconstruct the Express proxy server with all working endpoints and deploy to staging
+- [x] **Phase 1: Infrastructure** - Reconstruct the Express proxy server with all working endpoints and deploy to staging (completed 2026-03-05)
 - [ ] **Phase 2: Auth and Security** - Replace demo auth with real WooCommerce JWT login, registration, and PII-safe session storage
 - [ ] **Phase 3: Data Integrity and Payment Hardening** - Fix product ID corruption in checkout and add Stripe webhook for payment confirmation
 - [ ] **Phase 4: Code Quality and UI Foundations** - Reorganize codebase for AI maintainability, split CheckoutPage, and build shared UI primitives
@@ -143,7 +143,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Infrastructure | 1/2 | In progress | - |
+| 1. Infrastructure | 2/2 | Complete   | 2026-03-05 |
 | 2. Auth and Security | 0/3 | Not started | - |
 | 3. Data Integrity and Payment Hardening | 0/3 | Not started | - |
 | 4. Code Quality and UI Foundations | 0/4 | Not started | - |

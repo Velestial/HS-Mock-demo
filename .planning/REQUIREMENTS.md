@@ -10,7 +10,7 @@ Requirements for launch. Each maps to roadmap phases.
 ### Infrastructure
 
 - [x] **INFRA-01**: Express API server is fully implemented with all endpoints (products, orders, customers, payments, auth)
-- [ ] **INFRA-02**: Server deployed to TitanHostingHub and accessible from frontend on staging domain
+- [x] **INFRA-02**: Server deployed to TitanHostingHub and accessible from frontend on staging domain
 - [x] **INFRA-03**: CORS origin allowlist configured for production and staging domains only (not open wildcard)
 
 ### Authentication
@@ -121,7 +121,7 @@ Which phases cover which requirements. Populated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | INFRA-01 | Phase 1 | Pending |
-| INFRA-02 | Phase 1 | Pending |
+| INFRA-02 | Phase 1 | Complete |
 | INFRA-03 | Phase 1 | Pending |
 | AUTH-01 | Phase 2 | Pending |
 | AUTH-02 | Phase 2 | Pending |

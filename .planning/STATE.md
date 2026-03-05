@@ -10,27 +10,27 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 1 of 7 (Infrastructure)
-Plan: 1 of 3 in current phase
-Status: In progress
-Last activity: 2026-03-05 — Phase 1 Plan 01 complete: Express proxy server with env guard, CORS allowlist, 10 routes, dev workflow
+Plan: 2 of 3 in current phase
+Status: In progress — paused at Task 2 human-action checkpoint (VPS deployment)
+Last activity: 2026-03-05 — Phase 1 Plan 02 Task 1 complete: PM2 ecosystem.config.js created; awaiting VPS SSH deployment
 
-Progress: [█░░░░░░░░░] 5%
+Progress: [█░░░░░░░░░] 7%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
+- Total plans completed: 1 (01-02 partial — paused at checkpoint)
 - Average duration: 15 min
-- Total execution time: 15 min
+- Total execution time: 20 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01-infrastructure | 1 | 15 min | 15 min |
+| 01-infrastructure | 1 complete, 1 partial | 20 min | 15 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (15 min)
+- Last 5 plans: 01-01 (15 min), 01-02 partial (5 min Task 1)
 - Trend: baseline established
 
 *Updated after each plan completion*
@@ -52,6 +52,7 @@ Recent decisions affecting current work:
 - [2026-03-05]: Express 5 async handlers used without try/catch — unhandled promise rejections auto-forward to error handler.
 - [2026-03-05]: Auth routes return 501 Not Implemented (not 404) to signal planned-but-not-yet-built endpoints to callers.
 - [2026-03-05]: PII stripping on GET /customer/:id established in Phase 1 per AUTH-06, even though auth is Phase 2 scope.
+- [2026-03-05]: ecosystem.config.js committed to git with REPLACE_WITH_REAL_* placeholders only — real secrets injected directly on VPS, never pushed to git.
 
 ### Pending Todos
 
@@ -67,5 +68,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-05
-Stopped at: Completed 01-infrastructure/01-01-PLAN.md — Express proxy server fully implemented
+Stopped at: 01-infrastructure/01-02-PLAN.md Task 2 — human-action checkpoint: VPS SSH deployment to TitanHostingHub required
 Resume file: None
