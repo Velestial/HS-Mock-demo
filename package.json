@@ -4,10 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "dotenvx run -f server/.env -f .env.local -- vite",
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "dev:client": "dotenvx run -f .env.local -- vite",
+    "dev:server": "dotenvx run -f server/.env -- nodemon --watch server server/index.cjs",
     "build": "dotenvx run -f server/.env -f .env.local -- vite build",
     "preview": "dotenvx run -f server/.env -f .env.local -- vite preview",
-    "server": "dotenvx run -f server/.env -f .env.local -- node server/index.cjs"
+    "server": "node server/index.cjs"
   },
   "dependencies": {
     "@marsidev/react-turnstile": "^1.4.2",
