@@ -5,26 +5,33 @@
 
 ## WooCommerce JWT Authentication
 
-**Plugin:** `JWT Authentication for WP REST API` (by Enrique Chavez / motionpictures)
-- **Install:** Add to WordPress backend
-- **Confidence:** High — long-standing standard for WC JWT auth
+**Plugin:** `Simple JWT Login` (confirmed by project owner 2026-03-04)
+- **Install:** Already installed on WordPress backend
+- **Confidence:** Confirmed
+
+**Simple JWT Login token endpoints:**
+- Login: `POST /wp-json/simple-jwt-login/v1/auth` with `{ email, password }`
+- Returns: `{ success: true, data: { jwt: "...", user: {...} } }`
+- Refresh: `POST /wp-json/simple-jwt-login/v1/auth/refresh`
+- Revoke: `DELETE /wp-json/simple-jwt-login/v1/auth`
 
 **Flow:**
-1. Client POSTs to `/wp-json/jwt-auth/v1/token` with `{ username, password }`
-2. WooCommerce returns `{ token, user_email, user_nicename, user_display_name }`
-3. Client stores token in `httpOnly` cookie (preferred) or `localStorage` (simpler but less secure)
-4. All subsequent API requests include `Authorization: Bearer <token>` header
+1. Client POSTs to `/wp-json/simple-jwt-login/v1/auth` with `{ email, password }`
+2. Plugin returns `{ data: { jwt } }` — note: field is `jwt`, not `token`
+3. Access token stored in memory (React state); refresh token in httpOnly cookie via Express proxy
+4. All WooCommerce API requests include `Authorization: Bearer <jwt>` header via Axios interceptor
 
 **Frontend changes needed:**
-- Update `AuthContext.tsx` `login()` to POST credentials and receive JWT
+- Update `AuthContext.tsx` `login()` to POST credentials and receive JWT from Simple JWT Login endpoint
 - Update `services/api.ts` axios instance to attach `Authorization` header via interceptor
-- Add `register()` function that calls `POST /wp-json/wc/v3/customers`
+- Add `register()` function that calls `POST /wp-json/wc/v3/customers`, then auto-login
 
 **What NOT to do:**
-- Don't store JWT in localStorage (XSS risk) — prefer httpOnly cookies via proxy server
+- Don't store JWT in localStorage (XSS risk) — access token in memory only
 - Don't skip token expiry handling — implement refresh or re-login on 401
+- Don't use the old `jwt-auth` plugin endpoint `/wp-json/jwt-auth/v1/token` — wrong plugin
 
-**Alternative:** WooCommerce built-in auth keys (Consumer Key/Secret) — but these are for server-to-server, not client auth. JWT is correct for browser-based auth.
+**Server responsibility:** Express proxy handles cookie-based refresh token storage; client never sees refresh token directly.
 
 ---
 
