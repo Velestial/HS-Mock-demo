@@ -3,25 +3,28 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Package, Check, Plus, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
-import { products } from '../data/products';
+import { useProducts } from '../context/ProductContext';
+import { Product } from '../types';
 
 interface BundlesPageProps {
   onBack: () => void;
-  onProductSelect?: (product: typeof products[0]) => void;
+  onProductSelect: (product: Product) => void;
 }
 
 const BundlesPage: React.FC<BundlesPageProps> = ({ onBack, onProductSelect }) => {
+  const { products } = useProducts();
   const { addToCart } = useCart();
 
   const bundleProducts = products.filter(p => p.categoryId === 'bundle');
 
-  const handleAddBundle = (product: typeof products[0]) => {
+  const handleAddBundle = (product: Product) => {
     addToCart({
       id: product.id,
       name: product.name,
       price: product.price,
       image: product.image,
-      specs: 'Bundle Configuration'
+      specs: 'Bundle Configuration',
+      category: 'bundle'
     });
   };
 
@@ -73,8 +76,8 @@ const BundlesPage: React.FC<BundlesPageProps> = ({ onBack, onProductSelect }) =>
 
               {/* Image Area */}
               <div
-                className="h-[300px] bg-neutral-100 relative overflow-hidden p-8 flex items-center justify-center cursor-pointer"
-                onClick={() => onProductSelect && onProductSelect(bundle)}
+                onClick={() => onProductSelect(bundle)}
+                className="h-[300px] bg-neutral-100 relative overflow-hidden p-8 flex items-center justify-center cursor-pointer group-hover:bg-neutral-50 transition-colors"
               >
                 <img
                   src={bundle.image}

@@ -2,14 +2,18 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Plus, Download, Smartphone, BookOpen, Map, Zap } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { products, Product } from '../data/products';
+import { useProducts } from '../context/ProductContext';
+import { Product } from '../types';
 
 interface EbooksPageProps {
   onBack: () => void;
-  onProductSelect?: (product: Product) => void;
+  onProductSelect: (product: Product) => void;
 }
 
+
+
 const EbooksPage: React.FC<EbooksPageProps> = ({ onBack, onProductSelect }) => {
+  const { products } = useProducts();
   const { addToCart } = useCart();
   const ebooks = products.filter(product => product.categoryId === 'ebook');
 
@@ -19,7 +23,8 @@ const EbooksPage: React.FC<EbooksPageProps> = ({ onBack, onProductSelect }) => {
       name: item.name,
       price: item.price,
       image: item.image,
-      specs: 'Digital Download'
+      specs: 'Digital Download',
+      category: 'ebook'
     });
   };
 
@@ -77,7 +82,8 @@ const EbooksPage: React.FC<EbooksPageProps> = ({ onBack, onProductSelect }) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group flex flex-col h-full bg-white"
+              onClick={() => onProductSelect(book)}
+              className="group flex flex-col h-full bg-white cursor-pointer"
             >
               {/* Image Area - Taller aspect ratio for books */}
               <div

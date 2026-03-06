@@ -26,9 +26,8 @@ import EmotivePopup from './components/EmotivePopup';
 import MobileAddedSuccess from './components/MobileAddedSuccess';
 
 
-import { CartProvider } from './context/CartContext';
-import { AuthProvider } from './context/AuthContext';
-import { Product } from './data/products';
+function App() {
+  const [status, setStatus] = useState<string>('Connecting...')
 
 const App: React.FC = () => {
   const [view, setView] = useState<'home' | 'checkout' | 'faq' | 'bundles' | 'bait' | 'tackle' | 'shop' | 'ebooks' | 'rods' | 'product' | 'privacy' | 'terms' | 'warranty' | 'account' | 'final-chance'>('home');
@@ -36,8 +35,11 @@ const App: React.FC = () => {
 
   // Scroll to top when view changes
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [view]);
+    fetch('/api/health')
+      .then((res) => res.json())
+      .then((data) => setStatus(data.message))
+      .catch((err) => setStatus('Error connecting to server: ' + err.message))
+  }, [])
 
   return (
     <AuthProvider>
@@ -182,4 +184,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default App

@@ -3,8 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Plus, Anchor, Filter, Crosshair, Wrench, Layers, ArrowUpDown } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
+import { useProducts } from '../context/ProductContext';
+import { Product } from '../types';
+
 interface TacklePageProps {
   onBack: () => void;
+  onProductSelect: (product: Product) => void;
 }
 
 type Category = 'ALL' | 'RIGS' | 'LURES' | 'SINKERS' | 'TOOLS';
@@ -13,250 +17,39 @@ type SortOption = 'default' | 'price-asc' | 'price-desc' | 'best-sellers';
 const categories: { id: Category; label: string; icon: any }[] = [
   { id: 'ALL', label: 'All Units', icon: Layers },
   { id: 'RIGS', label: 'Rigs', icon: Crosshair },
-  { id: 'LURES', label: 'Lures', icon: Anchor }, // Anchor generic for lure hook
+  { id: 'LURES', label: 'Lures', icon: Anchor },
   { id: 'SINKERS', label: 'Sinkers', icon: Anchor },
   { id: 'TOOLS', label: 'Accessories', icon: Wrench },
 ];
 
-const products = [
-  // RIGS
-  {
-    id: 'tackle-sure-catch',
-    category: 'RIGS',
-    name: "Sure-Catch Fishing Rig — Free Line/Carolina Rig",
-    price: 10.97,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2024/03/wbsurecatch.jpg",
-    specs: "Free Line / Carolina",
-    description: "Versatile rig for presenting bait naturally in the water column.",
-    itemsSold: 34
-  },
-  {
-    id: 'tackle-catch-all',
-    category: 'RIGS',
-    name: "Catch All Fishing Rig (w/ Floats) — Hi-Lo/Bottom",
-    price: 10.50,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2024/03/floats.jpg",
-    specs: "Hi-Lo / Bottom",
-    description: "Features floats to keep bait off the bottom and away from crabs.",
-    itemsSold: 344
-  },
-  {
-    id: 'tackle-fish-finder',
-    category: 'RIGS',
-    name: "Sure Catch — Fish Finder Rig",
-    price: 12.50,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2025/04/fishfinderrig1.jpg",
-    specs: "Fish Finder Setup",
-    description: "Allows the fish to take the bait without feeling the weight.",
-    itemsSold: 43
-  },
-  {
-    id: 'tackle-skip-biki',
-    category: 'RIGS',
-    name: "Skip-Biki Fishing Rig — Bait/Bottom",
-    price: 9.00,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2024/03/skipbiki-1.jpg",
-    specs: "Bait Catching",
-    description: "Multi-hook rig perfect for catching baitfish or bottom feeders.",
-    itemsSold: 47
-  },
-  {
-    id: 'tackle-essential',
-    category: 'RIGS',
-    name: "Essential Rig — Hi-Lo/Bottom",
-    price: 8.99,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2022/12/wbcatchallbasic.jpg",
-    specs: "Standard Hi-Lo",
-    description: "The fundamental bottom fishing rig for all saltwater anglers.",
-    itemsSold: 110
-  },
-  {
-    id: 'tackle-long-distance',
-    category: 'RIGS',
-    name: "Sure Catch Fishing Rig (Long Distance Cast)",
-    price: 7.00,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2023/03/wblongdistance.jpg",
-    specs: "Long Distance",
-    description: "Aerodynamic design for maximum casting range.",
-    itemsSold: 13
-  },
+const deriveCategory = (p: Product): Category => {
+  const name = p.name.toUpperCase();
+  const desc = p.description.toUpperCase();
+  if (name.includes('RIG')) return 'RIGS';
+  if (name.includes('LURE') || name.includes('JIG') || name.includes('SPOON') || name.includes('PLUG')) return 'LURES';
+  if (name.includes('SINKER') || name.includes('WEIGHT')) return 'SINKERS';
+  if (name.includes('BOX') || name.includes('PLIERS') || name.includes('KNIFE') || name.includes('TOOL') || name.includes('SPOOL') || name.includes('CAP')) return 'TOOLS';
 
-  // LURES
-  {
-    id: 'tackle-bbl-bundle',
-    category: 'LURES',
-    name: "BBL Lure Bundle",
-    price: 100.00,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2025/03/BBLBUNDLE.jpg",
-    specs: "Bundle Pack",
-    description: "A complete collection of our best-performing big bass lures.",
-    itemsSold: 6
-  },
-  {
-    id: 'tackle-bbl-wobble',
-    category: 'LURES',
-    name: "BBL Wobble Lures",
-    price: 12.00,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2025/01/blue1.jpg",
-    specs: "Wobble Action",
-    description: "Creates an irresistible wobbling action that triggers aggressive strikes.",
-    itemsSold: 28
-  },
-  {
-    id: 'tackle-double-take',
-    category: 'LURES',
-    name: "Double Take: Metal Casting Lure",
-    price: 10.50,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2024/12/DoubleTake.jpg",
-    specs: "Metal Casting",
-    description: "Heavy metal lure designed for long casts and fast retrieval.",
-    itemsSold: 70
-  },
-  {
-    id: 'tackle-good-head',
-    category: 'LURES',
-    name: "Good Head — Jig Heads",
-    price: 9.00,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2025/01/bluehead1.jpg",
-    specs: "Jig Heads",
-    description: "Premium jig heads with sharp hooks for secure sets.",
-    itemsSold: 42
-  },
-  {
-    id: 'tackle-flashy-bottom',
-    category: 'LURES',
-    name: "Flashy Bottom — Willow Blade Attachment",
-    price: 8.00,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2025/01/gold1.jpg",
-    specs: "Willow Blade",
-    description: "Adds flash and vibration to any bottom rig.",
-    itemsSold: 13
-  },
+  // Fallback checks on description
+  if (desc.includes('RIG')) return 'RIGS';
 
-  // SINKERS
-  {
-    id: 'tackle-pyramid',
-    category: 'SINKERS',
-    name: "Pyramid Sinkers (Vibrant Orange)",
-    price: 9.99,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2024/05/4pyramid3oz.jpg",
-    specs: "Vibrant Orange",
-    description: "High-visibility pyramid sinkers that hold bottom in surf.",
-    itemsSold: 62
-  },
-  {
-    id: 'tackle-sputnik',
-    category: 'SINKERS',
-    name: "Sputnik Sinkers (Vibrant Orange)",
-    price: 8.99,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2024/05/1sputnik2oz.jpg",
-    specs: "Grapple Legs",
-    description: "Anchors firmly in strong currents and heavy surf.",
-    itemsSold: 83
-  },
-  {
-    id: 'tackle-eggy',
-    category: 'SINKERS',
-    name: "Eggy Sinkers (Orange)",
-    price: 8.99,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2024/12/1.-EGGYsinker1ozOUTBAG.jpg",
-    specs: "Egg Shape",
-    description: "Rolled shape reduces snags and moves naturally with current.",
-    itemsSold: 27
-  },
-
-  // TOOLS
-  {
-    id: 'tackle-box-large',
-    category: 'TOOLS',
-    name: "Waterproof Fishing Box (Large)",
-    price: 40.00,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2024/03/WBminibaitbox.jpg",
-    specs: "Large / Waterproof",
-    description: "Keep your tackle organized and dry in any conditions.",
-    itemsSold: 56
-  },
-  {
-    id: 'tackle-box-small',
-    category: 'TOOLS',
-    name: "Waterproof Fishing Box (Small)",
-    price: 30.00,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2024/03/WBminibaitbox.jpg",
-    specs: "Small / Waterproof",
-    description: "Compact waterproof storage for essential terminal tackle.",
-    itemsSold: 14
-  },
-  {
-    id: 'tackle-rod-case',
-    category: 'TOOLS',
-    name: "Rod Replacement Case",
-    price: 20.00,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2024/04/rod7.jpg",
-    specs: "Rod Protection",
-    description: "Durable case to protect your valuable fishing rods during transport.",
-    itemsSold: 0
-  },
-  {
-    id: 'tackle-floats',
-    category: 'TOOLS',
-    name: "Hand Painted Fishing Floats",
-    price: 10.00,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2023/04/WBorangefloats.jpg",
-    specs: "Hand Painted",
-    description: "High-visibility floats with custom hand-painted finish.",
-    itemsSold: 31
-  },
-  {
-    id: 'tackle-thread',
-    category: 'TOOLS',
-    name: "Invisi-Thread (Bait Elastic)",
-    price: 7.00,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2023/04/invisithread1.jpg",
-    specs: "Bait Elastic",
-    description: "Keeps soft baits on the hook longer during casting and fishing.",
-    itemsSold: 198
-  },
-  {
-    id: 'tackle-spool',
-    category: 'TOOLS',
-    name: "Fishing Rig Spool",
-    price: 5.00,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2024/08/spool1.o.jpg",
-    specs: "Rig Storage",
-    description: "Tangle-free storage for your pre-tied fishing rigs.",
-    itemsSold: 23
-  },
-  {
-    id: 'tackle-sinker-cap',
-    category: 'TOOLS',
-    name: "Sputnik Sinker Storage Cap",
-    price: 5.00,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2025/03/cap1.jpg",
-    specs: "Safety Cap",
-    description: "Protects your gear from the legs of Sputnik sinkers.",
-    itemsSold: 3
-  },
-  {
-    id: 'tackle-bait-cage',
-    category: 'TOOLS',
-    name: "Mini Bait Cage",
-    price: 4.99,
-    image: "https://www.heyskipperfishing.com/wp-content/uploads/2024/03/1.jpg",
-    specs: "Bait Cage",
-    description: "Holds chum or bait to attract fish to your rig.",
-    itemsSold: 48
-  }
-];
-
-interface TacklePageProps {
-  onBack: () => void;
-  onProductSelect?: (product: typeof products[0]) => void;
-}
+  return 'TOOLS'; // Default
+};
 
 const TacklePage: React.FC<TacklePageProps> = ({ onBack, onProductSelect }) => {
   const { addToCart } = useCart();
+  const { products: allProducts } = useProducts();
   const [activeCategory, setActiveCategory] = useState<Category>('ALL');
   const [sortBy, setSortBy] = useState<SortOption>('default');
+
+  // Filter and map products
+  const products = allProducts
+    .filter(p => p.categoryId === 'tackle')
+    .map(p => ({
+      ...p,
+      category: deriveCategory(p),
+      itemsSold: 0 // Default or fetch if available
+    }));
 
   const filteredProducts = activeCategory === 'ALL'
     ? products
@@ -275,13 +68,14 @@ const TacklePage: React.FC<TacklePageProps> = ({ onBack, onProductSelect }) => {
     }
   });
 
-  const handleAddTackle = (item: typeof products[0]) => {
+  const handleAddTackle = (item: Product) => {
     addToCart({
       id: item.id,
       name: item.name,
       price: item.price,
       image: item.image,
-      specs: item.specs
+      specs: item.specs,
+      category: 'tackle'
     });
   };
 
@@ -380,7 +174,8 @@ const TacklePage: React.FC<TacklePageProps> = ({ onBack, onProductSelect }) => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
-                className="bg-white p-8 group flex flex-col h-full hover:bg-neutral-50 transition-colors relative"
+                onClick={() => onProductSelect(item)}
+                className="bg-white p-8 group flex flex-col h-full hover:bg-neutral-50 transition-colors relative cursor-pointer"
               >
                 {/* Spec Tag */}
                 <div className="absolute top-4 left-4 z-10">
@@ -413,7 +208,7 @@ const TacklePage: React.FC<TacklePageProps> = ({ onBack, onProductSelect }) => {
                       </h3>
                       <span className="font-mono text-sm font-bold">${item.price}</span>
                     </div>
-                    <span className="block font-mono text-[10px] text-neutral-500 uppercase mb-4">{item.specs}</span>
+                    <span className="block font-mono text-[10px] text-neutral-500 uppercase mb-4">{item.specs || ''}</span>
                     <p className="text-xs text-neutral-600 font-medium uppercase leading-relaxed">
                       {item.description}
                     </p>

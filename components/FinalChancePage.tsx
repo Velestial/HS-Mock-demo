@@ -1,8 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
-import { products } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 import { ShoppingBag, ArrowRight } from 'lucide-react';
+import { Product } from '../types';
 
 interface FinalChancePageProps {
     onNavigateHome: () => void;
@@ -10,6 +11,7 @@ interface FinalChancePageProps {
 }
 
 const FinalChancePage: React.FC<FinalChancePageProps> = ({ onNavigateHome, onProductClick }) => {
+    const { products } = useProducts();
     const { addToCart, setIsOpen } = useCart();
 
     const finalChanceProducts = products.filter(p => p.isFinalChance);

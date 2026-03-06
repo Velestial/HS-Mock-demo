@@ -9,28 +9,7 @@ const rodTravelImg = "/assets/rod-breakdown.png";
 const rodInshoreImg = "/assets/rod-breakdown.png";
 const rodSurfImg = "/assets/rod-breakdown.png";
 
-export interface Product {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    image: string;
-    specs: string;
-    categoryId?: 'bait' | 'tackle' | 'bundle' | 'ebook' | 'rod';
-    subCategory?: 'RIGS' | 'LURES' | 'SINKERS' | 'TOOLS';
-    subtitle?: string;
-    tag?: string;
-    isFinalChance?: boolean;
-    itemsSold?: number;
-    detailedSpecs?: {
-        length: string;
-        pieces: string;
-        lureWeight: string;
-        lineRating: string;
-        action: string;
-    };
-    items?: string[];
-}
+import { Product } from '../types';
 
 export const products: Product[] = [
     {
@@ -74,7 +53,7 @@ export const products: Product[] = [
         id: 'rod-travel-92',
         name: "9'2\" Hybrid Travel",
         description: "Our signature 5-piece travel rod. Bridges the gap between surf and inshore. Fits in carry-on luggage.",
-        price: 249.00,
+        price: 299.00,
         image: rodTravelImg,
         specs: "9'2\" / 5-Piece",
         categoryId: 'rod',
@@ -92,7 +71,7 @@ export const products: Product[] = [
         id: 'rod-inshore-76',
         name: "7'6\" Inshore Specialist",
         description: "Designed for accuracy and sensitivity. Perfect for working lures around docks, mangroves, and flats.",
-        price: 230.00,
+        price: 250.00,
         image: rodInshoreImg,
         specs: "7'6\" / 1-Piece",
         categoryId: 'rod',
@@ -110,7 +89,7 @@ export const products: Product[] = [
         id: 'rod-surf-11',
         name: "11' Surf Commander",
         description: "Maximum distance casting machine. Built to heave heavy payloads past the breakers into the strike zone.",
-        price: 600.00,
+        price: 599.00,
         image: rodSurfImg,
         specs: "11'0\" / 2-Piece",
         categoryId: 'rod',
@@ -163,14 +142,21 @@ export const products: Product[] = [
     },
     {
         id: 'bundle-fishing-fever',
-        name: "FISHING FEVER Kit – Bottom Fishing Rig Box + Sinkers + Accessories",
-        description: "A comprehensive kit for bottom fishing enthusiasts. Organized and ready to deploy.",
+        name: "Fishing Fever Kit",
+        description: "A comprehensive kit for bottom fishing success. Includes everything you need to hit the water.",
         price: 110.00,
         image: "https://www.heyskipperfishing.com/wp-content/uploads/2024/05/1.essentialsbox.jpg",
         specs: "Bottom Rig Kit",
         categoryId: 'bundle',
-        items: ["Rig Box", "Sinker Assortment", "Pliers", "Beads"],
-        tag: "COMPLETE_URL",
+        items: [
+            "6x vibrant orange sinkers- 2 of each size (2 oz, 3 oz, 4 oz)",
+            "2x “Catch all w/ Float” Fishing Rigs",
+            "2x Essential “Catch All” Fishing Rigs",
+            "1x Small WaterProof Bait Box",
+            "1x Invisi-thread",
+            "1x Rig Spool"
+        ],
+        tag: "COMPLETE KIT",
         isFinalChance: true
     },
     {

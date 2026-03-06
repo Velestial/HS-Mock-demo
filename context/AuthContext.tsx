@@ -1,29 +1,38 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { loginUser, fetchCustomerOrders, updateCustomer } from '../services/api';
 
-// Define the User interface
+// Define the User interface based on WooCommerce Customer Schema
 export interface User {
-    name: string;
+    id: number;
     email: string;
-    addresses: {
-        billing: Address;
-        shipping: Address;
+    first_name: string;
+    last_name: string;
+    username: string;
+    billing: {
+        first_name: string;
+        last_name: string;
+        company: string;
+        address_1: string;
+        address_2: string;
+        city: string;
+        state: string;
+        postcode: string;
+        country: string;
+        email: string;
+        phone: string;
     };
-    orders: Order[];
-}
-
-export interface Address {
-    street: string;
-    city: string;
-    state: string;
-    zip: string;
-}
-
-export interface Order {
-    id: string;
-    date: string;
-    status: 'Pending' | 'Processing' | 'Shipped' | 'Delivered';
-    total: number;
-    items: { name: string; quantity: number }[];
+    shipping: {
+        first_name: string;
+        last_name: string;
+        company: string;
+        address_1: string;
+        address_2: string;
+        city: string;
+        state: string;
+        postcode: string;
+        country: string;
+    };
+    orders?: any[]; // Cached orders
 }
 
 interface AuthContextType {
@@ -31,7 +40,7 @@ interface AuthContextType {
     login: (email: string, password: string) => Promise<boolean>;
     logout: () => void;
     register: (name: string, email: string, password: string) => Promise<boolean>;
-    updateUser: (data: Partial<User>) => void;
+    updateUser: (data: Partial<User>) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -42,42 +51,6 @@ export const useAuth = () => {
         throw new Error('useAuth must be used within an AuthProvider');
     }
     return context;
-};
-
-// Mock Data
-const MOCK_USER: User = {
-    name: 'Skipper Fan',
-    email: 'user@example.com',
-    addresses: {
-        billing: {
-            street: '123 Ocean Ave',
-            city: 'Miami',
-            state: 'FL',
-            zip: '33101'
-        },
-        shipping: {
-            street: '123 Ocean Ave',
-            city: 'Miami',
-            state: 'FL',
-            zip: '33101'
-        }
-    },
-    orders: [
-        {
-            id: '#ORD-7782',
-            date: '2024-05-15',
-            status: 'Delivered',
-            total: 124.99,
-            items: [{ name: 'Inshore Master Pack', quantity: 1 }]
-        },
-        {
-            id: '#ORD-8821',
-            date: '2024-06-02',
-            status: 'Processing',
-            total: 45.50,
-            items: [{ name: 'Clammy Bits', quantity: 2 }, { name: 'Circle Hooks', quantity: 1 }]
-        }
-    ]
 };
 
 interface AuthProviderProps {
@@ -91,21 +64,46 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     useEffect(() => {
         const storedUser = localStorage.getItem('heyskipper_user');
         if (storedUser) {
-            setUser(JSON.parse(storedUser));
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (e) {
+                console.error("Failed to parse stored user:", e);
+                localStorage.removeItem('heyskipper_user');
+            }
         }
     }, []);
 
+    // Refresh orders when user is loaded
+    useEffect(() => {
+        if (user?.id) {
+            fetchCustomerOrders(user.id).then(orders => {
+                setUser(prev => prev ? { ...prev, orders } : null);
+            });
+        }
+    }, [user?.id]); // Only run if ID changes
+
     const login = async (email: string, password: string): Promise<boolean> => {
-        // Simulate API call
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                // Accept any login for demo purposes
-                const loggedInUser = { ...MOCK_USER, email };
-                setUser(loggedInUser);
-                localStorage.setItem('heyskipper_user', JSON.stringify(loggedInUser));
-                resolve(true);
-            }, 800);
-        });
+        try {
+            // Note: Password is ignored for this "Magic Link" / "Email Match" style demo login
+            // Real auth entails WC JWT or similar.
+            const customer = await loginUser(email);
+
+            // Format customer to match our User interface if needed, or just use raw WC object
+            // WC object fits reasonably well, but we need to ensure orders array exists
+            const newUser = {
+                ...customer,
+                orders: [],
+                billing: customer.billing || {},
+                shipping: customer.shipping || {}
+            };
+
+            setUser(newUser);
+            localStorage.setItem('heyskipper_user', JSON.stringify(newUser));
+            return true;
+        } catch (error) {
+            console.error("Login Failed:", error);
+            return false;
+        }
     };
 
     const logout = () => {
@@ -114,21 +112,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     const register = async (name: string, email: string, password: string): Promise<boolean> => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                const newUser: User = { ...MOCK_USER, name, email, orders: [] };
-                setUser(newUser);
-                localStorage.setItem('heyskipper_user', JSON.stringify(newUser));
-                resolve(true);
-            }, 800);
-        });
+        // For now, registration maps to Login or UI error saying "Use Checkout to Register"
+        // Implementing full registration requires POST /customers which we can do, 
+        // but let's encourage using existing accounts first.
+        return login(email, password);
     };
 
-    const updateUser = (data: Partial<User>) => {
+    const updateUser = async (data: Partial<User>) => {
         if (user) {
-            const updatedUser = { ...user, ...data };
-            setUser(updatedUser);
-            localStorage.setItem('heyskipper_user', JSON.stringify(updatedUser));
+            try {
+                // Determine what to send to WC (usually just specific fields)
+                // If detailed billing/shipping update is needed, 'data' should look like WC expected payload
+                const updatedCustomer = await updateCustomer(user.id, data);
+                const mergedUser = { ...user, ...updatedCustomer };
+                setUser(mergedUser);
+                localStorage.setItem('heyskipper_user', JSON.stringify(mergedUser));
+            } catch (err) {
+                console.error("Update failed:", err);
+            }
         }
     };
 

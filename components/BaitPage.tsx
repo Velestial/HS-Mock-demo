@@ -2,7 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Plus, Droplets, Thermometer, Anchor, Fish } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { products, Product } from '../data/products';
+import { useProducts } from '../context/ProductContext';
+import { Product } from '../types';
 
 interface BaitPageProps {
   onBack: () => void;
@@ -11,6 +12,7 @@ interface BaitPageProps {
 
 const BaitPage: React.FC<BaitPageProps> = ({ onBack, onProductSelect }) => {
   const { addToCart } = useCart();
+  const { products } = useProducts();
 
   const handleAddBait = (item: Product) => {
     addToCart({
@@ -18,7 +20,8 @@ const BaitPage: React.FC<BaitPageProps> = ({ onBack, onProductSelect }) => {
       name: item.name,
       price: item.price,
       image: item.image,
-      specs: item.specs
+      specs: item.specs,
+      category: 'bait'
     });
   };
 
@@ -69,7 +72,10 @@ const BaitPage: React.FC<BaitPageProps> = ({ onBack, onProductSelect }) => {
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
-          {products.filter(p => p.categoryId === 'bait').map((bait, index) => (
+          {products.filter(p =>
+            p.categoryId === 'bait' &&
+            !['How To Use Clammy Bits', 'How To Use Shrimpy Bits', 'Squidy Bits — Entire Salted Squid — Fishing Bait'].includes(p.name)
+          ).map((bait, index) => (
             <motion.div
               key={bait.id}
               initial={{ opacity: 0, y: 20 }}

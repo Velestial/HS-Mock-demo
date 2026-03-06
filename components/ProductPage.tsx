@@ -2,7 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Plus, ShieldCheck, Truck, RotateCcw } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { Product } from '../data/products';
+import { Product } from '../types';
+import Lightbox from './Lightbox';
 
 interface ProductPageProps {
     product: Product;
@@ -11,6 +12,14 @@ interface ProductPageProps {
 
 const ProductPage: React.FC<ProductPageProps> = ({ product, onBack }) => {
     const { addToCart } = useCart();
+    const [selectedImage, setSelectedImage] = React.useState(0);
+    const [lightboxOpen, setLightboxOpen] = React.useState(false);
+    const images = product.images && product.images.length > 0 ? product.images : [product.image];
+
+    // Reset selected image when product changes
+    React.useEffect(() => {
+        setSelectedImage(0);
+    }, [product.id]);
 
     const handleAddToCart = () => {
         addToCart({
@@ -43,15 +52,50 @@ const ProductPage: React.FC<ProductPageProps> = ({ product, onBack }) => {
                         animate={{ opacity: 1, x: 0 }}
                         className="relative"
                     >
-                        <div className="aspect-square bg-neutral-100 border border-black/10 relative overflow-hidden">
+                        <Lightbox
+                            images={images}
+                            initialIndex={selectedImage}
+                            isOpen={lightboxOpen}
+                            onClose={() => setLightboxOpen(false)}
+                        />
+
+                        <div
+                            className="aspect-square bg-neutral-100 border border-black/10 relative overflow-hidden mb-4 cursor-zoom-in group"
+                            onClick={() => setLightboxOpen(true)}
+                        >
                             <img
-                                src={product.image}
+                                key={selectedImage}
+                                src={images[selectedImage]}
                                 alt={product.name}
-                                className="w-full h-full object-cover mix-blend-multiply"
+                                className="w-full h-full object-cover mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
                             />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors" />
                         </div>
+
+                        {/* Thumbnails */}
+                        {images.length > 1 && (
+                            <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+                                {images.map((img, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => setSelectedImage(idx)}
+                                        className={`relative w-24 aspect-square border-2 transition-all flex-shrink-0 ${selectedImage === idx
+                                            ? 'border-black'
+                                            : 'border-transparent hover:border-black/20'
+                                            }`}
+                                    >
+                                        <img
+                                            src={img}
+                                            alt={`${product.name} view ${idx + 1}`}
+                                            className="w-full h-full object-cover mix-blend-multiply"
+                                        />
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+
                         {/* Spec Tag */}
-                        <div className="absolute top-6 left-6">
+                        <div className="absolute top-6 left-6 pointer-events-none">
                             <span className="bg-white/90 backdrop-blur border border-black/10 px-3 py-1.5 font-mono text-[10px] uppercase font-medium tracking-wide">
                                 {product.specs}
                             </span>
