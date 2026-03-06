@@ -12,7 +12,7 @@ HeySkipper is a headless React/TypeScript storefront that replaces a slow WordPr
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [x] **Phase 1: Infrastructure** - Reconstruct the Express proxy server with all working endpoints and deploy to staging (completed 2026-03-05)
+- [x] **Phase 1: Infrastructure** - Reconstruct the Express proxy server with all working endpoints and deploy to staging (completed 2026-03-05)
 - [ ] **Phase 2: Auth and Security** - Replace demo auth with real WooCommerce JWT login, registration, and PII-safe session storage
 - [ ] **Phase 3: Data Integrity and Payment Hardening** - Fix product ID corruption in checkout and add Stripe webhook for payment confirmation
 - [ ] **Phase 4: Code Quality and UI Foundations** - Reorganize codebase for AI maintainability, split CheckoutPage, and build shared UI primitives
@@ -47,12 +47,12 @@ Plans:
   3. User can log out from any page and is immediately denied access to protected pages
   4. New customer can register with email and password and immediately log in
   5. Inspecting localStorage after login shows only id, email, and name — no billing address or phone number
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: Implement JWT auth endpoints in Express (/api/auth/login, /api/auth/refresh, /api/auth/logout)
-- [ ] 02-02: Migrate AuthContext to JWT — access token in-memory, refresh token in httpOnly cookie, schema version guard
-- [ ] 02-03: Fix registration to call WooCommerce POST /customers (not login) and verify new accounts are created
+- [ ] 02-01-PLAN.md — Express JWT auth endpoints (login, refresh, logout, register) with httpOnly cookie + cookie-parser
+- [ ] 02-02-PLAN.md — AuthContext rewrite: in-memory token, session restore on mount, timer-based silent refresh, schema guard
+- [ ] 02-03-PLAN.md — Registration flow: real WC account creation, Turnstile CAPTCHA, sessionLoading UX, logout redirect
 
 ### Phase 3: Data Integrity and Payment Hardening
 **Goal**: Every order placed carries correct WooCommerce product IDs and is only marked paid after Stripe confirms the charge, and the production Turnstile CAPTCHA is active
