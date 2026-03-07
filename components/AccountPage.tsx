@@ -14,6 +14,7 @@ import {
     AlertCircle
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import type { AuthUser } from '../context/AuthContext';
 
 interface AccountPageProps {
     onBack: () => void;
@@ -22,18 +23,18 @@ interface AccountPageProps {
 type Tab = 'dashboard' | 'orders' | 'addresses' | 'details' | 'downloads';
 
 const AccountPage: React.FC<AccountPageProps> = ({ onBack }) => {
-    const { user, logout, updateUser } = useAuth(); // Add updateUser
+    const { user, logout } = useAuth();
     const [activeTab, setActiveTab] = useState<Tab>('dashboard');
 
-    const handleLogout = () => {
-        logout();
+    const handleLogout = async () => {
+        await logout();
         onBack();
     };
 
     if (!user) return null;
 
-    // Helper: Display Name (First Name or Username)
-    const displayName = user.first_name || user.username || user.email.split('@')[0];
+    // Helper: Display Name (First Name or email prefix)
+    const displayName = user.first_name || user.email.split('@')[0];
 
     return (
         <div className="min-h-screen bg-white pt-24 pb-12 px-6">
@@ -104,9 +105,9 @@ const AccountPage: React.FC<AccountPageProps> = ({ onBack }) => {
                                 transition={{ duration: 0.2 }}
                             >
                                 {activeTab === 'dashboard' && <DashboardTab user={user} onViewOrders={() => setActiveTab('orders')} />}
-                                {activeTab === 'orders' && <OrdersTab user={user} />}
-                                {activeTab === 'addresses' && <AddressesTab user={user} />}
-                                {activeTab === 'details' && <DetailsTab user={user} updateUser={updateUser} />}
+                                {activeTab === 'orders' && <OrdersTab />}
+                                {activeTab === 'addresses' && <AddressesTab />}
+                                {activeTab === 'details' && <DetailsTab user={user} />}
                                 {activeTab === 'downloads' && <DownloadsTab />}
                             </motion.div>
                         </AnimatePresence>
@@ -130,7 +131,7 @@ const TabButton: React.FC<{ active: boolean; icon: any; label: string; onClick: 
     </button>
 );
 
-const DashboardTab: React.FC<{ user: any, onViewOrders: () => void }> = ({ user, onViewOrders }) => (
+const DashboardTab: React.FC<{ user: AuthUser, onViewOrders: () => void }> = ({ user, onViewOrders }) => (
     <div className="space-y-8">
         <div className="bg-neutral-100 p-8 border border-black relative overflow-hidden">
             <div className="absolute top-0 right-0 p-8 opacity-5">
@@ -138,7 +139,7 @@ const DashboardTab: React.FC<{ user: any, onViewOrders: () => void }> = ({ user,
             </div>
             <p className="font-mono text-sm text-neutral-600 mb-2">Current Status</p>
             <p className="text-xl font-bold uppercase max-w-lg mb-6">
-                Welcome back, Captain. You have <span className="underline decoration-2 underline-offset-4">{user.orders?.length || 0} orders</span> in your history.
+                Welcome back, Captain. Your account is active.
             </p>
             <button onClick={onViewOrders} className="text-xs font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-neutral-600">
                 View Recent Activity
@@ -162,148 +163,60 @@ const DashboardTab: React.FC<{ user: any, onViewOrders: () => void }> = ({ user,
     </div>
 );
 
-const OrdersTab: React.FC<{ user: any }> = ({ user }) => (
+const OrdersTab: React.FC = () => (
     <div>
         <h3 className="text-2xl font-black uppercase tracking-tight mb-8">Order History</h3>
-        {user.orders && user.orders.length > 0 ? (
-            <div className="space-y-4">
-                {user.orders.map((order: any) => (
-                    <div key={order.id} className="border border-black/10 p-6 hover:border-black transition-colors bg-white">
-                        <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 border-b border-black/5 pb-4">
-                            <div>
-                                <span className="font-mono text-xs text-neutral-400 block mb-1">{new Date(order.date_created).toLocaleDateString()}</span>
-                                <span className="font-bold text-lg">#{order.id}</span>
-                            </div>
-                            <div className="flex items-center gap-4 mt-4 md:mt-0">
-                                <span className={`px-3 py-1 text-[10px] font-mono uppercase border ${order.status === 'completed' ? 'border-green-200 bg-green-50 text-green-700' :
-                                    order.status === 'processing' ? 'border-blue-200 bg-blue-50 text-blue-700' :
-                                        'border-neutral-200 bg-neutral-50 text-neutral-600'
-                                    }`}>
-                                    {order.status}
-                                </span>
-                                <span className="font-bold text-lg">${parseFloat(order.total).toFixed(2)}</span>
-                            </div>
-                        </div>
-                        <div className="space-y-2">
-                            {order.line_items.map((item: any, i: number) => (
-                                <div key={i} className="flex justify-between text-sm">
-                                    <span className="text-neutral-600">{item.name} <span className="text-neutral-400">x{item.quantity}</span></span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                ))}
-            </div>
-        ) : (
-            <div className="text-center py-12 border border-dashed border-black/20">
-                <ShoppingBag className="w-12 h-12 mx-auto mb-4 text-neutral-300" />
-                <p className="text-neutral-500 font-mono text-sm uppercase">No orders found.</p>
-            </div>
-        )}
+        <div className="text-center py-12 border border-dashed border-black/20">
+            <ShoppingBag className="w-12 h-12 mx-auto mb-4 text-neutral-300" />
+            <p className="text-neutral-500 font-mono text-sm uppercase">No orders found.</p>
+        </div>
     </div>
 );
 
-const AddressesTab: React.FC<{ user: any }> = ({ user }) => (
+const AddressesTab: React.FC = () => (
     <div>
         <h3 className="text-2xl font-black uppercase tracking-tight mb-8">Addresses</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {user.billing ? (
-                <AddressCard title="Billing Address" address={user.billing} />
-            ) : (
-                <div className="border border-black p-8 relative">
-                    <h4 className="font-mono text-xs uppercase text-neutral-500 mb-4">Billing Address</h4>
-                    <p className="text-sm text-neutral-400 italic">No billing address set.</p>
-                </div>
-            )}
-            {user.shipping ? (
-                <AddressCard title="Shipping Address" address={user.shipping} />
-            ) : (
-                <div className="border border-black p-8 relative">
-                    <h4 className="font-mono text-xs uppercase text-neutral-500 mb-4">Shipping Address</h4>
-                    <p className="text-sm text-neutral-400 italic">No shipping address set.</p>
-                </div>
-            )}
+            <div className="border border-black p-8 relative">
+                <h4 className="font-mono text-xs uppercase text-neutral-500 mb-4">Billing Address</h4>
+                <p className="text-sm text-neutral-400 italic">Address management coming soon.</p>
+            </div>
+            <div className="border border-black p-8 relative">
+                <h4 className="font-mono text-xs uppercase text-neutral-500 mb-4">Shipping Address</h4>
+                <p className="text-sm text-neutral-400 italic">Address management coming soon.</p>
+            </div>
         </div>
     </div>
 );
 
-const AddressCard: React.FC<{ title: string; address: any }> = ({ title, address }) => (
-    <div className="border border-black p-8 relative group">
-        <h4 className="font-mono text-xs uppercase text-neutral-500 mb-4">{title}</h4>
-        <div className="space-y-1 text-sm">
-            <p className="font-bold uppercase tracking-wider">{address.first_name || ''} {address.last_name || ''}</p>
-            <p className="text-neutral-600">{address.address_1 || ''}</p>
-            {address.address_2 && <p className="text-neutral-600">{address.address_2}</p>}
-            <p className="text-neutral-600">
-                {[address.city, address.state, address.postcode].filter(Boolean).join(', ')}
-            </p>
-            <p className="text-neutral-600">{address.country || ''}</p>
-        </div>
-    </div>
-);
-
-const DetailsTab: React.FC<{ user: any, updateUser: any }> = ({ user, updateUser }) => {
-    const [status, setStatus] = useState<string | null>(null);
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setStatus('saving');
-        const form = e.target as HTMLFormElement;
-        const formData = new FormData(form);
-
-        const updates = {
-            first_name: formData.get('first_name'),
-            last_name: formData.get('last_name'),
-            email: formData.get('email'),
-            billing: {
-                ...(user.billing || {}),
-                first_name: formData.get('first_name'),
-                last_name: formData.get('last_name'),
-            },
-            shipping: {
-                ...(user.shipping || {}),
-                first_name: formData.get('first_name'),
-                last_name: formData.get('last_name'),
-            }
-        };
-
-        await updateUser(updates);
-        setStatus('saved');
-        setTimeout(() => setStatus(null), 2000);
-    };
-
-    return (
-        <div className="max-w-xl">
-            <h3 className="text-2xl font-black uppercase tracking-tight mb-8">Account Details</h3>
-            <form className="space-y-6" onSubmit={handleSubmit}>
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest mb-2">First Name</label>
-                        <input name="first_name" defaultValue={user.first_name} className="w-full border border-black h-12 px-4 font-mono text-sm focus:bg-black focus:text-white transition-colors" />
-                    </div>
-                    <div>
-                        <label className="block text-xs font-bold uppercase tracking-widest mb-2">Last Name</label>
-                        <input name="last_name" defaultValue={user.last_name} className="w-full border border-black h-12 px-4 font-mono text-sm focus:bg-black focus:text-white transition-colors" />
+const DetailsTab: React.FC<{ user: AuthUser }> = ({ user }) => (
+    <div className="max-w-xl">
+        <h3 className="text-2xl font-black uppercase tracking-tight mb-8">Account Details</h3>
+        <div className="space-y-6">
+            <div className="grid grid-cols-2 gap-4">
+                <div>
+                    <label className="block text-xs font-bold uppercase tracking-widest mb-2">First Name</label>
+                    <div className="w-full border border-black/30 h-12 px-4 font-mono text-sm flex items-center text-neutral-600 bg-neutral-50">
+                        {user.first_name || '—'}
                     </div>
                 </div>
                 <div>
-                    <label className="block text-xs font-bold uppercase tracking-widest mb-2">Email Address</label>
-                    <input name="email" type="email" defaultValue={user.email} className="w-full border border-black h-12 px-4 font-mono text-sm focus:bg-black focus:text-white transition-colors" />
+                    <label className="block text-xs font-bold uppercase tracking-widest mb-2">Last Name</label>
+                    <div className="w-full border border-black/30 h-12 px-4 font-mono text-sm flex items-center text-neutral-600 bg-neutral-50">
+                        {user.last_name || '—'}
+                    </div>
                 </div>
-
-                <div className="pt-4">
-                    <button
-                        type="submit"
-                        disabled={status === 'saving'}
-                        className="bg-black text-white px-8 py-3 text-xs font-bold uppercase tracking-widest hover:bg-neutral-800 disabled:opacity-50"
-                    >
-                        {status === 'saving' ? 'Saving...' : status === 'saved' ? 'Changes Saved!' : 'Save Changes'}
-                    </button>
+            </div>
+            <div>
+                <label className="block text-xs font-bold uppercase tracking-widest mb-2">Email Address</label>
+                <div className="w-full border border-black/30 h-12 px-4 font-mono text-sm flex items-center text-neutral-600 bg-neutral-50">
+                    {user.email}
                 </div>
-            </form>
+            </div>
+            <p className="text-xs font-mono text-neutral-400 uppercase">Profile editing available in a future update.</p>
         </div>
-    );
-};
+    </div>
+);
 
 const DownloadsTab: React.FC = () => (
     <div>
