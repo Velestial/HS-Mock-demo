@@ -23,13 +23,24 @@ interface AccountPageProps {
 type Tab = 'dashboard' | 'orders' | 'addresses' | 'details' | 'downloads';
 
 const AccountPage: React.FC<AccountPageProps> = ({ onBack }) => {
-    const { user, logout } = useAuth();
+    const { user, sessionLoading, logout } = useAuth();
     const [activeTab, setActiveTab] = useState<Tab>('dashboard');
 
     const handleLogout = async () => {
         await logout();
         onBack();
     };
+
+    if (sessionLoading) {
+        return (
+            <div className="min-h-screen bg-white flex items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                    <span className="font-mono text-xs uppercase text-neutral-500 tracking-widest">Restoring session...</span>
+                </div>
+            </div>
+        );
+    }
 
     if (!user) return null;
 
