@@ -2,6 +2,29 @@ import axios from 'axios';
 
 const API_URL = '/api';
 
+// --- Auth Types (Phase 2) ---
+
+export interface AuthUser {
+  id: number;
+  email: string;
+  first_name: string;
+  last_name: string;
+}
+
+export interface LoginResponse {
+  success: true;
+  accessToken: string;
+  user: AuthUser;
+}
+
+export interface RefreshResponse {
+  success: true;
+  accessToken: string;
+  user: AuthUser;
+}
+
+// --- Order / Payment API ---
+
 export const createOrder = async (orderData: any) => {
     try {
         const response = await axios.post(`${API_URL}/create-order`, orderData);
@@ -34,7 +57,11 @@ export const updateOrderStatus = async (orderId: number, status: string, transac
 
 // --- Customer API ---
 
-export const loginUser = async (email: string) => {
+/**
+ * @deprecated Use loginUser(email, password) from AuthContext instead.
+ * Legacy single-argument login that matched by email only — no real auth.
+ */
+export const loginUserLegacy = async (email: string) => {
     try {
         const response = await axios.post(`${API_URL}/login`, { email });
         return response.data;
@@ -79,4 +106,38 @@ export const fetchProducts = async () => {
         console.error('Error fetching products:', error);
         throw error;
     }
+};
+
+// --- Auth API (Phase 2) ---
+// All auth calls use withCredentials: true so the browser sends/receives the hs_refresh httpOnly cookie
+
+export const loginUser = async (email: string, password: string): Promise<LoginResponse> => {
+  const response = await axios.post<LoginResponse>(`${API_URL}/auth/login`, { email, password }, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const refreshSession = async (): Promise<RefreshResponse> => {
+  const response = await axios.post<RefreshResponse>(`${API_URL}/auth/refresh`, {}, {
+    withCredentials: true,
+  });
+  return response.data;
+};
+
+export const logoutUser = async (): Promise<void> => {
+  await axios.post(`${API_URL}/auth/logout`, {}, {
+    withCredentials: true,
+  });
+};
+
+export const registerUser = async (
+  firstName: string,
+  email: string,
+  password: string
+): Promise<LoginResponse & { requiresLogin?: boolean }> => {
+  const response = await axios.post(`${API_URL}/auth/register`, { firstName, email, password }, {
+    withCredentials: true,
+  });
+  return response.data;
 };
