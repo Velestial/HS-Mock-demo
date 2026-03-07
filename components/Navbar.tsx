@@ -216,7 +216,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
             onClick={handleAccountClick}
             className="hidden md:block text-xs font-mono uppercase hover:text-neutral-600 transition-colors"
           >
-            {user ? user.name.split(' ')[0] : 'LOGIN'}
+            {user ? (user.first_name || user.email.split('@')[0]) : 'LOGIN'}
           </button>
 
           {/* Cart Trigger */}

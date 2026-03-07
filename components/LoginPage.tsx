@@ -51,7 +51,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
             }
             onLoginSuccess();
         } catch (err) {
-            if (axios.isAxiosError(err) && err.response?.data?.code === 'EMAIL_EXISTS') {
+            if (axios.isAxiosError(err) && err.response?.data?.message) {
                 setError(err.response.data.message);
             } else {
                 setError(err instanceof Error ? err.message : 'An error occurred');

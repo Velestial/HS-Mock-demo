@@ -35,4 +35,6 @@ export interface Product {
   };
   items?: string[];
   images?: string[];
+  subCategory?: string;
+  itemsSold?: number;
 }

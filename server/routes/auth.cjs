@@ -111,6 +111,8 @@ router.post('/auth/register', async (req, res) => {
     // Detect duplicate email — WC/Simple JWT Login returns specific codes or message text
     const msg = (regData.message || regData.data?.message || '').toLowerCase();
     const isDuplicate = regData.code === 'registration-error-email-exists'
+      || regData.data?.errorCode === 38
+      || msg.includes('user already exists')
       || msg.includes('already registered')
       || msg.includes('email address is already registered');
     if (isDuplicate) {

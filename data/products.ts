@@ -10,6 +10,7 @@ const rodInshoreImg = "/assets/rod-breakdown.png";
 const rodSurfImg = "/assets/rod-breakdown.png";
 
 import { Product } from '../types';
+export type { Product };
 
 export const products: Product[] = [
     {
