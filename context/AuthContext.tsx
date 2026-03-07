@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef, useCallback, ReactNode } from 'react';
-import { loginUser, refreshSession, logoutUser, AuthUser } from '../services/api';
+import { loginUser, refreshSession, logoutUser, registerUser, AuthUser } from '../services/api';
 
 // Re-export AuthUser so components that imported User from here can switch to AuthUser
 export type { AuthUser };
@@ -125,10 +125,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const register = async (firstName: string, email: string, password: string): Promise<boolean> => {
-    // Implemented in Plan 02-03 — stub returns false to prevent accidental use
-    // Replace in Plan 02-03 with real registerUser() call
-    console.warn('register() not yet implemented — see Plan 02-03');
-    return false;
+    const data = await registerUser(firstName, email, password);
+    // registerUser() throws on error (axios error with response.data.message)
+    if (data.requiresLogin) {
+      // Edge case: account created but auto-login failed — return false, caller shows manual login message
+      return false;
+    }
+    accessTokenRef.current = data.accessToken;
+    setUser(data.user);
+    persistUser(data.user);
+    scheduleTokenRefresh(data.accessToken);
+    return true;
   };
 
   const getAccessToken = (): string | null => accessTokenRef.current;

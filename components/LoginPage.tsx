@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, ArrowRight, Loader } from 'lucide-react';
+import { Turnstile } from '@marsidev/react-turnstile';
+import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
 interface LoginPageProps {
@@ -16,10 +18,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
     const { login, register } = useAuth();
 
     const [formData, setFormData] = useState({
-        name: '',
+        firstName: '',
         email: '',
         password: ''
     });
+
+    const [turnstileToken, setTurnstileToken] = useState('');
+    const [turnstileReady, setTurnstileReady] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,10 +33,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
 
         try {
             if (isRegistering) {
-                if (!formData.name || !formData.email || !formData.password) {
+                if (!formData.firstName || !formData.email || !formData.password) {
                     throw new Error('All fields are required');
                 }
-                await register(formData.name, formData.email, formData.password);
+                if (!turnstileToken) {
+                    throw new Error('Please complete the security check');
+                }
+                const success = await register(formData.firstName, formData.email, formData.password);
+                if (!success) {
+                    throw new Error('Account created but auto-login failed. Please log in manually.');
+                }
             } else {
                 if (!formData.email || !formData.password) {
                     throw new Error('Email and password are required');
@@ -40,7 +51,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
             }
             onLoginSuccess();
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'An error occurred');
+            if (axios.isAxiosError(err) && err.response?.data?.code === 'EMAIL_EXISTS') {
+                setError(err.response.data.message);
+            } else {
+                setError(err instanceof Error ? err.message : 'An error occurred');
+            }
         } finally {
             setIsLoading(false);
         }
@@ -77,15 +92,15 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
 
                         {isRegistering && (
                             <div>
-                                <label className="block text-xs font-bold uppercase tracking-widest mb-2">Full Name</label>
+                                <label className="block text-xs font-bold uppercase tracking-widest mb-2">First Name</label>
                                 <div className="relative">
                                     <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
                                     <input
                                         type="text"
-                                        value={formData.name}
-                                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                        value={formData.firstName}
+                                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                                         className="w-full bg-white border border-black h-12 pl-10 pr-4 font-mono text-sm focus:outline-none focus:bg-black focus:text-white transition-colors"
-                                        placeholder="Your Name"
+                                        placeholder="Your First Name"
                                     />
                                 </div>
                             </div>
@@ -119,9 +134,20 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
                             </div>
                         </div>
 
+                        {isRegistering && (
+                            <div className="flex justify-center">
+                                <Turnstile
+                                    siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                                    onSuccess={(token) => { setTurnstileToken(token); setTurnstileReady(true); }}
+                                    onError={() => { setTurnstileToken(''); setTurnstileReady(false); }}
+                                    onExpire={() => { setTurnstileToken(''); setTurnstileReady(false); }}
+                                />
+                            </div>
+                        )}
+
                         <button
                             type="submit"
-                            disabled={isLoading}
+                            disabled={isLoading || (isRegistering && !turnstileReady)}
                             className="w-full bg-black text-white h-14 flex items-center justify-center gap-2 hover:bg-neutral-800 transition-colors uppercase font-bold text-sm tracking-widest disabled:opacity-50"
                         >
                             {isLoading ? (
@@ -137,11 +163,29 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
 
                     <div className="mt-8 pt-6 border-t border-black/10 text-center">
                         <button
-                            onClick={() => setIsRegistering(!isRegistering)}
+                            onClick={() => {
+                                setIsRegistering(!isRegistering);
+                                setTurnstileToken('');
+                                setTurnstileReady(false);
+                                setError(null);
+                            }}
                             className="text-xs font-mono uppercase text-neutral-500 hover:text-black hover:underline underline-offset-4"
                         >
                             {isRegistering ? 'Already have an account? Login' : 'Need an account? Register'}
                         </button>
+
+                        {!isRegistering && (
+                            <div className="mt-4 text-center">
+                                <a
+                                    href="https://heyskipper.com/my-account/lost-password"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-xs font-mono uppercase text-neutral-500 hover:text-black hover:underline underline-offset-4"
+                                >
+                                    Forgot password?
+                                </a>
+                            </div>
+                        )}
                     </div>
                 </motion.div>
 
