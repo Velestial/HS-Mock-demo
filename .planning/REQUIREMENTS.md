@@ -15,11 +15,11 @@ Requirements for launch. Each maps to roadmap phases.
 
 ### Authentication
 
-- [ ] **AUTH-01**: User can log in with email and password using WooCommerce JWT authentication
-- [ ] **AUTH-02**: JWT access token is stored in-memory (not localStorage); refresh token stored in httpOnly cookie
-- [ ] **AUTH-03**: User session persists across page refresh via silent token refresh on mount (<200ms)
-- [ ] **AUTH-04**: User can log out from any page, clearing all tokens and session data
-- [ ] **AUTH-05**: New customers can register an account with email and password
+- [x] **AUTH-01**: User can log in with email and password using WooCommerce JWT authentication
+- [x] **AUTH-02**: JWT access token is stored in-memory (not localStorage); refresh token stored in httpOnly cookie
+- [x] **AUTH-03**: User session persists across page refresh via silent token refresh on mount (<200ms)
+- [x] **AUTH-04**: User can log out from any page, clearing all tokens and session data
+- [x] **AUTH-05**: New customers can register an account with email and password
 - [ ] **AUTH-06**: Stored user data in localStorage contains only identity fields (id, email, name) — no billing address, phone, or PII
 
 ### Payments
@@ -123,11 +123,11 @@ Which phases cover which requirements. Populated during roadmap creation.
 | INFRA-01 | Phase 1 | Pending |
 | INFRA-02 | Phase 1 | Complete |
 | INFRA-03 | Phase 1 | Pending |
-| AUTH-01 | Phase 2 | Pending |
-| AUTH-02 | Phase 2 | Pending |
-| AUTH-03 | Phase 2 | Pending |
-| AUTH-04 | Phase 2 | Pending |
-| AUTH-05 | Phase 2 | Pending |
+| AUTH-01 | Phase 2 | Complete |
+| AUTH-02 | Phase 2 | Complete |
+| AUTH-03 | Phase 2 | Complete |
+| AUTH-04 | Phase 2 | Complete |
+| AUTH-05 | Phase 2 | Complete |
 | AUTH-06 | Phase 2 | Pending |
 | PAY-01 | Phase 3 | Pending |
 | PAY-02 | Phase 3 | Pending |
