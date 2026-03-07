@@ -1,4 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
+import { ProductProvider } from './context/ProductContext';
+import { Product } from './types';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import BentoGrid from './components/BentoGrid';
@@ -26,24 +30,14 @@ import EmotivePopup from './components/EmotivePopup';
 import MobileAddedSuccess from './components/MobileAddedSuccess';
 
 
-function App() {
-  const [status, setStatus] = useState<string>('Connecting...')
-
 const App: React.FC = () => {
   const [view, setView] = useState<'home' | 'checkout' | 'faq' | 'bundles' | 'bait' | 'tackle' | 'shop' | 'ebooks' | 'rods' | 'product' | 'privacy' | 'terms' | 'warranty' | 'account' | 'final-chance'>('home');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  // Scroll to top when view changes
-  useEffect(() => {
-    fetch('/api/health')
-      .then((res) => res.json())
-      .then((data) => setStatus(data.message))
-      .catch((err) => setStatus('Error connecting to server: ' + err.message))
-  }, [])
-
   return (
-    <AuthProvider>
-      <CartProvider>
+    <ProductProvider>
+      <AuthProvider>
+        <CartProvider>
         <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white flex flex-col relative">
           <EmotivePopup />
           <MobileAddedSuccess />
@@ -178,9 +172,10 @@ const App: React.FC = () => {
             />
             <ScrollToTop />
           </div>
-        </div>
-      </CartProvider>
-    </AuthProvider>
+          </div>
+        </CartProvider>
+      </AuthProvider>
+    </ProductProvider>
   );
 };
 

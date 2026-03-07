@@ -10,6 +10,7 @@ if (missing.length > 0) {
 
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const errorHandler = require('./middleware/errorHandler.cjs');
 
@@ -37,6 +38,7 @@ app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined'));
 
 // Body parser
 app.use(express.json());
+app.use(cookieParser());
 
 // Route mounting — all under /api
 app.use('/api', require('./routes/health.cjs'));
