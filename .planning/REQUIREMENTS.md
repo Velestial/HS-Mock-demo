@@ -20,7 +20,7 @@ Requirements for launch. Each maps to roadmap phases.
 - [x] **AUTH-03**: User session persists across page refresh via silent token refresh on mount (<200ms)
 - [x] **AUTH-04**: User can log out from any page, clearing all tokens and session data
 - [x] **AUTH-05**: New customers can register an account with email and password
-- [ ] **AUTH-06**: Stored user data in localStorage contains only identity fields (id, email, name) — no billing address, phone, or PII
+- [x] **AUTH-06**: Stored user data in localStorage contains only identity fields (id, email, name) — no billing address, phone, or PII
 
 ### Payments
 
@@ -128,7 +128,7 @@ Which phases cover which requirements. Populated during roadmap creation.
 | AUTH-03 | Phase 2 | Complete |
 | AUTH-04 | Phase 2 | Complete |
 | AUTH-05 | Phase 2 | Complete |
-| AUTH-06 | Phase 2 | Pending |
+| AUTH-06 | Phase 2 | Complete |
 | PAY-01 | Phase 3 | Pending |
 | PAY-02 | Phase 3 | Pending |
 | PAY-03 | Phase 3 | Pending |

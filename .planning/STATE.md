@@ -10,29 +10,29 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 2 of 7 (Auth and Security)
-Plan: 1 of 3 in current phase (02-01 complete)
-Status: In progress — 02-01 complete, ready for 02-02 (AuthContext migration)
-Last activity: 2026-03-06 — Phase 2 Plan 01 complete: four auth endpoints live, cookie-parser mounted, stale stub removed
+Plan: 2 of 3 in current phase (02-02 complete)
+Status: In progress — 02-02 complete, ready for 02-03 (Registration UI)
+Last activity: 2026-03-07 — Phase 2 Plan 02 complete: AuthContext rewritten with in-memory JWT, session restore, silent refresh, schema guard
 
-Progress: [██░░░░░░░░] 14%
+Progress: [███░░░░░░░] 21%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2 (01-01, 02-01; 01-02 partial — paused at checkpoint)
+- Total plans completed: 3 (01-01, 02-01, 02-02; 01-02 partial — paused at checkpoint)
 - Average duration: 14 min
-- Total execution time: 32 min
+- Total execution time: 47 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-infrastructure | 1 complete, 1 partial | 20 min | 15 min |
-| 02-auth-and-security | 1 complete | 12 min | 12 min |
+| 02-auth-and-security | 2 complete | 27 min | 13.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (15 min), 01-02 partial (5 min Task 1), 02-01 (12 min)
-- Trend: baseline established
+- Last 5 plans: 01-01 (15 min), 01-02 partial (5 min Task 1), 02-01 (12 min), 02-02 (15 min)
+- Trend: consistent 12-15 min per plan
 
 *Updated after each plan completion*
 
@@ -58,6 +58,10 @@ Recent decisions affecting current work:
 - [2026-03-06]: hs_refresh is a session cookie (no maxAge) — expires when browser closes; sameSite Strict in dev, None in production (cross-domain).
 - [2026-03-06]: Register handler does Step 1 (create WC user) then Step 2 (auto-login) — returns 201+token on success, 201+requiresLogin if auto-login fails.
 - [2026-03-06]: Generic 401 INVALID_CREDENTIALS on bad login — raw WC error is never forwarded to avoid account existence leakage.
+- [2026-03-07]: Access token stored in useRef (not useState) — avoids re-render on every token refresh, never lands in localStorage.
+- [2026-03-07]: persistUser() writes only {id, email, first_name, last_name} to localStorage — no billing/shipping/phone per AUTH-06.
+- [2026-03-07]: Schema version guard (v2) runs before refreshSession() on mount — ensures old PII data is evicted before any state is set.
+- [2026-03-07]: logout() clears state synchronously before calling logoutUser() — user sees logged-out state immediately regardless of network.
 
 ### Pending Todos
 
@@ -72,6 +76,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-06
-Stopped at: Completed 02-auth-and-security/02-01-PLAN.md — all tasks done, ready for 02-02
+Last session: 2026-03-07
+Stopped at: Completed 02-auth-and-security/02-02-PLAN.md — all tasks done, ready for 02-03
 Resume file: None
