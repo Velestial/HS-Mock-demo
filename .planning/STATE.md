@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** A customer can discover HeySkipper fishing products through a beautiful, fast storefront and complete a purchase with confidence.
-**Current focus:** Phase 3 - Data Integrity and Payment Hardening
+**Current focus:** Phase 4 - Code Quality and UI Foundations
 
 ## Current Position
 
-Phase: 3 of 7 (Data Integrity and Payment Hardening)
-Plan: 4 of 4 in current phase (03-01, 03-02, 03-03, 03-04 complete)
-Status: Phase 3 complete — all 4 plans executed (including gap closure 03-04)
-Last activity: 2026-03-09 — Phase 3 Plan 04 (gap closure) complete: WC order cancelled on failed Stripe payment, both webhook and client-side fallback
+Phase: 4 of 7 (Code Quality and UI Foundations)
+Plan: 1 of 4 in current phase (04-01 complete)
+Status: Phase 4 in progress — 04-01 (component restructure) complete
+Last activity: 2026-03-09 — Phase 4 Plan 01 complete: 28 components reorganized into pages/, sections/, widgets/, layout/ subdirectories
 
-Progress: [██████░░░░] 43%
+Progress: [███████░░░] 47%
 
 ## Performance Metrics
 
@@ -72,6 +72,7 @@ Recent decisions affecting current work:
 - [2026-03-09]: Stripe webhook returns 200 even on WC update failure — prevents Stripe retry storms; error is logged server-side
 - [2026-03-09]: express.raw() applied at route level for /stripe-webhook — global express.json() remains for all other routes
 - [2026-03-09]: Orphaned pending orders on Stripe failure closed by dual strategy — webhook handler (server-side) + CheckoutPage catch block (client-side fallback)
+- [2026-03-09]: Components organized by role — pages/ (route destinations), sections/ (homepage blocks), widgets/ (overlays/utilities), layout/ (Navbar/Footer), ui/ (empty, for 04-04)
 
 ### Pending Todos
 
@@ -87,5 +88,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-09
-Stopped at: Completed 03-data-integrity-and-payment-hardening/03-04-PLAN.md (gap closure) — WC order cancellation on failed payment
+Stopped at: Completed 04-code-quality-and-ui-foundations/04-01-PLAN.md — component directory restructure
 Resume file: None
