@@ -49,6 +49,20 @@ router.post('/stripe-webhook', require('express').raw({ type: 'application/json'
     }
   }
 
+  if (event.type === 'payment_intent.payment_failed') {
+    const paymentIntent = event.data.object;
+    const wcOrderId = paymentIntent.metadata?.wc_order_id;
+    if (wcOrderId) {
+      try {
+        const api = require('../woocommerce.cjs');
+        await api.put(`orders/${wcOrderId}`, { status: 'cancelled' });
+        console.log(`[webhook] Order ${wcOrderId} cancelled after payment failure`);
+      } catch (err) {
+        console.error(`[webhook] Failed to cancel order ${wcOrderId}:`, err.message);
+      }
+    }
+  }
+
   res.json({ received: true });
 });
 

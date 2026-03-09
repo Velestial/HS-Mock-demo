@@ -102,6 +102,8 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
 
     setStep('processing');
 
+    let createdOrderId: number | null = null;
+
     try {
       // 1. Create Order in WooCommerce (Pending)
       const orderData = {
@@ -151,6 +153,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
 
       console.log("Creating order...", orderData);
       const order = await createOrder(orderData);
+      createdOrderId = order.id;
       console.log("Order created:", order);
 
       // 2. Create Payment Intent
@@ -215,6 +218,13 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
 
     } catch (err: any) {
       console.error("Checkout Error:", err);
+      if (createdOrderId) {
+        try {
+          await updateOrderStatus(createdOrderId, 'cancelled');
+        } catch (cancelErr) {
+          console.error('Failed to cancel order:', cancelErr);
+        }
+      }
       // Extract specific error message from backend response if available
       const backendError = err.response?.data?.details || err.response?.data?.error || err.message;
       setError(typeof backendError === 'string' ? backendError : JSON.stringify(backendError) || "An unexpected error occurred. Please try again.");
