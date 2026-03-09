@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 3 of 7 (Data Integrity and Payment Hardening)
-Plan: 2 of 3 in current phase (03-01, 03-02 complete)
-Status: Phase 3 in progress — 03-02 complete, payment amount conversion and production Turnstile key fixed
-Last activity: 2026-03-09 — Phase 3 Plan 02 complete: createPaymentIntent converts dollars to cents, Turnstile siteKey reads from VITE_TURNSTILE_SITE_KEY env var
+Plan: 3 of 3 in current phase (03-01, 03-02, 03-03 complete)
+Status: Phase 3 complete — all 3 plans executed
+Last activity: 2026-03-09 — Phase 3 Plan 03 complete: Stripe webhook for server-side order payment confirmation, wc_order_id in PaymentIntent metadata
 
-Progress: [█████░░░░░] 33%
+Progress: [██████░░░░] 43%
 
 ## Performance Metrics
 
@@ -69,6 +69,8 @@ Recent decisions affecting current work:
 - [2026-03-09]: Navbar mega menu finds rod product by name match (includes 'surf' and '11') instead of hardcoded slug ID 'rod-surf-11'
 - [2026-03-09]: Cents conversion at API layer (not server) — keeps Express server simple; it receives an integer and passes it directly to Stripe
 - [2026-03-09]: Turnstile test-key fallback added to both CheckoutPage and LoginPage — dev works without VITE_TURNSTILE_SITE_KEY set
+- [2026-03-09]: Stripe webhook returns 200 even on WC update failure — prevents Stripe retry storms; error is logged server-side
+- [2026-03-09]: express.raw() applied at route level for /stripe-webhook — global express.json() remains for all other routes
 
 ### Pending Todos
 
@@ -84,5 +86,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-09
-Stopped at: Completed 03-data-integrity-and-payment-hardening/03-02-PLAN.md — payment amount conversion and production Turnstile key
+Stopped at: Completed 03-data-integrity-and-payment-hardening/03-03-PLAN.md — Stripe webhook for server-side order payment confirmation
 Resume file: None
