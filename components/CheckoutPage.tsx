@@ -155,7 +155,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
 
       // 2. Create Payment Intent
       console.log("Creating payment intent for amount:", finalTotal);
-      const { clientSecret } = await createPaymentIntent(finalTotal);
+      const { clientSecret } = await createPaymentIntent(finalTotal, order.id);
 
       // 3. Confirm Card Payment
       const result = await stripe.confirmCardPayment(clientSecret, {
