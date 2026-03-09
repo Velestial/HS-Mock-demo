@@ -132,8 +132,8 @@ Which phases cover which requirements. Populated during roadmap creation.
 | PAY-01 | Phase 3 | Complete |
 | PAY-02 | Phase 3 | Complete |
 | PAY-03 | Phase 3 | Complete |
-| DATA-01 | Phase 3 | Pending |
-| DATA-02 | Phase 3 | Pending |
+| DATA-01 | Phase 3 | Complete |
+| DATA-02 | Phase 3 | Complete |
 | PAGE-01 | Phase 6 | Pending |
 | PAGE-02 | Phase 6 | Pending |
 | PAGE-03 | Phase 6 | Pending |
