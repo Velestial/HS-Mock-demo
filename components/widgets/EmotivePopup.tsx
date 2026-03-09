@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Anchor } from 'lucide-react';
-import gallery3 from '../assets/gallery-3.jpg';
+import gallery3 from '../../assets/gallery-3.jpg';
 
 const EmotivePopup: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);

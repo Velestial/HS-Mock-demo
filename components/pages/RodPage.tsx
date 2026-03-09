@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Plus, Move, Ruler, Shield, Gauge } from 'lucide-react';
-import { useCart } from '../context/CartContext';
-import { useProducts } from '../context/ProductContext';
-import { Product } from '../types';
+import { useCart } from '../../context/CartContext';
+import { useProducts } from '../../context/ProductContext';
+import { Product } from '../../types';
 
 interface RodPageProps {
   onBack: () => void;

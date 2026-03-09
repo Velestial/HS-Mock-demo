@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Mail, Lock, User, ArrowRight, Loader } from 'lucide-react';
 import { Turnstile } from '@marsidev/react-turnstile';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 interface LoginPageProps {
     onLoginSuccess: () => void;

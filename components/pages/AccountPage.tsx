@@ -13,8 +13,8 @@ import {
     CheckCircle,
     AlertCircle
 } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
-import type { AuthUser } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
+import type { AuthUser } from '../../context/AuthContext';
 
 interface AccountPageProps {
     onBack: () => void;

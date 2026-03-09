@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Star } from 'lucide-react';
-import { useCart } from '../context/CartContext';
-import heroImage from '../assets/rod-breakdown.png';
+import { useCart } from '../../context/CartContext';
+import heroImage from '../../assets/rod-breakdown.png';
 
 const Hero: React.FC = () => {
   const { addToCart } = useCart();

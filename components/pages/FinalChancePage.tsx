@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { useCart } from '../context/CartContext';
-import { useProducts } from '../context/ProductContext';
+import { useCart } from '../../context/CartContext';
+import { useProducts } from '../../context/ProductContext';
 import { ShoppingBag, ArrowRight } from 'lucide-react';
-import { Product } from '../types';
+import { Product } from '../../types';
 
 interface FinalChancePageProps {
     onNavigateHome: () => void;

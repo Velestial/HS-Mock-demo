@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Plus, Download, Smartphone, BookOpen, Map, Zap } from 'lucide-react';
-import { useCart } from '../context/CartContext';
-import { useProducts } from '../context/ProductContext';
-import { Product } from '../types';
+import { useCart } from '../../context/CartContext';
+import { useProducts } from '../../context/ProductContext';
+import { Product } from '../../types';
 
 interface EbooksPageProps {
   onBack: () => void;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 import LoginPage from './LoginPage';
 import AccountPage from './AccountPage';
 

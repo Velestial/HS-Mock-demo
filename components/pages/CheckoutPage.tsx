@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Turnstile } from '@marsidev/react-turnstile';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../../context/CartContext';
 import { ArrowLeft, CreditCard, ShieldCheck, Lock, Truck, AlertCircle, MapPin } from 'lucide-react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
-import { createOrder, createPaymentIntent, updateOrderStatus } from '../services/api';
+import { createOrder, createPaymentIntent, updateOrderStatus } from '../../services/api';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';

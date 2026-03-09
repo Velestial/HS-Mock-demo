@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Plus, Anchor, Filter, Crosshair, Wrench, Layers, ArrowUpDown } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../../context/CartContext';
 
-import { useProducts } from '../context/ProductContext';
-import { Product } from '../types';
+import { useProducts } from '../../context/ProductContext';
+import { Product } from '../../types';
 
 interface TacklePageProps {
   onBack: () => void;

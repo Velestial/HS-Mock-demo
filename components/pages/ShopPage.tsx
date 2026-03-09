@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Plus, Anchor, Filter, Crosshair, Wrench, Layers, ArrowUpDown, Circle, BookOpen, Package, Fish, TrendingUp } from 'lucide-react';
-import { useCart } from '../context/CartContext';
-import { Product } from '../types';
-import { useProducts } from '../context/ProductContext';
+import { useCart } from '../../context/CartContext';
+import { Product } from '../../types';
+import { useProducts } from '../../context/ProductContext';
 
 interface ShopPageProps {
     onBack: () => void;

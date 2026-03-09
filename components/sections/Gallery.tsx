@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, X, ChevronLeft, ChevronRight } from 'lucide-react';
 
-import gallery1 from '../assets/gallery-1.jpg';
-import gallery2 from '../assets/gallery-2.jpg';
-import gallery3 from '../assets/gallery-3.jpg';
-import gallery4 from '../assets/gallery-4.jpg';
+import gallery1 from '../../assets/gallery-1.jpg';
+import gallery2 from '../../assets/gallery-2.jpg';
+import gallery3 from '../../assets/gallery-3.jpg';
+import gallery4 from '../../assets/gallery-4.jpg';
 
 const items = [
   {

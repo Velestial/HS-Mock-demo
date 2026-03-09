@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Plus, ShieldCheck, Truck, RotateCcw } from 'lucide-react';
-import { useCart } from '../context/CartContext';
-import { Product } from '../types';
-import Lightbox from './Lightbox';
+import { useCart } from '../../context/CartContext';
+import { Product } from '../../types';
+import Lightbox from '../widgets/Lightbox';
 
 interface ProductPageProps {
     product: Product;

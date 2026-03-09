@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Menu, X, ShoppingBag, Facebook, Youtube, Instagram, ChevronDown, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useCart } from '../context/CartContext';
-import { useAuth } from '../context/AuthContext';
-import { Product } from '../types';
-import { useProducts } from '../context/ProductContext';
+import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
+import { Product } from '../../types';
+import { useProducts } from '../../context/ProductContext';
 
 interface NavbarProps {
   onNavigateHome?: () => void;

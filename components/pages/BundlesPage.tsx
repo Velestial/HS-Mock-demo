@@ -1,10 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Package, Check, Plus, ShoppingBag } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+import { useCart } from '../../context/CartContext';
 
-import { useProducts } from '../context/ProductContext';
-import { Product } from '../types';
+import { useProducts } from '../../context/ProductContext';
+import { Product } from '../../types';
 
 interface BundlesPageProps {
   onBack: () => void;
