@@ -25,6 +25,7 @@ import TermsPage from './components/pages/TermsPage';
 import RodWarrantyPage from './components/pages/RodWarrantyPage';
 import FinalChancePage from './components/pages/FinalChancePage';
 import AuthWrapper from './components/pages/AuthWrapper';
+import ErrorBoundary from './components/ui/ErrorBoundary';
 import ScrollToTop from './components/widgets/ScrollToTop';
 import EmotivePopup from './components/widgets/EmotivePopup';
 import MobileAddedSuccess from './components/widgets/MobileAddedSuccess';
@@ -61,102 +62,132 @@ const App: React.FC = () => {
             <CartSidebar onCheckout={() => setView('checkout')} />
             <main className="flex-grow flex flex-col">
               {view === 'product' && selectedProduct && (
-                <ProductPage
-                  product={selectedProduct}
-                  onBack={() => setView('bait')}
-                />
+                <ErrorBoundary>
+                  <ProductPage
+                    product={selectedProduct}
+                    onBack={() => setView('bait')}
+                  />
+                </ErrorBoundary>
               )}
               {view === 'home' && (
-                <>
-                  <Hero />
-                  <Gallery />
-                  <BentoGrid />
-                  <ProductDescription />
-                  <Reviews />
-                </>
+                <ErrorBoundary>
+                  <>
+                    <Hero />
+                    <Gallery />
+                    <BentoGrid />
+                    <ProductDescription />
+                    <Reviews />
+                  </>
+                </ErrorBoundary>
               )}
               {view === 'checkout' && (
-                <CheckoutPage onBack={() => setView('home')} />
+                <ErrorBoundary>
+                  <CheckoutPage onBack={() => setView('home')} />
+                </ErrorBoundary>
               )}
               {view === 'faq' && (
-                <FAQPage onBack={() => setView('home')} />
+                <ErrorBoundary>
+                  <FAQPage onBack={() => setView('home')} />
+                </ErrorBoundary>
               )}
               {view === 'bundles' && (
-                <BundlesPage
-                  onBack={() => setView('home')}
-                  onProductSelect={(product) => {
-                    setSelectedProduct(product);
-                    setView('product');
-                  }}
-                />
+                <ErrorBoundary>
+                  <BundlesPage
+                    onBack={() => setView('home')}
+                    onProductSelect={(product) => {
+                      setSelectedProduct(product);
+                      setView('product');
+                    }}
+                  />
+                </ErrorBoundary>
               )}
               {view === 'bait' && (
-                <BaitPage
-                  onBack={() => setView('home')}
-                  onProductSelect={(product) => {
-                    console.log('App: Setting selected product and changing view to product', product);
-                    setSelectedProduct(product);
-                    setView('product');
-                  }}
-                />
+                <ErrorBoundary>
+                  <BaitPage
+                    onBack={() => setView('home')}
+                    onProductSelect={(product) => {
+                      console.log('App: Setting selected product and changing view to product', product);
+                      setSelectedProduct(product);
+                      setView('product');
+                    }}
+                  />
+                </ErrorBoundary>
               )}
               {view === 'tackle' && (
-                <TacklePage
-                  onBack={() => setView('home')}
-                  onProductSelect={(product) => {
-                    setSelectedProduct(product);
-                    setView('product');
-                  }}
-                />
+                <ErrorBoundary>
+                  <TacklePage
+                    onBack={() => setView('home')}
+                    onProductSelect={(product) => {
+                      setSelectedProduct(product);
+                      setView('product');
+                    }}
+                  />
+                </ErrorBoundary>
               )}
               {view === 'shop' && (
-                <ShopPage
-                  onBack={() => setView('home')}
-                  onProductSelect={(product) => {
-                    setSelectedProduct(product);
-                    setView('product');
-                  }}
-                />
+                <ErrorBoundary>
+                  <ShopPage
+                    onBack={() => setView('home')}
+                    onProductSelect={(product) => {
+                      setSelectedProduct(product);
+                      setView('product');
+                    }}
+                  />
+                </ErrorBoundary>
               )}
               {view === 'ebooks' && (
-                <EbooksPage
-                  onBack={() => setView('home')}
-                  onProductSelect={(product) => {
-                    setSelectedProduct(product);
-                    setView('product');
-                  }}
-                />
+                <ErrorBoundary>
+                  <EbooksPage
+                    onBack={() => setView('home')}
+                    onProductSelect={(product) => {
+                      setSelectedProduct(product);
+                      setView('product');
+                    }}
+                  />
+                </ErrorBoundary>
               )}
               {view === 'rods' && (
-                <RodPage
-                  onBack={() => setView('home')}
-                  onProductSelect={(product) => {
-                    console.log('App: Rod selected', product);
-                    setSelectedProduct(product);
-                    setView('product');
-                  }}
-                />
+                <ErrorBoundary>
+                  <RodPage
+                    onBack={() => setView('home')}
+                    onProductSelect={(product) => {
+                      console.log('App: Rod selected', product);
+                      setSelectedProduct(product);
+                      setView('product');
+                    }}
+                  />
+                </ErrorBoundary>
               )}
               {view === 'privacy' && (
-                <PrivacyPolicyPage onBack={() => setView('home')} />
+                <ErrorBoundary>
+                  <PrivacyPolicyPage onBack={() => setView('home')} />
+                </ErrorBoundary>
               )}
               {view === 'terms' && (
-                <TermsPage onBack={() => setView('home')} />
+                <ErrorBoundary>
+                  <TermsPage onBack={() => setView('home')} />
+                </ErrorBoundary>
               )}
               {view === 'warranty' && (
-                <RodWarrantyPage onBack={() => setView('home')} />
+                <ErrorBoundary>
+                  <RodWarrantyPage onBack={() => setView('home')} />
+                </ErrorBoundary>
               )}
               {view === 'final-chance' && (
-                <FinalChancePage
-                  onNavigateHome={() => setView('home')}
-                  onProductClick={(product) => {
-                    setSelectedProduct(product);
-                    setView('product');
-                  }}
-                />
+                <ErrorBoundary>
+                  <FinalChancePage
+                    onNavigateHome={() => setView('home')}
+                    onProductClick={(product) => {
+                      setSelectedProduct(product);
+                      setView('product');
+                    }}
+                  />
+                </ErrorBoundary>
               )}
               {view === 'account' && (
-                <AuthWrapper onBack={() => setView('home')} />
+                <ErrorBoundary>
+                  <AuthWrapper onBack={() => setView('home')} />
+                </ErrorBoundary>
               )}
             </main>
             <Footer
