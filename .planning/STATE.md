@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 3 of 7 (Data Integrity and Payment Hardening)
-Plan: 3 of 3 in current phase (03-01, 03-02, 03-03 complete)
-Status: Phase 3 complete — all 3 plans executed
-Last activity: 2026-03-09 — Phase 3 Plan 03 complete: Stripe webhook for server-side order payment confirmation, wc_order_id in PaymentIntent metadata
+Plan: 4 of 4 in current phase (03-01, 03-02, 03-03, 03-04 complete)
+Status: Phase 3 complete — all 4 plans executed (including gap closure 03-04)
+Last activity: 2026-03-09 — Phase 3 Plan 04 (gap closure) complete: WC order cancelled on failed Stripe payment, both webhook and client-side fallback
 
 Progress: [██████░░░░] 43%
 
@@ -71,6 +71,7 @@ Recent decisions affecting current work:
 - [2026-03-09]: Turnstile test-key fallback added to both CheckoutPage and LoginPage — dev works without VITE_TURNSTILE_SITE_KEY set
 - [2026-03-09]: Stripe webhook returns 200 even on WC update failure — prevents Stripe retry storms; error is logged server-side
 - [2026-03-09]: express.raw() applied at route level for /stripe-webhook — global express.json() remains for all other routes
+- [2026-03-09]: Orphaned pending orders on Stripe failure closed by dual strategy — webhook handler (server-side) + CheckoutPage catch block (client-side fallback)
 
 ### Pending Todos
 
@@ -86,5 +87,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-09
-Stopped at: Completed 03-data-integrity-and-payment-hardening/03-03-PLAN.md — Stripe webhook for server-side order payment confirmation
+Stopped at: Completed 03-data-integrity-and-payment-hardening/03-04-PLAN.md (gap closure) — WC order cancellation on failed payment
 Resume file: None
