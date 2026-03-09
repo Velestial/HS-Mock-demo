@@ -74,8 +74,8 @@ Requirements for launch. Each maps to roadmap phases.
 
 ### Code Quality
 
-- [ ] **CODE-01**: Components organized into `pages/`, `sections/`, `ui/`, `widgets/`, `layout/` subdirectories
-- [ ] **CODE-02**: CheckoutPage.tsx split into step components (form, payment, success), each under 200 lines
+- [x] **CODE-01**: Components organized into `pages/`, `sections/`, `ui/`, `widgets/`, `layout/` subdirectories
+- [x] **CODE-02**: CheckoutPage.tsx split into step components (form, payment, success), each under 200 lines
 - [x] **CODE-03**: All component files include a one-sentence purpose comment at the top (primary AI navigation aid)
 - [x] **CODE-04**: No `any` types in `services/api.ts` — all API functions have typed request/response interfaces
 - [x] **CODE-05**: Debug scripts removed from root (`debug_api.js`, `test_mapper.js`, `test_mapper.ts`, `index.tsx`)
@@ -152,8 +152,8 @@ Which phases cover which requirements. Populated during roadmap creation.
 | INT-02 | Phase 5 | Pending |
 | INT-03 | Phase 5 | Pending |
 | INT-04 | Phase 5 | Pending |
-| CODE-01 | Phase 4 | Pending |
-| CODE-02 | Phase 4 | Pending |
+| CODE-01 | Phase 4 | Complete |
+| CODE-02 | Phase 4 | Complete |
 | CODE-03 | Phase 4 | Complete |
 | CODE-04 | Phase 4 | Complete |
 | CODE-05 | Phase 4 | Complete |
