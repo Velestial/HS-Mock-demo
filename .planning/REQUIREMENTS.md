@@ -49,10 +49,10 @@ Requirements for launch. Each maps to roadmap phases.
 
 ### UI Refresh
 
-- [ ] **UI-01**: BentoGrid component is implemented as a reusable layout primitive (columns, cell span)
+- [x] **UI-01**: BentoGrid component is implemented as a reusable layout primitive (columns, cell span)
 - [ ] **UI-02**: Homepage uses bento grid layout
-- [ ] **UI-03**: Error boundaries are applied to every routable page — uncaught errors show a fallback page, not a blank screen
-- [ ] **UI-04**: All product images use `loading="lazy"` below the fold and `loading="eager"` in hero sections with explicit width/height
+- [x] **UI-03**: Error boundaries are applied to every routable page — uncaught errors show a fallback page, not a blank screen
+- [x] **UI-04**: All product images use `loading="lazy"` below the fold and `loading="eager"` in hero sections with explicit width/height
 
 ### Order Tracking
 
@@ -142,10 +142,10 @@ Which phases cover which requirements. Populated during roadmap creation.
 | NAV-01 | Phase 6 | Pending |
 | NAV-02 | Phase 6 | Pending |
 | NAV-03 | Phase 6 | Pending |
-| UI-01 | Phase 4 | Pending |
+| UI-01 | Phase 4 | Complete |
 | UI-02 | Phase 6 | Pending |
-| UI-03 | Phase 4 | Pending |
-| UI-04 | Phase 4 | Pending |
+| UI-03 | Phase 4 | Complete |
+| UI-04 | Phase 4 | Complete |
 | ORDER-01 | Phase 7 | Pending |
 | ORDER-02 | Phase 7 | Pending |
 | INT-01 | Phase 5 | Pending |

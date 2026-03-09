@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 4 of 7 (Code Quality and UI Foundations)
-Plan: 4 of 4 in current phase (04-01, 04-02, 04-03, 04-02 complete)
-Status: Phase 4 in progress — 04-02 (CheckoutPage split) complete
-Last activity: 2026-03-09 — Phase 4 Plan 02 complete: CheckoutPage (680 lines) split into CheckoutFormStep, CheckoutSuccessStep, thin orchestrator, and useCheckoutSubmit hook
+Plan: 4 of 4 in current phase (04-01, 04-02, 04-03, 04-04 complete)
+Status: Phase 4 complete — all 4 plans done
+Last activity: 2026-03-09 — Phase 4 Plan 04 complete: ErrorBoundary class component wraps all 15 App.tsx page views; BentoCell grid primitive added for Phase 6
 
-Progress: [████████░░] 53%
+Progress: [████████░░] 57%
 
 ## Performance Metrics
 
@@ -77,6 +77,8 @@ Recent decisions affecting current work:
 - [2026-03-09]: OrderPayload and CustomerUpdatePayload interfaces defined inline in services/api.ts — keeps API contract co-located with the functions that use it
 - [2026-03-09]: handleSubmit extracted to useCheckoutSubmit hook — keeps CheckoutPage under 100 lines while preserving all payment logic
 - [2026-03-09]: hooks/ directory created at project root for checkout submit hook (no prior hooks directory existed)
+- [2026-03-09]: BentoCell uses Record<number, string> lookup tables for Tailwind class names (not template literals) — ensures static class detection at build time
+- [2026-03-09]: ErrorBoundary wraps each view conditional independently (not outer <main>) — crash in one page does not unmount Navbar, Footer, or CartSidebar
 
 ### Pending Todos
 
@@ -92,5 +94,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-09
-Stopped at: Completed 04-code-quality-and-ui-foundations/04-02-PLAN.md — split CheckoutPage into step components
+Stopped at: Completed 04-code-quality-and-ui-foundations/04-04-PLAN.md — ErrorBoundary and BentoCell layout primitive
 Resume file: None
