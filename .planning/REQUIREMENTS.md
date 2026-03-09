@@ -24,14 +24,14 @@ Requirements for launch. Each maps to roadmap phases.
 
 ### Payments
 
-- [ ] **PAY-01**: Stripe webhook handler processes `payment_intent.succeeded` to confirm payment before WooCommerce order is marked paid
-- [ ] **PAY-02**: Failed or abandoned Stripe payments do not leave orphaned "pending" WooCommerce orders
-- [ ] **PAY-03**: Production Cloudflare Turnstile key is used at checkout (not the `1x000...` test key)
+- [x] **PAY-01**: Stripe webhook handler processes `payment_intent.succeeded` to confirm payment before WooCommerce order is marked paid
+- [x] **PAY-02**: Failed or abandoned Stripe payments do not leave orphaned "pending" WooCommerce orders
+- [x] **PAY-03**: Production Cloudflare Turnstile key is used at checkout (not the `1x000...` test key)
 
 ### Data Integrity
 
-- [ ] **DATA-01**: WooCommerce product fetch uses `per_page=100` to return the complete product catalog (not default 10)
-- [ ] **DATA-02**: WooCommerce numeric product IDs are used for all cart and order line items (no local seed data IDs)
+- [x] **DATA-01**: WooCommerce product fetch uses `per_page=100` to return the complete product catalog (not default 10)
+- [x] **DATA-02**: WooCommerce numeric product IDs are used for all cart and order line items (no local seed data IDs)
 
 ### Landing Pages
 
@@ -129,9 +129,9 @@ Which phases cover which requirements. Populated during roadmap creation.
 | AUTH-04 | Phase 2 | Complete |
 | AUTH-05 | Phase 2 | Complete |
 | AUTH-06 | Phase 2 | Complete |
-| PAY-01 | Phase 3 | Pending |
-| PAY-02 | Phase 3 | Pending |
-| PAY-03 | Phase 3 | Pending |
+| PAY-01 | Phase 3 | Complete |
+| PAY-02 | Phase 3 | Complete |
+| PAY-03 | Phase 3 | Complete |
 | DATA-01 | Phase 3 | Pending |
 | DATA-02 | Phase 3 | Pending |
 | PAGE-01 | Phase 6 | Pending |

@@ -13,7 +13,7 @@ HeySkipper is a headless React/TypeScript storefront that replaces a slow WordPr
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Infrastructure** - Reconstruct the Express proxy server with all working endpoints and deploy to staging (completed 2026-03-05)
-- [ ] **Phase 2: Auth and Security** - Replace demo auth with real WooCommerce JWT login, registration, and PII-safe session storage
+- [x] **Phase 2: Auth and Security** - Replace demo auth with real WooCommerce JWT login, registration, and PII-safe session storage
 - [ ] **Phase 3: Data Integrity and Payment Hardening** - Fix product ID corruption in checkout and add Stripe webhook for payment confirmation
 - [ ] **Phase 4: Code Quality and UI Foundations** - Reorganize codebase for AI maintainability, split CheckoutPage, and build shared UI primitives
 - [ ] **Phase 5: Analytics and Third-Party Integrations** - Wire up GA4 tracking, Stamped.io reviews, and Emotive.io SMS opt-in
@@ -50,9 +50,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Express JWT auth endpoints (login, refresh, logout, register) with httpOnly cookie + cookie-parser
-- [ ] 02-02-PLAN.md — AuthContext rewrite: in-memory token, session restore on mount, timer-based silent refresh, schema guard
-- [ ] 02-03-PLAN.md — Registration flow: real WC account creation, Turnstile CAPTCHA, sessionLoading UX, logout redirect
+- [x] 02-01-PLAN.md — Express JWT auth endpoints (login, refresh, logout, register) with httpOnly cookie + cookie-parser
+- [x] 02-02-PLAN.md — AuthContext rewrite: in-memory token, session restore on mount, timer-based silent refresh, schema guard
+- [x] 02-03-PLAN.md — Registration flow: real WC account creation, Turnstile CAPTCHA, sessionLoading UX, logout redirect
 
 ### Phase 3: Data Integrity and Payment Hardening
 **Goal**: Every order placed carries correct WooCommerce product IDs and is only marked paid after Stripe confirms the charge, and the production Turnstile CAPTCHA is active
@@ -66,7 +66,7 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 03-01: Fix WooCommerce product fetch to use per_page=100 and add ID validation in productMapper
+- [x] 03-01: Fix WooCommerce product fetch to use per_page=100 and add ID validation in productMapper
 - [ ] 03-02: Remove seed data from data/products.ts and verify cart uses live WooCommerce product IDs
 - [ ] 03-03: Implement Stripe payment_intent.succeeded webhook in Express to confirm WC order payment
 
@@ -144,8 +144,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Infrastructure | 2/2 | Complete   | 2026-03-05 |
-| 2. Auth and Security | 2/3 | In Progress|  |
-| 3. Data Integrity and Payment Hardening | 0/3 | Not started | - |
+| 2. Auth and Security | 3/3 | Complete   | 2026-03-07 |
+| 3. Data Integrity and Payment Hardening | 2/3 | In Progress|  |
 | 4. Code Quality and UI Foundations | 0/4 | Not started | - |
 | 5. Analytics and Third-Party Integrations | 0/3 | Not started | - |
 | 6. Landing Pages | 0/4 | Not started | - |

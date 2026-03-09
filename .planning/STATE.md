@@ -5,21 +5,21 @@
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** A customer can discover HeySkipper fishing products through a beautiful, fast storefront and complete a purchase with confidence.
-**Current focus:** Phase 2 - Auth and Security
+**Current focus:** Phase 3 - Data Integrity and Payment Hardening
 
 ## Current Position
 
-Phase: 2 of 7 (Auth and Security)
-Plan: 3 of 3 in current phase (02-03 complete — Phase 2 DONE)
-Status: Phase 2 complete — ready for Phase 3 (Payments)
-Last activity: 2026-03-07 — Phase 2 Plan 03 complete: registration flow wired end-to-end, Turnstile on form, sessionLoading spinner, all 6 UAT tests passed
+Phase: 3 of 7 (Data Integrity and Payment Hardening)
+Plan: 2 of 3 in current phase (03-01, 03-02 complete)
+Status: Phase 3 in progress — 03-02 complete, payment amount conversion and production Turnstile key fixed
+Last activity: 2026-03-09 — Phase 3 Plan 02 complete: createPaymentIntent converts dollars to cents, Turnstile siteKey reads from VITE_TURNSTILE_SITE_KEY env var
 
-Progress: [████░░░░░░] 29%
+Progress: [█████░░░░░] 33%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4 (01-01, 02-01, 02-02, 02-03; 01-02 partial — paused at checkpoint)
+- Total plans completed: 6 (01-01, 02-01, 02-02, 02-03, 03-01, 03-02; 01-02 partial — paused at checkpoint)
 - Average duration: 14 min
 - Total execution time: 62 min
 
@@ -65,6 +65,10 @@ Recent decisions affecting current work:
 - [Phase 02-auth-and-security]: Turnstile token is UX-only in Phase 2 — server-side verification deferred to Phase 3 per PAY-03
 - [Phase 02-auth-and-security]: EMAIL_EXISTS error code forwarded verbatim from WC; client checks err.response.data.code and shows message directly
 - [Phase 02-auth-and-security]: Duplicate email detection uses WC errorCode 38 (not string matching) for reliability
+- [2026-03-09]: Server already shapes products with correct numeric string IDs — no client-side remapping needed in ProductContext
+- [2026-03-09]: Navbar mega menu finds rod product by name match (includes 'surf' and '11') instead of hardcoded slug ID 'rod-surf-11'
+- [2026-03-09]: Cents conversion at API layer (not server) — keeps Express server simple; it receives an integer and passes it directly to Stripe
+- [2026-03-09]: Turnstile test-key fallback added to both CheckoutPage and LoginPage — dev works without VITE_TURNSTILE_SITE_KEY set
 
 ### Pending Todos
 
@@ -79,6 +83,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-07
-Stopped at: Completed 02-auth-and-security/02-03-PLAN.md — Phase 2 complete, all 6 UAT tests passed, ready for Phase 3
+Last session: 2026-03-09
+Stopped at: Completed 03-data-integrity-and-payment-hardening/03-02-PLAN.md — payment amount conversion and production Turnstile key
 Resume file: None
