@@ -83,9 +83,9 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 04-01: Restructure components directory (pages/, sections/, ui/, widgets/, layout/), remove debug scripts, add dist/ to .gitignore
-- [ ] 04-02: Split CheckoutPage into step components (CheckoutFormStep, CheckoutSuccessStep) and extract hooks
-- [ ] 04-03: Add purpose comments to all component files and replace any types in services/api.ts with typed interfaces
+- [x] 04-01: Restructure components directory (pages/, sections/, ui/, widgets/, layout/), remove debug scripts, add dist/ to .gitignore
+- [x] 04-02: Split CheckoutPage into step components (CheckoutFormStep, CheckoutSuccessStep) and extract hooks
+- [x] 04-03: Add purpose comments to all component files and replace any types in services/api.ts with typed interfaces
 - [ ] 04-04: Implement BentoGrid and BentoCell layout primitives; wrap all routable pages in ErrorBoundary; add lazy image loading
 
 ### Phase 5: Analytics and Third-Party Integrations
@@ -146,7 +146,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 1. Infrastructure | 2/2 | Complete   | 2026-03-05 |
 | 2. Auth and Security | 3/3 | Complete   | 2026-03-07 |
 | 3. Data Integrity and Payment Hardening | 3/3 | Complete   | 2026-03-09 |
-| 4. Code Quality and UI Foundations | 1/4 | In Progress|  |
+| 4. Code Quality and UI Foundations | 3/4 | In Progress|  |
 | 5. Analytics and Third-Party Integrations | 0/3 | Not started | - |
 | 6. Landing Pages | 0/4 | Not started | - |
 | 7. Order Tracking | 0/1 | Not started | - |

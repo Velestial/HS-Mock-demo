@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 4 of 7 (Code Quality and UI Foundations)
-Plan: 1 of 4 in current phase (04-01 complete)
-Status: Phase 4 in progress — 04-01 (component restructure) complete
-Last activity: 2026-03-09 — Phase 4 Plan 01 complete: 28 components reorganized into pages/, sections/, widgets/, layout/ subdirectories
+Plan: 3 of 4 in current phase (04-01, 04-02, 04-03 complete)
+Status: Phase 4 in progress — 04-03 (purpose comments and type safety) complete
+Last activity: 2026-03-09 — Phase 4 Plan 03 complete: 28 components annotated with purpose comments, services/api.ts fully typed
 
-Progress: [███████░░░] 47%
+Progress: [████████░░] 53%
 
 ## Performance Metrics
 
@@ -73,6 +73,8 @@ Recent decisions affecting current work:
 - [2026-03-09]: express.raw() applied at route level for /stripe-webhook — global express.json() remains for all other routes
 - [2026-03-09]: Orphaned pending orders on Stripe failure closed by dual strategy — webhook handler (server-side) + CheckoutPage catch block (client-side fallback)
 - [2026-03-09]: Components organized by role — pages/ (route destinations), sections/ (homepage blocks), widgets/ (overlays/utilities), layout/ (Navbar/Footer), ui/ (empty, for 04-04)
+- [2026-03-09]: Purpose comment format established as // ComponentName — description (em dash, no trailing period) — applied to all 28 component files
+- [2026-03-09]: OrderPayload and CustomerUpdatePayload interfaces defined inline in services/api.ts — keeps API contract co-located with the functions that use it
 
 ### Pending Todos
 
@@ -88,5 +90,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-09
-Stopped at: Completed 04-code-quality-and-ui-foundations/04-01-PLAN.md — component directory restructure
+Stopped at: Completed 04-code-quality-and-ui-foundations/04-03-PLAN.md — purpose comments and type safety
 Resume file: None

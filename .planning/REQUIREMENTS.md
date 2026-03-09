@@ -77,9 +77,9 @@ Requirements for launch. Each maps to roadmap phases.
 - [ ] **CODE-01**: Components organized into `pages/`, `sections/`, `ui/`, `widgets/`, `layout/` subdirectories
 - [ ] **CODE-02**: CheckoutPage.tsx split into step components (form, payment, success), each under 200 lines
 - [x] **CODE-03**: All component files include a one-sentence purpose comment at the top (primary AI navigation aid)
-- [ ] **CODE-04**: No `any` types in `services/api.ts` — all API functions have typed request/response interfaces
-- [ ] **CODE-05**: Debug scripts removed from root (`debug_api.js`, `test_mapper.js`, `test_mapper.ts`, `index.tsx`)
-- [ ] **CODE-06**: `dist/` directory added to `.gitignore`
+- [x] **CODE-04**: No `any` types in `services/api.ts` — all API functions have typed request/response interfaces
+- [x] **CODE-05**: Debug scripts removed from root (`debug_api.js`, `test_mapper.js`, `test_mapper.ts`, `index.tsx`)
+- [x] **CODE-06**: `dist/` directory added to `.gitignore`
 
 ## v2 Requirements
 
@@ -155,9 +155,9 @@ Which phases cover which requirements. Populated during roadmap creation.
 | CODE-01 | Phase 4 | Pending |
 | CODE-02 | Phase 4 | Pending |
 | CODE-03 | Phase 4 | Complete |
-| CODE-04 | Phase 4 | Pending |
-| CODE-05 | Phase 4 | Pending |
-| CODE-06 | Phase 4 | Pending |
+| CODE-04 | Phase 4 | Complete |
+| CODE-05 | Phase 4 | Complete |
+| CODE-06 | Phase 4 | Complete |
 | ANLT-01 | Phase 5 | Pending |
 | ANLT-02 | Phase 5 | Pending |
 | ANLT-03 | Phase 5 | Pending |
