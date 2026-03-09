@@ -3,7 +3,8 @@ import { Menu, X, ShoppingBag, Facebook, Youtube, Instagram, ChevronDown, ArrowR
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
-import { products, Product } from '../data/products';
+import { Product } from '../types';
+import { useProducts } from '../context/ProductContext';
 
 interface NavbarProps {
   onNavigateHome?: () => void;
@@ -33,6 +34,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
   const [isShopExpandedMobile, setIsShopExpandedMobile] = useState(false);
   const { setIsOpen, cartCount } = useCart();
   const { user } = useAuth();
+  const { products } = useProducts();
 
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -278,7 +280,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
               <div
                 className="col-span-2 relative group overflow-hidden bg-neutral-100 h-[300px] cursor-pointer"
                 onClick={() => {
-                  const product = products.find(p => p.id === 'rod-surf-11');
+                  const product = products.find(p => p.name.toLowerCase().includes('surf') && p.name.toLowerCase().includes('11'));
                   if (product && onProductSelect) {
                     onProductSelect(product);
                     setIsMenuOpen(false);

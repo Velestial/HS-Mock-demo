@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Plus, Anchor, Filter, Crosshair, Wrench, Layers, ArrowUpDown, Circle, BookOpen, Package, Fish, TrendingUp } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import { products, Product } from '../data/products';
+import { Product } from '../types';
+import { useProducts } from '../context/ProductContext';
 
 interface ShopPageProps {
     onBack: () => void;
@@ -26,6 +27,7 @@ const categories: { id: ShopCategory; label: string; icon: any }[] = [
 
 const ShopPage: React.FC<ShopPageProps> = ({ onBack, onProductSelect }) => {
     const { addToCart } = useCart();
+    const { products } = useProducts();
     const [activeCategory, setActiveCategory] = useState<ShopCategory>('ALL');
     const [sortBy, setSortBy] = useState<SortOption>('default');
 

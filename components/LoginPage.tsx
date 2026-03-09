@@ -137,7 +137,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBack }) => {
                         {isRegistering && (
                             <div className="flex justify-center">
                                 <Turnstile
-                                    siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                                    siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
                                     onSuccess={(token) => { setTurnstileToken(token); setTurnstileReady(true); }}
                                     onError={() => { setTurnstileToken(''); setTurnstileReady(false); }}
                                     onExpire={() => { setTurnstileToken(''); setTurnstileReady(false); }}

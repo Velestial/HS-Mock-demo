@@ -576,7 +576,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
               {/* Turnstile Widget */}
               <div className="mt-8">
                 <Turnstile
-                  siteKey="1x00000000000000000000AA"
+                  siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || '1x00000000000000000000AA'}
                   onSuccess={setTurnstileToken}
                   onError={() => setTurnstileToken('')}
                   onExpire={() => setTurnstileToken('')}

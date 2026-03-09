@@ -35,9 +35,13 @@ export const createOrder = async (orderData: any) => {
     }
 };
 
-export const createPaymentIntent = async (amount: number) => {
+export const createPaymentIntent = async (amount: number, wcOrderId?: number) => {
     try {
-        const response = await axios.post(`${API_URL}/create-payment-intent`, { amount });
+        const amountInCents = Math.round(amount * 100);
+        const response = await axios.post(`${API_URL}/create-payment-intent`, {
+          amount: amountInCents,
+          ...(wcOrderId !== undefined && { wcOrderId })
+        });
         return response.data;
     } catch (error) {
         console.error('Error creating payment intent:', error);

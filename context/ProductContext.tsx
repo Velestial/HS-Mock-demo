@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product } from '../types';
 import { fetchProducts } from '../services/api';
-import { mapWooProductToAppProduct } from '../utils/productMapper';
 
 interface ProductContextType {
     products: Product[];
@@ -25,9 +24,8 @@ export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children })
     useEffect(() => {
         const loadProducts = async () => {
             try {
-                const wooProducts = await fetchProducts();
-                const mappedProducts = wooProducts.map(mapWooProductToAppProduct);
-                setProducts(mappedProducts);
+                const serverProducts = await fetchProducts();
+                setProducts(serverProducts);
             } catch (err: any) {
                 console.error("Failed to load products:", err);
                 setError(err.message || 'Failed to load products');
