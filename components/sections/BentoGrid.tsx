@@ -1,3 +1,4 @@
+// BentoGrid — three-tile homepage section showing rod specs, replacement guarantee, and inshore rod.
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Ruler, ShieldAlert, ArrowUpRight } from 'lucide-react';

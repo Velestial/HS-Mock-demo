@@ -1,3 +1,4 @@
+// CartSidebar — slide-out cart overlay with item list, quantity controls, and checkout CTA.
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Plus, Minus, Trash2, ArrowRight, ShieldCheck, CreditCard } from 'lucide-react';

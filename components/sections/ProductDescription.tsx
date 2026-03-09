@@ -1,3 +1,4 @@
+// ProductDescription — homepage section describing the flagship rod with feature callouts.
 import React from 'react';
 import { motion } from 'framer-motion';
 

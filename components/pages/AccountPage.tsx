@@ -1,3 +1,4 @@
+// AccountPage — authenticated user dashboard with order history, addresses, and account details tabs.
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {

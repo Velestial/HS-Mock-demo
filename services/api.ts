@@ -25,7 +25,51 @@ export interface RefreshResponse {
 
 // --- Order / Payment API ---
 
-export const createOrder = async (orderData: any) => {
+interface OrderLineItem {
+  product_id: number;
+  name: string;
+  price: string;
+  quantity: number;
+}
+
+interface OrderShippingLine {
+  method_id: string;
+  method_title: string;
+  total: string;
+}
+
+interface OrderAddress {
+  first_name: string;
+  last_name: string;
+  address_1: string;
+  address_2?: string;
+  city: string;
+  state: string;
+  postcode: string;
+  country: string;
+  email?: string;
+  phone?: string;
+}
+
+interface OrderPayload {
+  payment_method: string;
+  payment_method_title: string;
+  set_paid: boolean;
+  billing: OrderAddress;
+  shipping: OrderAddress;
+  line_items: OrderLineItem[];
+  shipping_lines: OrderShippingLine[];
+}
+
+interface CustomerUpdatePayload {
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  billing?: Partial<OrderAddress>;
+  shipping?: Partial<OrderAddress>;
+}
+
+export const createOrder = async (orderData: OrderPayload) => {
     try {
         const response = await axios.post(`${API_URL}/create-order`, orderData);
         return response.data;
@@ -84,7 +128,7 @@ export const fetchCustomerOrders = async (customerId: number) => {
     }
 };
 
-export const updateCustomer = async (customerId: number, data: any) => {
+export const updateCustomer = async (customerId: number, data: CustomerUpdatePayload) => {
     try {
         const response = await axios.put(`${API_URL}/customer/${customerId}`, data);
         return response.data;

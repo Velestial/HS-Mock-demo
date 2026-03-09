@@ -1,3 +1,4 @@
+// ScrollToTop — floating button that appears on scroll and returns user to the top of the page.
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';

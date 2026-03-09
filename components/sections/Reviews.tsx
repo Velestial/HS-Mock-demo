@@ -1,3 +1,4 @@
+// Reviews — customer review cards carousel or grid for social proof.
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Star, CheckCircle2, Quote } from 'lucide-react';

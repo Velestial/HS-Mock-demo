@@ -1,3 +1,4 @@
+// FinalChancePage — clearance product grid for items marked isFinalChance in the catalog.
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useCart } from '../../context/CartContext';

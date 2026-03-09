@@ -1,3 +1,4 @@
+// Footer — site-wide footer with navigation links, social icons, and legal page links.
 import React from 'react';
 
 interface FooterProps {

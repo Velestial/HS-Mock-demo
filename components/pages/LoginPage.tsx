@@ -1,3 +1,4 @@
+// LoginPage — email/password login form and registration form with Turnstile CAPTCHA protection.
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, User, ArrowRight, Loader } from 'lucide-react';

@@ -1,3 +1,4 @@
+// MobileAddedSuccess — transient mobile toast confirming an item was added to cart.
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check } from 'lucide-react';

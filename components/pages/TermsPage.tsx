@@ -1,3 +1,4 @@
+// TermsPage — static terms and conditions content page.
 import React, { useEffect } from 'react';
 
 interface TermsPageProps {

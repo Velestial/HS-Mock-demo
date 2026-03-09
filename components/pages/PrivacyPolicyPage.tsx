@@ -1,3 +1,4 @@
+// PrivacyPolicyPage — static privacy policy content page.
 import React, { useEffect } from 'react';
 
 interface PrivacyPolicyPageProps {

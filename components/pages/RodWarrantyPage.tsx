@@ -1,3 +1,4 @@
+// RodWarrantyPage — static rod replacement warranty terms and coverage details.
 import React, { useEffect } from 'react';
 
 interface RodWarrantyPageProps {

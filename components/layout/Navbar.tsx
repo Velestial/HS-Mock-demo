@@ -1,3 +1,4 @@
+// Navbar — fixed top navigation with mega menu, cart icon, account link, and mobile hamburger.
 import React, { useState } from 'react';
 import { Menu, X, ShoppingBag, Facebook, Youtube, Instagram, ChevronDown, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';

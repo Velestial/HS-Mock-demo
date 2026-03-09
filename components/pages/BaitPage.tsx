@@ -1,3 +1,4 @@
+// BaitPage — live bait product catalog filtered from WooCommerce with add-to-cart and product detail navigation.
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Plus, Droplets, Thermometer, Anchor, Fish } from 'lucide-react';

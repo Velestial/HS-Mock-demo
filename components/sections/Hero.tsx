@@ -1,3 +1,4 @@
+// Hero — homepage hero section with headline, subheadline, CTA, and featured rod image.
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Star } from 'lucide-react';

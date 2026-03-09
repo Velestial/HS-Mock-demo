@@ -1,3 +1,4 @@
+// ShopPage — full product catalog combining all categories from WooCommerce.
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Plus, Anchor, Filter, Crosshair, Wrench, Layers, ArrowUpDown, Circle, BookOpen, Package, Fish, TrendingUp } from 'lucide-react';

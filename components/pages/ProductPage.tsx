@@ -1,3 +1,4 @@
+// ProductPage — detailed product view with image gallery, specs, and add-to-cart for a single product.
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Plus, ShieldCheck, Truck, RotateCcw } from 'lucide-react';

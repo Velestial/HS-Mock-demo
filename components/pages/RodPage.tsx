@@ -1,3 +1,4 @@
+// RodPage — fishing rod product catalog with specs comparison and add-to-cart actions.
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Plus, Move, Ruler, Shield, Gauge } from 'lucide-react';

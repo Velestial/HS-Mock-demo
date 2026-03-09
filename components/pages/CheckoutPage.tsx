@@ -1,3 +1,4 @@
+// CheckoutPage — multi-step checkout orchestrator handling order creation, Stripe payment, and confirmation.
 import React, { useState } from 'react';
 import { Turnstile } from '@marsidev/react-turnstile';
 import { useCart } from '../../context/CartContext';

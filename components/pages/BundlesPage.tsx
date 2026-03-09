@@ -1,3 +1,4 @@
+// BundlesPage — bundle product catalog with kit descriptions and add-to-cart actions.
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Package, Check, Plus, ShoppingBag } from 'lucide-react';

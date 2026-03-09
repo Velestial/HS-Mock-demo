@@ -1,3 +1,4 @@
+// EbooksPage — digital e-book product catalog with add-to-cart and product detail navigation.
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Plus, Download, Smartphone, BookOpen, Map, Zap } from 'lucide-react';

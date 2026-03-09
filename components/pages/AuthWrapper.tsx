@@ -1,3 +1,4 @@
+// AuthWrapper — session-aware gate that renders LoginPage for guests and AccountPage for authenticated users.
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
 import LoginPage from './LoginPage';

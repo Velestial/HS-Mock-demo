@@ -1,3 +1,4 @@
+// FAQPage — accordion-style frequently asked questions organized by topic.
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Plus, Minus, HelpCircle } from 'lucide-react';

@@ -1,3 +1,4 @@
+// EmotivePopup — SMS/email opt-in popup triggered on first visit for marketing capture.
 import React, { useState } from 'react';
 import { X, Anchor } from 'lucide-react';
 import gallery3 from '../../assets/gallery-3.jpg';

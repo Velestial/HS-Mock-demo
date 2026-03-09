@@ -1,3 +1,4 @@
+// TacklePage — tackle product catalog organized by subcategory (rigs, lures, sinkers, tools).
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Plus, Anchor, Filter, Crosshair, Wrench, Layers, ArrowUpDown } from 'lucide-react';

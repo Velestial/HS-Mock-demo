@@ -1,3 +1,4 @@
+// Gallery — masonry-style photo gallery with lightbox for brand imagery.
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, X, ChevronLeft, ChevronRight } from 'lucide-react';
