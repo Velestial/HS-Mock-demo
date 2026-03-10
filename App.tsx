@@ -27,20 +27,61 @@ import FinalChancePage from './components/pages/FinalChancePage';
 import AuthWrapper from './components/pages/AuthWrapper';
 import ErrorBoundary from './components/ui/ErrorBoundary';
 import ScrollToTop from './components/widgets/ScrollToTop';
-import EmotivePopup from './components/widgets/EmotivePopup';
 import MobileAddedSuccess from './components/widgets/MobileAddedSuccess';
+import { initGA, trackPageView } from './utils/analytics';
 
 
 const App: React.FC = () => {
   const [view, setView] = useState<'home' | 'checkout' | 'faq' | 'bundles' | 'bait' | 'tackle' | 'shop' | 'ebooks' | 'rods' | 'product' | 'privacy' | 'terms' | 'warranty' | 'account' | 'final-chance'>('home');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
+  // Initialize GA4 once on mount
+  React.useEffect(() => {
+    initGA();
+  }, []);
+
+  // Track page_view on every view change
+  React.useEffect(() => {
+    const titles: Record<typeof view, string> = {
+      'home': 'Home',
+      'checkout': 'Checkout',
+      'faq': 'FAQ',
+      'bundles': 'Bundles',
+      'bait': 'Bait',
+      'tackle': 'Tackle',
+      'shop': 'Shop',
+      'ebooks': 'E-Books',
+      'rods': 'Rods',
+      'product': selectedProduct?.name ?? 'Product',
+      'privacy': 'Privacy Policy',
+      'terms': 'Terms',
+      'warranty': 'Rod Warranty',
+      'account': 'Account',
+      'final-chance': 'Final Chance',
+    };
+    trackPageView(`/${view}`, titles[view] ?? view);
+  }, [view]);
+
+  // Inject Emotive SMS popup iframe after 5-second delay
+  React.useEffect(() => {
+    const emotiveUrl = import.meta.env.VITE_EMOTIVE_SCRIPT_URL as string | undefined;
+    const timer = setTimeout(() => {
+      // Guard: skip if URL not configured, or if iframe already injected
+      if (!emotiveUrl || document.getElementById('emotive-popup-iframe')) return;
+      const iframe = document.createElement('iframe');
+      iframe.id = 'emotive-popup-iframe';
+      iframe.src = emotiveUrl;
+      iframe.style.cssText = 'position:fixed;bottom:0;right:0;width:100%;height:100%;border:none;z-index:9999;pointer-events:none;';
+      document.body.appendChild(iframe);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <ProductProvider>
       <AuthProvider>
         <CartProvider>
         <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white flex flex-col relative">
-          <EmotivePopup />
           <MobileAddedSuccess />
           <div className="max-w-[1920px] w-full mx-auto border-x border-black bg-white shadow-2xl shadow-black/5 relative">
             <Navbar
