@@ -14,8 +14,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Infrastructure** - Reconstruct the Express proxy server with all working endpoints and deploy to staging (completed 2026-03-05)
 - [x] **Phase 2: Auth and Security** - Replace demo auth with real WooCommerce JWT login, registration, and PII-safe session storage
-- [x] **Phase 3: Data Integrity and Payment Hardening** - Fix product ID corruption in checkout and add Stripe webhook for payment confirmation (completed 2026-03-09)
-- [x] **Phase 4: Code Quality and UI Foundations** - Reorganize codebase for AI maintainability, split CheckoutPage, and build shared UI primitives (completed 2026-03-09)
+- [x] **Phase 3: Data Integrity and Payment Hardening** - Fix product ID corruption in checkout and add Stripe webhook for payment confirmation (completed 2026-03-09)
+- [x] **Phase 4: Code Quality and UI Foundations** - Reorganize codebase for AI maintainability, split CheckoutPage, and build shared UI primitives (completed 2026-03-09)
 - [ ] **Phase 5: Analytics and Third-Party Integrations** - Wire up GA4 tracking, Stamped.io reviews, and Emotive.io SMS opt-in
 - [ ] **Phase 6: Landing Pages** - Build brand-driven TravelRod and SaltedBait landing pages with bento grid layouts
 - [ ] **Phase 7: Order Tracking** - Add post-purchase order status lookup page
@@ -97,12 +97,12 @@ Plans:
   2. Adding an item to the cart fires a GA4 add_to_cart event with product name and price
   3. Product pages with at least one Stamped.io review display the reviews widget; pages with zero reviews show nothing
   4. Checkout includes a working SMS opt-in with TCPA consent language (not the placeholder mock)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: Install GA4 and instrument page view, add-to-cart, and purchase events
-- [ ] 05-02: Build StampedReviews widget component (lazy-loaded, re-initialized on product change, gated on review count > 0)
-- [ ] 05-03: Replace EmotivePopup mock with real Emotive.io SDK integration and TCPA-compliant consent checkbox
+- [ ] 05-01-PLAN.md — GA4 analytics module (utils/analytics.ts), page_view tracking in App.tsx, Emotive SDK inject replacing EmotivePopup mock
+- [ ] 05-02-PLAN.md — GA4 ecommerce events: add_to_cart (CartContext), remove_from_cart (CartSidebar), begin_checkout (CheckoutPage), purchase (useCheckoutSubmit)
+- [ ] 05-03-PLAN.md — Stamped.io: CDN init (utils/stamped.ts), reviews widget on ProductPage with zero-review gate, homepage carousel
 
 ### Phase 6: Landing Pages
 **Goal**: Customers can navigate to dedicated Travel Rod and Salted Bait landing pages that tell the brand story, surface specs and social proof, address purchase objections, and offer a clear path to buy
@@ -146,7 +146,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 1. Infrastructure | 2/2 | Complete   | 2026-03-05 |
 | 2. Auth and Security | 3/3 | Complete   | 2026-03-07 |
 | 3. Data Integrity and Payment Hardening | 3/3 | Complete   | 2026-03-09 |
-| 4. Code Quality and UI Foundations | 4/4 | Complete   | 2026-03-09 |
+| 4. Code Quality and UI Foundations | 4/4 | Complete    | 2026-03-09 |
 | 5. Analytics and Third-Party Integrations | 0/3 | Not started | - |
 | 6. Landing Pages | 0/4 | Not started | - |
 | 7. Order Tracking | 0/1 | Not started | - |
