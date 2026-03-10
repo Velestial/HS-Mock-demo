@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-03-02)
 ## Current Position
 
 Phase: 5 of 7 (Analytics and Third-Party Integrations)
-Plan: 1 of 3 in current phase (05-01 complete)
-Status: In progress — 05-01 done, 05-02 and 05-03 remaining
-Last activity: 2026-03-10 — Phase 5 Plan 01 complete: GA4 analytics module (utils/analytics.ts), page tracking wired in App.tsx, Emotive SDK iframe inject replacing deleted EmotivePopup.tsx mock
+Plan: 3 of 3 in current phase (05-01, 05-02, 05-03 complete)
+Status: Phase 5 complete — all 3 plans done
+Last activity: 2026-03-10 — Phase 5 Plan 03 complete: Stamped.io CDN init via utils/stamped.ts, ProductPage reviews widget with hasReviews gate, StampedCarousel on homepage
 
 Progress: [████████░░] 60%
 
@@ -35,6 +35,8 @@ Progress: [████████░░] 60%
 - Trend: consistent 4-15 min per plan
 
 *Updated after each plan completion*
+| Phase 05 P02 | 2min | 2 tasks | 4 files |
+| Phase 05 P03 | 3min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -83,6 +85,11 @@ Recent decisions affecting current work:
 - [2026-03-10]: Emotive embed is an iframe URL (HTML page), not a JS script — injected as <iframe> not <script>; VITE_EMOTIVE_SCRIPT_URL is an iframe src
 - [2026-03-10]: send_page_view: false on GA4 config — prevents double page_view; App.tsx fires the first view manually via useEffect
 - [2026-03-10]: Analytics module pattern — all GA4 calls route through utils/analytics.ts exports; components never call window.gtag directly
+- [Phase 05]: trackAddToCart fires with quantity 1 per add action — correct GA4 ecommerce behavior regardless of existing cart state
+- [Phase 05]: trackPurchase placed after updateOrderStatus and before geocoding try/catch — only fires when both Stripe and WC order update succeeded
+- [Phase 05]: useEffect(fn, []) for begin_checkout — empty dep array ensures single fire on checkout page mount
+- [Phase 05]: Stamped CDN script injected once in App.tsx initStamped(); ProductPage calls reloadUGC() not reinit — avoids duplicate script tags on product navigation
+- [Phase 05]: hasReviews state gates Stamped widget div — stamped:reviews:loaded event with .stamped-review count check prevents empty widget box for zero-review products
 
 ### Pending Todos
 
@@ -98,5 +105,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-10
-Stopped at: Completed 05-01-PLAN.md — GA4 analytics module, page tracking, Emotive SDK iframe embed
+Stopped at: Completed 05-03-PLAN.md — Stamped.io reviews widget on ProductPage and carousel on homepage
 Resume file: None
