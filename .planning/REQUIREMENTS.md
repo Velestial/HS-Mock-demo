@@ -63,12 +63,12 @@ Requirements for launch. Each maps to roadmap phases.
 
 - [ ] **INT-01**: Stamped.io reviews widget displays product reviews on product pages and landing pages
 - [ ] **INT-02**: Stamped.io widget loads only when product has at least 1 review (no zero-star placeholder)
-- [ ] **INT-03**: Emotive.io SMS opt-in is functional at checkout — replaces non-functional EmotivePopup mock
-- [ ] **INT-04**: Emotive.io opt-in includes proper TCPA consent language
+- [x] **INT-03**: Emotive.io SMS opt-in is functional at checkout — replaces non-functional EmotivePopup mock
+- [x] **INT-04**: Emotive.io opt-in includes proper TCPA consent language
 
 ### Analytics
 
-- [ ] **ANLT-01**: Google Analytics 4 is installed and tracking page views across all routes
+- [x] **ANLT-01**: Google Analytics 4 is installed and tracking page views across all routes
 - [ ] **ANLT-02**: Purchase events are tracked with order value and product details on checkout success
 - [ ] **ANLT-03**: Add-to-cart events are tracked with product name and price
 
@@ -150,15 +150,15 @@ Which phases cover which requirements. Populated during roadmap creation.
 | ORDER-02 | Phase 7 | Pending |
 | INT-01 | Phase 5 | Pending |
 | INT-02 | Phase 5 | Pending |
-| INT-03 | Phase 5 | Pending |
-| INT-04 | Phase 5 | Pending |
+| INT-03 | Phase 5 | Complete |
+| INT-04 | Phase 5 | Complete |
 | CODE-01 | Phase 4 | Complete |
 | CODE-02 | Phase 4 | Complete |
 | CODE-03 | Phase 4 | Complete |
 | CODE-04 | Phase 4 | Complete |
 | CODE-05 | Phase 4 | Complete |
 | CODE-06 | Phase 4 | Complete |
-| ANLT-01 | Phase 5 | Pending |
+| ANLT-01 | Phase 5 | Complete |
 | ANLT-02 | Phase 5 | Pending |
 | ANLT-03 | Phase 5 | Pending |
 

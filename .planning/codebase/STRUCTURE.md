@@ -64,7 +64,6 @@ Feature components:
 - `BentoGrid.tsx` — Bento-style grid layout
 - `ProductDescription.tsx` — Product description renderer
 - `Reviews.tsx` — Customer reviews section
-- `EmotivePopup.tsx` — Marketing popup
 - `AuthWrapper.tsx` — Auth-gated route wrapper
 
 Static/legal pages:
@@ -83,9 +82,10 @@ Static/legal pages:
 
 - `api.ts` — All external API calls: WooCommerce products, orders, customers; Stripe payment intents
 
-### `utils/` — Utilities (1 file)
+### `utils/` — Utilities (2 files)
 
 - `productMapper.ts` — WooCommerce → App product schema transformation, category detection, HTML stripping
+- `analytics.ts` — GA4 init and 7 typed ecommerce event tracking functions (single integration point for all analytics)
 
 ### `data/` — Static Data (1 file)
 

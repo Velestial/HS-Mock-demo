@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-03-02)
 
 **Core value:** A customer can discover HeySkipper fishing products through a beautiful, fast storefront and complete a purchase with confidence.
-**Current focus:** Phase 4 - Code Quality and UI Foundations
+**Current focus:** Phase 5 - Analytics and Third-Party Integrations
 
 ## Current Position
 
-Phase: 4 of 7 (Code Quality and UI Foundations)
-Plan: 4 of 4 in current phase (04-01, 04-02, 04-03, 04-04 complete)
-Status: Phase 4 complete — all 4 plans done
-Last activity: 2026-03-09 — Phase 4 Plan 04 complete: ErrorBoundary class component wraps all 15 App.tsx page views; BentoCell grid primitive added for Phase 6
+Phase: 5 of 7 (Analytics and Third-Party Integrations)
+Plan: 1 of 3 in current phase (05-01 complete)
+Status: In progress — 05-01 done, 05-02 and 05-03 remaining
+Last activity: 2026-03-10 — Phase 5 Plan 01 complete: GA4 analytics module (utils/analytics.ts), page tracking wired in App.tsx, Emotive SDK iframe inject replacing deleted EmotivePopup.tsx mock
 
-Progress: [████████░░] 57%
+Progress: [████████░░] 60%
 
 ## Performance Metrics
 
@@ -79,6 +79,10 @@ Recent decisions affecting current work:
 - [2026-03-09]: hooks/ directory created at project root for checkout submit hook (no prior hooks directory existed)
 - [2026-03-09]: BentoCell uses Record<number, string> lookup tables for Tailwind class names (not template literals) — ensures static class detection at build time
 - [2026-03-09]: ErrorBoundary wraps each view conditional independently (not outer <main>) — crash in one page does not unmount Navbar, Footer, or CartSidebar
+- [2026-03-10]: GA4 gtag must be a regular function (not arrow) — arrow functions create true Arrays; GA4 requires the Arguments object (most common GA4 failure)
+- [2026-03-10]: Emotive embed is an iframe URL (HTML page), not a JS script — injected as <iframe> not <script>; VITE_EMOTIVE_SCRIPT_URL is an iframe src
+- [2026-03-10]: send_page_view: false on GA4 config — prevents double page_view; App.tsx fires the first view manually via useEffect
+- [2026-03-10]: Analytics module pattern — all GA4 calls route through utils/analytics.ts exports; components never call window.gtag directly
 
 ### Pending Todos
 
@@ -93,6 +97,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-09
-Stopped at: Completed 04-code-quality-and-ui-foundations/04-04-PLAN.md — ErrorBoundary and BentoCell layout primitive
+Last session: 2026-03-10
+Stopped at: Completed 05-01-PLAN.md — GA4 analytics module, page tracking, Emotive SDK iframe embed
 Resume file: None
