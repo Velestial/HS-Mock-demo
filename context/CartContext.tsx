@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { trackAddToCart } from '../utils/analytics';
 
 export interface CartItem {
   id: string;
@@ -64,6 +65,14 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         );
       }
       return [...prev, { ...newItem, quantity: 1 }];
+    });
+
+    trackAddToCart({
+      id: newItem.id,
+      name: newItem.name,
+      price: newItem.price,
+      category: newItem.category,
+      quantity: 1,
     });
 
     if (window.innerWidth < 768) {

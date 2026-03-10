@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Plus, Minus, Trash2, ArrowRight, ShieldCheck, CreditCard } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { trackRemoveFromCart } from '../../utils/analytics';
 
 interface CartSidebarProps {
   onCheckout: () => void;
@@ -106,8 +107,17 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ onCheckout }) => {
                           </div>
 
                           {/* Remove */}
-                          <button 
-                            onClick={() => removeFromCart(item.id)}
+                          <button
+                            onClick={() => {
+                              trackRemoveFromCart({
+                                id: item.id,
+                                name: item.name,
+                                price: item.price,
+                                category: item.category,
+                                quantity: item.quantity,
+                              });
+                              removeFromCart(item.id);
+                            }}
                             className="text-[10px] font-mono uppercase text-neutral-400 hover:text-red-600 flex items-center gap-1 transition-colors"
                           >
                             <Trash2 className="w-3 h-3" /> Remove
