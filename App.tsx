@@ -29,6 +29,7 @@ import ErrorBoundary from './components/ui/ErrorBoundary';
 import ScrollToTop from './components/widgets/ScrollToTop';
 import MobileAddedSuccess from './components/widgets/MobileAddedSuccess';
 import { initGA, trackPageView } from './utils/analytics';
+import { initStamped } from './utils/stamped';
 
 
 const App: React.FC = () => {
@@ -38,6 +39,11 @@ const App: React.FC = () => {
   // Initialize GA4 once on mount
   React.useEffect(() => {
     initGA();
+  }, []);
+
+  // Initialize Stamped.io widget SDK once on mount
+  React.useEffect(() => {
+    initStamped();
   }, []);
 
   // Track page_view on every view change
