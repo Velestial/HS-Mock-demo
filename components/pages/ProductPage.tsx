@@ -5,6 +5,7 @@ import { ArrowLeft, Plus, ShieldCheck, Truck, RotateCcw } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { Product } from '../../types';
 import Lightbox from '../widgets/Lightbox';
+import { trackViewItem } from '../../utils/analytics';
 
 interface ProductPageProps {
     product: Product;
@@ -15,11 +16,41 @@ const ProductPage: React.FC<ProductPageProps> = ({ product, onBack }) => {
     const { addToCart } = useCart();
     const [selectedImage, setSelectedImage] = React.useState(0);
     const [lightboxOpen, setLightboxOpen] = React.useState(false);
+    const [hasReviews, setHasReviews] = React.useState(false);
     const images = product.images && product.images.length > 0 ? product.images : [product.image];
 
     // Reset selected image when product changes
     React.useEffect(() => {
         setSelectedImage(0);
+    }, [product.id]);
+
+    React.useEffect(() => {
+        // Track GA4 view_item event
+        trackViewItem({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            category: product.categoryId ?? 'fishing',
+        });
+
+        // Reset review visibility when product changes
+        setHasReviews(false);
+
+        // Listen for Stamped to confirm reviews exist before showing the widget
+        const onReviewsLoaded = () => {
+            const count = document.querySelectorAll('#stamped-main-widget .stamped-review').length;
+            if (count > 0) setHasReviews(true);
+        };
+        document.addEventListener('stamped:reviews:loaded', onReviewsLoaded);
+
+        // Tell Stamped to re-scan the DOM for the new product's widget div
+        if (typeof (window as any).StampedFn !== 'undefined') {
+            (window as any).StampedFn.reloadUGC();
+        }
+
+        return () => {
+            document.removeEventListener('stamped:reviews:loaded', onReviewsLoaded);
+        };
     }, [product.id]);
 
     const handleAddToCart = () => {
@@ -155,6 +186,22 @@ const ProductPage: React.FC<ProductPageProps> = ({ product, onBack }) => {
 
                     </motion.div>
                 </div>
+
+                {hasReviews && (
+                    <div className="mt-12 pt-8 border-t border-black/10">
+                        <h2 className="text-xl font-bold uppercase tracking-tight mb-6">Customer Reviews</h2>
+                        <div
+                            id="stamped-main-widget"
+                            data-widget-type="standard"
+                            data-product-id={product.id}
+                            data-name={product.name}
+                            data-url={`https://heyskipper.com/product/${product.id}`}
+                            data-image-url={product.image}
+                            data-description={product.description ?? ''}
+                            data-product-sku={product.id}
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );

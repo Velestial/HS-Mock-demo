@@ -30,6 +30,7 @@ import ScrollToTop from './components/widgets/ScrollToTop';
 import MobileAddedSuccess from './components/widgets/MobileAddedSuccess';
 import { initGA, trackPageView } from './utils/analytics';
 import { initStamped } from './utils/stamped';
+import StampedCarousel from './components/sections/StampedCarousel';
 
 
 const App: React.FC = () => {
@@ -124,6 +125,7 @@ const App: React.FC = () => {
                     <BentoGrid />
                     <ProductDescription />
                     <Reviews />
+                    <StampedCarousel />
                   </>
                 </ErrorBoundary>
               )}
