@@ -1,7 +1,8 @@
 // CheckoutPage — thin orchestrator holding checkout state and delegating step rendering to CheckoutFormStep and CheckoutSuccessStep
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCart } from '../../context/CartContext';
 import type { CartItem } from '../../context/CartContext';
+import { trackBeginCheckout } from '../../utils/analytics';
 import { useCheckoutSubmit } from '../../hooks/useCheckoutSubmit';
 import CheckoutFormStep from './CheckoutFormStep';
 import CheckoutSuccessStep from './CheckoutSuccessStep';
@@ -33,6 +34,18 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ onBack }) => {
     address: '', address2: '', city: '', state: '',
     country: 'United States', zip: '',
   });
+
+  // Fire begin_checkout once when checkout page mounts
+  useEffect(() => {
+    const ga4Items = items.map(item => ({
+      item_id: item.id,
+      item_name: item.name,
+      item_category: item.category,
+      price: item.price,
+      quantity: item.quantity,
+    }));
+    trackBeginCheckout(ga4Items, cartTotal);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Shipping Rule: Rods ($15) overrides Standard ($10). E-books are free ($0).
   const hasRod = items.some(item => item.category === 'rod');

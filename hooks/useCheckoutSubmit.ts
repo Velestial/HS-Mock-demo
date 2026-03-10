@@ -2,6 +2,7 @@
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { createOrder, createPaymentIntent, updateOrderStatus } from '../services/api';
 import type { CartItem } from '../context/CartContext';
+import { trackPurchase } from '../utils/analytics';
 
 interface FormData {
   email: string;
@@ -131,6 +132,16 @@ export function useCheckoutSubmit() {
       if (result.paymentIntent?.status === 'succeeded') {
         console.log("Payment succeeded. Updating order...");
         await updateOrderStatus(order.id, 'processing', result.paymentIntent.id);
+
+        // Fire purchase event ONLY after Stripe confirmed + WC order updated
+        const ga4Items = items.map(item => ({
+          item_id: item.id,
+          item_name: item.name,
+          item_category: item.category,
+          price: item.price,
+          quantity: item.quantity,
+        }));
+        trackPurchase(order.id, finalTotal, ga4Items, shippingCost, taxAmount);
 
         let coords: [number, number] = [39.8283, -98.5795];
         try {
