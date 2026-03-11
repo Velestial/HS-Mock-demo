@@ -10,6 +10,7 @@ if (missing.length > 0) {
 
 const express = require('express');
 const helmet = require('helmet');
+const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
@@ -70,6 +71,14 @@ app.use('/api', require('./routes/auth.cjs'));
 
 // Normalized error handler — MUST be last (4-param signature)
 app.use(errorHandler);
+
+// Serve Vite-built frontend — must be after API routes and error handler
+const distPath = path.join(__dirname, '..', 'dist');
+app.use(express.static(distPath));
+// SPA fallback — all non-API routes return index.html
+app.get('*', (_req, res) => {
+  res.sendFile(path.join(distPath, 'index.html'));
+});
 
 app.listen(port, () => {
   console.log(`HeySkipper Express server running at http://localhost:${port}`);
