@@ -9,6 +9,7 @@ if (missing.length > 0) {
 }
 
 const express = require('express');
+const helmet = require('helmet');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
@@ -16,6 +17,23 @@ const errorHandler = require('./middleware/errorHandler.cjs');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Security headers — must be before CORS and routes
+app.use(helmet({
+  // Allow Tailwind CDN, Google Fonts, Stamped, Stripe, GA4 in CSP
+  contentSecurityPolicy: process.env.NODE_ENV === 'production' ? {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", 'https://cdn.tailwindcss.com', 'https://cdn1.stamped.io', 'https://js.stripe.com', 'https://www.googletagmanager.com'],
+      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://cdn.tailwindcss.com'],
+      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+      frameSrc: ['https://js.stripe.com', 'https://emotivecdn.io'],
+      imgSrc: ["'self'", 'data:', 'https:'],
+      connectSrc: ["'self'", 'https://www.google-analytics.com', 'https://api.stamped.io'],
+    },
+  } : false, // Disabled in dev to avoid blocking Vite HMR
+  crossOriginEmbedderPolicy: false, // Required for Stripe/Emotive iframes
+}));
 
 // CORS allowlist — dynamic origin callback, NOT open wildcard
 const ALLOWED_ORIGINS = [
@@ -37,8 +55,8 @@ app.use(cors({
 // Morgan request logging
 app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined'));
 
-// Body parser
-app.use(express.json());
+// Body parser — 10kb limit prevents oversized payload attacks
+app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 
 // Route mounting — all under /api
