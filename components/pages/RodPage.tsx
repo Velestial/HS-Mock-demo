@@ -161,7 +161,8 @@ const RodPage: React.FC<RodPageProps> = ({ onBack, onProductSelect }) => {
       price: rod.price,
       image: rod.image,
       specs: rod.specs,
-      category: 'rod'
+      category: 'rod',
+      wcProductId: rod.wcProductId,
     });
   };
 

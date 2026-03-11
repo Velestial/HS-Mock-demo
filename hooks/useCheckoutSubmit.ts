@@ -56,7 +56,7 @@ export function useCheckoutSubmit() {
     opts.onProcessing();
 
     let createdOrderId: number | null = null;
-    const { formData, items, shippingCost, finalTotal, taxAmount } = opts;
+    const { formData, items, cartTotal, shippingCost, finalTotal, taxAmount } = opts;
 
     try {
       const orderData = {
@@ -85,12 +85,15 @@ export function useCheckoutSubmit() {
           postcode: formData.zip,
           country: formData.country === 'United States' ? 'US' : 'US'
         },
-        line_items: items.map(item => ({
-          product_id: !isNaN(Number(item.id)) ? Number(item.id) : 0,
-          name: item.name,
-          price: item.price.toString(),
-          quantity: item.quantity
-        })),
+        line_items: items
+          .filter(i => i.wcProductId)
+          .map(i => ({ product_id: i.wcProductId, quantity: i.quantity })),
+        fee_lines: items.filter(i => !i.wcProductId).length > 0 ? [{
+          name: items.filter(i => !i.wcProductId).map(i => `${i.name} x${i.quantity}`).join(', '),
+          total: items.filter(i => !i.wcProductId).reduce((s, i) => s + i.price * i.quantity, 0).toFixed(2),
+          tax_class: '',
+          tax_status: 'none',
+        }] : [],
         shipping_lines: [
           {
             method_id: "flat_rate",
@@ -168,8 +171,12 @@ export function useCheckoutSubmit() {
         try { await updateOrderStatus(createdOrderId, 'cancelled'); }
         catch (cancelErr) { console.error('Failed to cancel order:', cancelErr); }
       }
-      const backendError = err.response?.data?.details || err.response?.data?.error || err.message;
-      opts.onError(typeof backendError === 'string' ? backendError : JSON.stringify(backendError) || "An unexpected error occurred. Please try again.");
+      const d = err.response?.data;
+      const backendError = (typeof d?.message === 'string' ? d.message : null)
+        || (typeof d?.details === 'string' ? d.details : null)
+        || err.message
+        || 'An unexpected error occurred. Please try again.';
+      opts.onError(backendError);
     }
   };
 

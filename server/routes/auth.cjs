@@ -1,9 +1,11 @@
 'use strict';
 const router = require('express').Router();
+const jwt = require('jsonwebtoken');
 
-// Decode JWT payload without verifying signature (WC is authoritative issuer)
-function decodeJwtPayload(token) {
-  return JSON.parse(Buffer.from(token.split('.')[1], 'base64url').toString());
+// Verify JWT signature against our shared secret and return the payload.
+// Throws if the token is tampered, expired, or signed with a different key.
+function verifyAndDecodeJwt(token) {
+  return jwt.verify(token, process.env.JWT_SECRET, { algorithms: ['HS256'] });
 }
 
 // Set the hs_refresh httpOnly session cookie (session-only = no maxAge)
@@ -47,7 +49,7 @@ router.post('/auth/login', async (req, res) => {
   }
 
   const accessToken = wcData.data.jwt;
-  const payload = decodeJwtPayload(accessToken);
+  const payload = verifyAndDecodeJwt(accessToken);
   const user = buildUser(payload);
 
   setRefreshCookie(res, accessToken);
@@ -77,14 +79,14 @@ router.post('/auth/refresh', async (req, res) => {
   }
 
   const newAccessToken = wcData.data.jwt;
-  const payload = decodeJwtPayload(newAccessToken);
+  const payload = verifyAndDecodeJwt(newAccessToken);
   const user = buildUser(payload);
 
   setRefreshCookie(res, newAccessToken);
   res.json({ success: true, accessToken: newAccessToken, user });
 });
 
-router.post('/auth/logout', (req, res) => {
+router.post('/auth/logout', (_req, res) => {
   res.clearCookie('hs_refresh', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -139,7 +141,7 @@ router.post('/auth/register', async (req, res) => {
   }
 
   const accessToken = authData.data.jwt;
-  const payload = decodeJwtPayload(accessToken);
+  const payload = verifyAndDecodeJwt(accessToken);
   const user = buildUser(payload);
 
   setRefreshCookie(res, accessToken);

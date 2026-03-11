@@ -1,7 +1,7 @@
 'use strict';
 
 // Startup env guard — MUST run before any other code
-const REQUIRED_ENV = ['WC_URL', 'WC_CONSUMER_KEY', 'WC_CONSUMER_SECRET', 'STRIPE_SECRET_KEY', 'FRONTEND_URL', 'NODE_ENV'];
+const REQUIRED_ENV = ['WC_URL', 'WC_CONSUMER_KEY', 'WC_CONSUMER_SECRET', 'STRIPE_SECRET_KEY', 'FRONTEND_URL', 'NODE_ENV', 'JWT_SECRET'];
 const missing = REQUIRED_ENV.filter(k => !process.env[k]);
 if (missing.length > 0) {
   console.error('STARTUP ERROR: Missing required environment variables:', missing.join(', '));
@@ -21,12 +21,13 @@ const port = process.env.PORT || 3000;
 const ALLOWED_ORIGINS = [
   process.env.FRONTEND_URL,
   process.env.FRONTEND_STAGING_URL,
+  process.env.FRONTEND_PRODUCTION_URL,
   'http://localhost:5173',
 ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || ALLOWED_ORIGINS.includes(origin)) callback(null, true);
+    if (origin && ALLOWED_ORIGINS.includes(origin)) callback(null, true);
     else callback(new Error('Not allowed by CORS'));
   },
   credentials: true, // Required for Phase 2 httpOnly cookie auth

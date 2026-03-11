@@ -37,4 +37,5 @@ export interface Product {
   images?: string[];
   subCategory?: string;
   itemsSold?: number;
+  wcProductId?: number;
 }

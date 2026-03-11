@@ -10,11 +10,13 @@ const Hero: React.FC = () => {
 
   const handleAddToCart = () => {
     addToCart({
-      id: 'travel-rod-92',
-      name: "Travel Series 9'2\"",
-      price: 249,
-      image: 'https://www.heyskipperfishing.com/wp-content/uploads/2024/04/rod1.jpg', // Thumbnail for cart
-      specs: 'Toray Carbon / 5-Piece'
+      id: 'rod-travel-92',
+      name: "9'2\" Hybrid Travel",
+      price: 299,
+      image: 'https://sandbox.heyskipperfishing.com/wp-content/uploads/2024/04/rodv2.jpg',
+      specs: 'Toray Carbon / 5-Piece',
+      category: 'rod',
+      wcProductId: 114704,
     });
   };
 
@@ -31,7 +33,7 @@ const Hero: React.FC = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 w-full border-b border-black">
           <div className="p-4 border-r border-black flex flex-col">
             <span className="text-[10px] font-mono uppercase text-gray-500">Model</span>
-            <span className="text-sm font-bold uppercase">Travel Series 9'2"</span>
+            <span className="text-sm font-bold uppercase">9'2" Hybrid Travel</span>
           </div>
           <div className="p-4 border-r border-black flex flex-col">
             <span className="text-[10px] font-mono uppercase text-gray-500">Weight</span>

@@ -9,6 +9,7 @@ export interface CartItem {
   image: string;
   specs?: string;
   category: string;
+  wcProductId?: number;
 }
 
 interface CartContextType {

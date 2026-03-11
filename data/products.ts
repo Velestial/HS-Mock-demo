@@ -3,11 +3,51 @@
 // import slabImage from '../assets/slab-1.jpg';
 // import tentImage from '../assets/tent-1.jpg';
 
-// Rods (using existing assets as placeholders since generation failed)
-// In a real scenario, we would have specific rod images.
-const rodTravelImg = "/assets/rod-breakdown.png";
-const rodInshoreImg = "/assets/rod-breakdown.png";
-const rodSurfImg = "/assets/rod-breakdown.png";
+// Rod images from WooCommerce
+const rodTravelImages = [
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2024/04/rodv2.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2024/04/rodV222.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2024/04/rodv2closeup.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2024/04/RODV2CASE2.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2024/04/rodV2CASE.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2024/04/rod1.0.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2024/04/rod2.0.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2024/04/rod3.0.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2024/04/rod4.0.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2024/04/rod5.0.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2024/04/rod6.0.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2024/04/rod7.0.jpg",
+];
+const rodInshoreImages = [
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/INSHORE1.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/inshore2.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/inshore3.1.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/inshore3.2.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/inshore4.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/inshore5.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/inshore6.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/inshore8.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/inshore9.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/inshore10.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/inshore11.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/inshore12.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/inshore13.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/08/inshore14.jpg",
+];
+const rodSurfImages = [
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2026/01/1-1.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2026/01/2-1.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2026/01/3-1.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2026/01/3.1.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2026/01/4.1.png",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2026/01/5-1.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2026/01/6-1.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/10/1.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/10/2.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/10/3.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/10/4.jpg",
+    "https://sandbox.heyskipperfishing.com/wp-content/uploads/2025/10/5.jpg",
+];
 
 import { Product } from '../types';
 export type { Product };
@@ -55,11 +95,13 @@ export const products: Product[] = [
         name: "9'2\" Hybrid Travel",
         description: "Our signature 5-piece travel rod. Bridges the gap between surf and inshore. Fits in carry-on luggage.",
         price: 299.00,
-        image: rodTravelImg,
+        image: rodTravelImages[0],
+        images: rodTravelImages,
         specs: "9'2\" / 5-Piece",
         categoryId: 'rod',
         subtitle: "The Do-It-All Traveler",
         tag: "BEST_SELLER",
+        wcProductId: 118553,
         detailedSpecs: {
             length: "9'2\"",
             pieces: "5-Piece",
@@ -73,11 +115,13 @@ export const products: Product[] = [
         name: "7'6\" Inshore Specialist",
         description: "Designed for accuracy and sensitivity. Perfect for working lures around docks, mangroves, and flats.",
         price: 250.00,
-        image: rodInshoreImg,
+        image: rodInshoreImages[0],
+        images: rodInshoreImages,
         specs: "7'6\" / 1-Piece",
         categoryId: 'rod',
         subtitle: "Precision Instrument",
         tag: "SPECIALIST",
+        wcProductId: 125286,
         detailedSpecs: {
             length: "7'6\"",
             pieces: "1-Piece",
@@ -91,11 +135,13 @@ export const products: Product[] = [
         name: "11' Surf Commander",
         description: "Maximum distance casting machine. Built to heave heavy payloads past the breakers into the strike zone.",
         price: 599.00,
-        image: rodSurfImg,
+        image: rodSurfImages[0],
+        images: rodSurfImages,
         specs: "11'0\" / 2-Piece",
         categoryId: 'rod',
         subtitle: "Long Range Artillery",
         tag: "FLAGSHIP",
+        wcProductId: 115700, // no Stamped reviews yet
         detailedSpecs: {
             length: "11'0\"",
             pieces: "2-Piece",

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Product } from '../types';
 import { fetchProducts } from '../services/api';
+import { products as localProducts } from '../data/products';
 
 interface ProductContextType {
     products: Product[];
@@ -16,29 +17,28 @@ export const useProducts = () => {
     return context;
 };
 
+const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, '');
+
 export const ProductProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [products, setProducts] = useState<Product[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const [products, setProducts] = useState<Product[]>(localProducts);
 
     useEffect(() => {
-        const loadProducts = async () => {
-            try {
-                const serverProducts = await fetchProducts();
-                setProducts(serverProducts);
-            } catch (err: any) {
-                console.error("Failed to load products:", err);
-                setError(err.message || 'Failed to load products');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        loadProducts();
+        fetchProducts()
+            .then((serverProducts: Product[]) => {
+                if (!serverProducts?.length) return;
+                setProducts(prev => prev.map(local => {
+                    const match = serverProducts.find(s => normalize(s.name) === normalize(local.name));
+                    if (!match) return local;
+                    const image = match.image || local.image;
+                    const images = match.images?.length ? match.images : local.images;
+                    return { ...local, image, images };
+                }));
+            })
+            .catch(() => {});
     }, []);
 
     return (
-        <ProductContext.Provider value={{ products, loading, error }}>
+        <ProductContext.Provider value={{ products, loading: false, error: null }}>
             {children}
         </ProductContext.Provider>
     );

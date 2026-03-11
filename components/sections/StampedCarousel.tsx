@@ -2,6 +2,15 @@
 import React from 'react';
 
 const StampedCarousel: React.FC = () => {
+  React.useEffect(() => {
+    const t = setTimeout(() => {
+      if (typeof (window as any).StampedFn !== 'undefined') {
+        (window as any).StampedFn.reloadUGC();
+      }
+    }, 300);
+    return () => clearTimeout(t);
+  }, []);
+
   return (
     <section className="w-full border-b border-black bg-white py-8 px-6">
       <div className="max-w-[1920px] mx-auto">
@@ -15,6 +24,8 @@ const StampedCarousel: React.FC = () => {
         <div
           id="stamped-reviews-widget"
           data-widget-type="carousel"
+          data-store-hash={import.meta.env.VITE_STAMPED_STORE_HASH}
+          data-api-key={import.meta.env.VITE_STAMPED_API_KEY}
         />
       </div>
     </section>

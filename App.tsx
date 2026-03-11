@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY as string);
 import { ProductProvider } from './context/ProductContext';
 import { Product } from './types';
 import Navbar from './components/layout/Navbar';
@@ -78,7 +82,8 @@ const App: React.FC = () => {
       const iframe = document.createElement('iframe');
       iframe.id = 'emotive-popup-iframe';
       iframe.src = emotiveUrl;
-      iframe.style.cssText = 'position:fixed;bottom:0;right:0;width:100%;height:100%;border:none;z-index:9999;pointer-events:none;';
+      iframe.setAttribute('allowtransparency', 'true');
+      iframe.style.cssText = 'position:fixed;bottom:0;right:0;width:100%;height:100%;border:none;z-index:9999;pointer-events:none;background:transparent;';
       document.body.appendChild(iframe);
     }, 5000);
     return () => clearTimeout(timer);
@@ -131,7 +136,9 @@ const App: React.FC = () => {
               )}
               {view === 'checkout' && (
                 <ErrorBoundary>
-                  <CheckoutPage onBack={() => setView('home')} />
+                  <Elements stripe={stripePromise}>
+                    <CheckoutPage onBack={() => setView('home')} />
+                  </Elements>
                 </ErrorBoundary>
               )}
               {view === 'faq' && (

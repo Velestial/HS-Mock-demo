@@ -1,6 +1,6 @@
 // Navbar — fixed top navigation with mega menu, cart icon, account link, and mobile hamburger.
 import React, { useState } from 'react';
-import { Menu, X, ShoppingBag, Facebook, Youtube, Instagram, ChevronDown, ArrowRight } from 'lucide-react';
+import { Menu, X, ShoppingBag, Facebook, Youtube, Instagram, ChevronDown, ArrowRight, LogOut, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
@@ -33,9 +33,18 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeHover, setActiveHover] = useState<string | null>(null);
   const [isShopExpandedMobile, setIsShopExpandedMobile] = useState(false);
+  const [isAccountDropdownOpen, setIsAccountDropdownOpen] = useState(false);
   const { setIsOpen, cartCount } = useCart();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const { products } = useProducts();
+
+  // Close account dropdown on outside click
+  React.useEffect(() => {
+    if (!isAccountDropdownOpen) return;
+    const close = () => setIsAccountDropdownOpen(false);
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, [isAccountDropdownOpen]);
 
   const handleLogoClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -46,7 +55,15 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
     if (onNavigateAccount) {
       onNavigateAccount();
       setIsMenuOpen(false);
+      setIsAccountDropdownOpen(false);
     }
+  };
+
+  const handleLogout = async () => {
+    setIsAccountDropdownOpen(false);
+    setIsMenuOpen(false);
+    await logout();
+    if (onNavigateHome) onNavigateHome();
   };
 
   const handleFAQClick = (e: React.MouseEvent) => {
@@ -215,12 +232,52 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
             </a>
           </div>
 
-          <button
-            onClick={handleAccountClick}
-            className="hidden md:block text-xs font-mono uppercase hover:text-neutral-600 transition-colors"
-          >
-            {user ? (user.first_name || user.email.split('@')[0]) : 'LOGIN'}
-          </button>
+          {/* Desktop account — dropdown when logged in, plain login when guest */}
+          <div className="hidden md:block relative">
+            {user ? (
+              <>
+                <button
+                  onClick={() => setIsAccountDropdownOpen((o: boolean) => !o)}
+                  className="flex items-center gap-1.5 text-xs font-mono uppercase hover:text-neutral-600 transition-colors"
+                >
+                  <User className="w-3.5 h-3.5" />
+                  {user.first_name || user.email.split('@')[0]}
+                  <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isAccountDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {isAccountDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 top-full mt-3 w-40 bg-white border border-black shadow-lg z-50"
+                    >
+                      <button
+                        onClick={handleAccountClick}
+                        className="w-full flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-widest hover:bg-neutral-50 transition-colors border-b border-black/10"
+                      >
+                        <User className="w-3.5 h-3.5" /> Account
+                      </button>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2 px-4 py-3 text-xs font-bold uppercase tracking-widest text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        <LogOut className="w-3.5 h-3.5" /> Log Out
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </>
+            ) : (
+              <button
+                onClick={handleAccountClick}
+                className="text-xs font-mono uppercase hover:text-neutral-600 transition-colors"
+              >
+                LOGIN
+              </button>
+            )}
+          </div>
 
           {/* Cart Trigger */}
           <button
@@ -380,6 +437,21 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
               <button onClick={handleTackleClick} className="text-2xl font-black uppercase tracking-tight text-left">Tackle</button>
               <button onClick={handleEbooksClick} className="text-2xl font-black uppercase tracking-tight text-left">E-Books</button>
               <button onClick={handleFAQClick} className="text-2xl font-black uppercase tracking-tight text-left">FAQ</button>
+
+              {user ? (
+                <div className="flex flex-col space-y-4 pt-4 border-t border-black/10">
+                  <button onClick={handleAccountClick} className="flex items-center gap-3 text-2xl font-black uppercase tracking-tight text-left">
+                    <User className="w-6 h-6" /> Account
+                  </button>
+                  <button onClick={handleLogout} className="flex items-center gap-3 text-2xl font-black uppercase tracking-tight text-left text-red-600">
+                    <LogOut className="w-6 h-6" /> Log Out
+                  </button>
+                </div>
+              ) : (
+                <button onClick={handleAccountClick} className="text-2xl font-black uppercase tracking-tight text-left pt-4 border-t border-black/10">
+                  Login
+                </button>
+              )}
 
               <div className="flex gap-6 pt-6 mt-4 border-t border-black/10">
                 <a href="https://www.facebook.com/heyskipperfishing/" target="_blank" rel="noopener noreferrer" className="text-black hover:text-neutral-500"><Facebook className="w-5 h-5" strokeWidth={1.5} /></a>
