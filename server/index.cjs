@@ -45,7 +45,8 @@ const ALLOWED_ORIGINS = [
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (origin && ALLOWED_ORIGINS.includes(origin)) callback(null, true);
+    // Allow requests with no origin (Railway healthcheck, server-to-server, curl)
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) callback(null, true);
     else callback(new Error('Not allowed by CORS'));
   },
   credentials: true, // Required for Phase 2 httpOnly cookie auth
