@@ -1,6 +1,7 @@
 // useCheckoutSubmit — encapsulates the createOrder → createPaymentIntent → confirmPayment → updateOrderStatus flow
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import { createOrder, createPaymentIntent, updateOrderStatus } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import type { CartItem } from '../context/CartContext';
 import { trackPurchase } from '../utils/analytics';
 
@@ -39,6 +40,7 @@ interface SubmitOptions {
 export function useCheckoutSubmit() {
   const stripe = useStripe();
   const elements = useElements();
+  const { getAccessToken } = useAuth();
 
   const submit = async (e: React.FormEvent, opts: SubmitOptions) => {
     e.preventDefault();
@@ -103,12 +105,10 @@ export function useCheckoutSubmit() {
         ]
       };
 
-      console.log("Creating order...", orderData);
-      const order = await createOrder(orderData);
+      const token = getAccessToken();
+      const order = await createOrder(orderData, token);
       createdOrderId = order.id;
-      console.log("Order created:", order);
 
-      console.log("Creating payment intent for amount:", finalTotal);
       const { clientSecret } = await createPaymentIntent(finalTotal, order.id);
 
       const result = await stripe.confirmCardPayment(clientSecret, {
@@ -133,8 +133,7 @@ export function useCheckoutSubmit() {
       if (result.error) throw new Error(result.error.message || 'Payment failed');
 
       if (result.paymentIntent?.status === 'succeeded') {
-        console.log("Payment succeeded. Updating order...");
-        await updateOrderStatus(order.id, 'processing', result.paymentIntent.id);
+        await updateOrderStatus(order.id, 'processing', result.paymentIntent.id, token);
 
         // Fire purchase event ONLY after Stripe confirmed + WC order updated
         const ga4Items = items.map(item => ({
@@ -166,10 +165,9 @@ export function useCheckoutSubmit() {
       }
 
     } catch (err: any) {
-      console.error("Checkout Error:", err);
       if (createdOrderId) {
-        try { await updateOrderStatus(createdOrderId, 'cancelled'); }
-        catch (cancelErr) { console.error('Failed to cancel order:', cancelErr); }
+        try { await updateOrderStatus(createdOrderId, 'cancelled', undefined, getAccessToken()); }
+        catch { /* best-effort cancel */ }
       }
       const d = err.response?.data;
       const backendError = (typeof d?.message === 'string' ? d.message : null)

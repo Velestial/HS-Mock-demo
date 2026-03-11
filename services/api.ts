@@ -69,12 +69,13 @@ interface CustomerUpdatePayload {
   shipping?: Partial<OrderAddress>;
 }
 
-export const createOrder = async (orderData: OrderPayload) => {
+export const createOrder = async (orderData: OrderPayload, token?: string | null) => {
     try {
-        const response = await axios.post(`${API_URL}/create-order`, orderData);
+        const response = await axios.post(`${API_URL}/create-order`, orderData, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
         return response.data;
     } catch (error) {
-        console.error('Error creating order:', error);
         throw error;
     }
 };
@@ -93,12 +94,13 @@ export const createPaymentIntent = async (amount: number, wcOrderId?: number) =>
     }
 };
 
-export const updateOrderStatus = async (orderId: number, status: string, transactionId?: string) => {
+export const updateOrderStatus = async (orderId: number, status: string, transactionId?: string, token?: string | null) => {
     try {
-        const response = await axios.post(`${API_URL}/update-order`, { orderId, status, transactionId });
+        const response = await axios.post(`${API_URL}/update-order`, { orderId, status, transactionId }, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
         return response.data;
     } catch (error) {
-        console.error('Error updating order:', error);
         throw error;
     }
 };
@@ -118,28 +120,33 @@ export const loginUserLegacy = async (email: string) => {
     }
 };
 
-export const fetchCustomerOrders = async (customerId: number) => {
+export const fetchCustomerOrders = async (customerId: number, token?: string | null) => {
     try {
-        const response = await axios.get(`${API_URL}/customer/${customerId}/orders`);
+        const response = await axios.get(`${API_URL}/customer/${customerId}/orders`, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
         return response.data;
     } catch (error) {
-        console.error('Error fetching orders:', error);
         return [];
     }
 };
 
-export const updateCustomer = async (customerId: number, data: CustomerUpdatePayload) => {
+export const updateCustomer = async (customerId: number, data: CustomerUpdatePayload, token?: string | null) => {
     try {
-        const response = await axios.put(`${API_URL}/customer/${customerId}`, data);
+        const response = await axios.put(`${API_URL}/customer/${customerId}`, data, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
         return response.data;
     } catch (error) {
         throw error;
     }
 };
 
-export const fetchCustomerDownloads = async (customerId: number) => {
+export const fetchCustomerDownloads = async (customerId: number, token?: string | null) => {
     try {
-        const response = await axios.get(`${API_URL}/customer/${customerId}/downloads`);
+        const response = await axios.get(`${API_URL}/customer/${customerId}/downloads`, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
         return response.data;
     } catch (error) {
         return [];
