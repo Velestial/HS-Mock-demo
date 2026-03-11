@@ -2,15 +2,17 @@
 const router = require('express').Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-router.post('/create-payment-intent', async (req, res) => {
-  const { amount, currency = 'usd', wcOrderId } = req.body;
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount,
-    currency,
-    automatic_payment_methods: { enabled: true },
-    metadata: wcOrderId ? { wc_order_id: String(wcOrderId) } : {},
-  });
-  res.json({ clientSecret: paymentIntent.client_secret });
+router.post('/create-payment-intent', async (req, res, next) => {
+  try {
+    const { amount, currency = 'usd', wcOrderId } = req.body;
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount,
+      currency,
+      automatic_payment_methods: { enabled: true },
+      metadata: wcOrderId ? { wc_order_id: String(wcOrderId) } : {},
+    });
+    res.json({ clientSecret: paymentIntent.client_secret });
+  } catch (err) { next(err); }
 });
 
 router.post('/stripe-webhook', require('express').raw({ type: 'application/json' }), async (req, res) => {

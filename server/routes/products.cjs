@@ -2,10 +2,14 @@
 const router = require('express').Router();
 const api = require('../woocommerce.cjs');
 
-router.get('/products', async (req, res) => {
-  const response = await api.get('products', { per_page: 100, status: 'publish' });
-  const products = response.data.map(shapeProduct);
-  res.json(products);
+router.get('/products', async (req, res, next) => {
+  try {
+    const response = await api.get('products', { per_page: 100, status: 'publish' });
+    const products = response.data.map(shapeProduct);
+    res.json(products);
+  } catch (err) {
+    next(err);
+  }
 });
 
 function shapeProduct(wc) {

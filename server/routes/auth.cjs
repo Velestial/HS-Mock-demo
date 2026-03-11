@@ -1,6 +1,16 @@
 'use strict';
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
+
+// 5 attempts per 15 minutes per IP on login and register
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: true, code: 'TOO_MANY_REQUESTS', message: 'Too many attempts. Please try again in 15 minutes.' },
+});
 
 // Verify JWT signature against our shared secret and return the payload.
 // Throws if the token is tampered, expired, or signed with a different key.
@@ -30,7 +40,7 @@ function buildUser(payload) {
   };
 }
 
-router.post('/auth/login', async (req, res) => {
+router.post('/auth/login', authLimiter, async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ error: true, code: 'MISSING_FIELDS', message: 'Email and password are required' });
@@ -95,7 +105,7 @@ router.post('/auth/logout', (_req, res) => {
   res.json({ success: true });
 });
 
-router.post('/auth/register', async (req, res) => {
+router.post('/auth/register', authLimiter, async (req, res) => {
   const { firstName, email, password } = req.body;
   if (!firstName || !email || !password) {
     return res.status(400).json({ error: true, code: 'MISSING_FIELDS', message: 'First name, email, and password are required' });
