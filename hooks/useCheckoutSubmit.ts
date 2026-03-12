@@ -89,13 +89,20 @@ export function useCheckoutSubmit() {
         },
         line_items: items
           .filter(i => i.wcProductId)
-          .map(i => ({ product_id: i.wcProductId, quantity: i.quantity })),
-        fee_lines: items.filter(i => !i.wcProductId).length > 0 ? [{
-          name: items.filter(i => !i.wcProductId).map(i => `${i.name} x${i.quantity}`).join(', '),
-          total: items.filter(i => !i.wcProductId).reduce((s, i) => s + i.price * i.quantity, 0).toFixed(2),
-          tax_class: '',
-          tax_status: 'none',
-        }] : [],
+          .map(i => ({
+            product_id: i.wcProductId,
+            quantity: i.quantity,
+            subtotal: (i.price * i.quantity).toFixed(2),
+            total: (i.price * i.quantity).toFixed(2),
+          })),
+        fee_lines: items.filter(i => !i.wcProductId).length > 0
+          ? items.filter(i => !i.wcProductId).map(i => ({
+              name: `${i.name}${i.quantity > 1 ? ` x${i.quantity}` : ''}`,
+              total: (i.price * i.quantity).toFixed(2),
+              tax_class: '',
+              tax_status: 'none',
+            }))
+          : [],
         shipping_lines: [
           {
             method_id: "flat_rate",
