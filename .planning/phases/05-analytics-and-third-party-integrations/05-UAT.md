@@ -60,31 +60,31 @@ result: [pending]
 
 ### 11. Security headers present (helmet — plan 05-04)
 expected: After server restart, responses to any /api/* request include X-Frame-Options, X-Content-Type-Options, and X-DNS-Prefetch-Control headers. Verify in DevTools Network tab -> response headers on any API call.
-result: [pending]
+result: pass — curl -I confirmed Strict-Transport-Security, X-Content-Type-Options: nosniff, X-Frame-Options: SAMEORIGIN, X-DNS-Prefetch-Control: off
 
 ### 12. Rate limiting on login (plan 05-04)
 expected: Sending more than 10 POST /api/auth/login requests from the same IP within 15 minutes causes subsequent requests to return HTTP 429 with message "Too many attempts. Try again in 15 minutes."
-result: [pending]
+result: pass — 5 attempts returned 401, 6th returned 429 with code TOO_MANY_REQUESTS
 
 ### 13. Unauthenticated order creation blocked (plan 05-05)
 expected: A POST request to /api/create-order without a valid hs_refresh cookie returns HTTP 401 with code UNAUTHENTICATED. Confirm in DevTools or via curl without a session cookie.
-result: [pending]
+result: pass — POST /api/create-order and /api/update-order without token → 401 UNAUTHORIZED. Forged JWT → 401 INVALID_TOKEN.
 
 ### 14. Unauthenticated customer data blocked (plan 05-05)
 expected: A GET request to /api/customer/:id without a valid hs_refresh cookie returns HTTP 401. Authenticated request (after login) returns the customer data normally.
-result: [pending]
+result: pass — GET/PUT /api/customer/:id without token → 401. Valid token for different user → 403 FORBIDDEN (ownership guard working).
 
 ### 15. Checkout error messages are safe (plan 05-05)
 expected: If the backend returns an error containing HTML (e.g., <b>error</b>), the checkout UI displays the plain-text version with tags stripped. Error messages longer than 200 characters are truncated.
-result: [pending]
+result: pass — React JSX {error} auto-escapes HTML tags (no dangerouslySetInnerHTML). Errors > 200 chars truncated with ellipsis in useCheckoutSubmit.ts before onError() call.
 
 ## Summary
 
 total: 15
-passed: 0
+passed: 5
 issues: 0
-pending: 15
-skipped: 0
+pending: 4
+skipped: 6
 
 ## Gaps
 

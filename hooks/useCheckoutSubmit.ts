@@ -170,10 +170,11 @@ export function useCheckoutSubmit() {
         catch { /* best-effort cancel */ }
       }
       const d = err.response?.data;
-      const backendError = (typeof d?.message === 'string' ? d.message : null)
+      const rawError = (typeof d?.message === 'string' ? d.message : null)
         || (typeof d?.details === 'string' ? d.details : null)
         || err.message
         || 'An unexpected error occurred. Please try again.';
+      const backendError = rawError.length > 200 ? rawError.slice(0, 200) + '…' : rawError;
       opts.onError(backendError);
     }
   };
