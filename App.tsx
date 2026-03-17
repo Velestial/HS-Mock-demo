@@ -42,6 +42,8 @@ const TermsPage = lazy(() => import('./components/pages/TermsPage'));
 const RodWarrantyPage = lazy(() => import('./components/pages/RodWarrantyPage'));
 const FinalChancePage = lazy(() => import('./components/pages/FinalChancePage'));
 const AuthWrapper = lazy(() => import('./components/pages/AuthWrapper'));
+const TravelRodPage = lazy(() => import('./components/pages/TravelRodPage'));
+const SaltedBaitPage = lazy(() => import('./components/pages/SaltedBaitPage'));
 
 
 const PageLoader: React.FC = () => (
@@ -54,7 +56,7 @@ const PageLoader: React.FC = () => (
 );
 
 const App: React.FC = () => {
-  const [view, setView] = useState<'home' | 'checkout' | 'faq' | 'bundles' | 'bait' | 'tackle' | 'shop' | 'ebooks' | 'rods' | 'product' | 'privacy' | 'terms' | 'warranty' | 'account' | 'final-chance'>('home');
+  const [view, setView] = useState<'home' | 'checkout' | 'faq' | 'bundles' | 'bait' | 'tackle' | 'shop' | 'ebooks' | 'rods' | 'product' | 'privacy' | 'terms' | 'warranty' | 'account' | 'final-chance' | 'travel-rod' | 'salted-bait'>('home');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   // Track the view the user navigated from, so ProductPage "Back" returns to the right place
   const [previousView, setPreviousView] = useState<typeof view>('home');
@@ -94,6 +96,8 @@ const App: React.FC = () => {
       'warranty': 'Rod Warranty',
       'account': 'Account',
       'final-chance': 'Final Chance',
+      'travel-rod': 'Travel Rod Landing',
+      'salted-bait': 'Salted Bait Landing',
     };
     trackPageView(`/${view}`, titles[view] ?? view);
   }, [view]);
@@ -326,6 +330,36 @@ const App: React.FC = () => {
                 <ErrorBoundary>
                   <Suspense fallback={<PageLoader />}>
                     <AuthWrapper onBack={() => setView('home')} />
+                  </Suspense>
+                </ErrorBoundary>
+              )}
+              {view === 'travel-rod' && (
+                <ErrorBoundary>
+                  <Suspense fallback={<PageLoader />}>
+                    <TravelRodPage
+                      onBack={() => setView(previousView)}
+                      onShop={() => setView('rods')}
+                      onProductSelect={(product) => {
+                        setPreviousView('travel-rod');
+                        setSelectedProduct(product);
+                        setView('product');
+                      }}
+                    />
+                  </Suspense>
+                </ErrorBoundary>
+              )}
+              {view === 'salted-bait' && (
+                <ErrorBoundary>
+                  <Suspense fallback={<PageLoader />}>
+                    <SaltedBaitPage
+                      onBack={() => setView(previousView)}
+                      onShop={() => setView('bait')}
+                      onProductSelect={(product) => {
+                        setPreviousView('salted-bait');
+                        setSelectedProduct(product);
+                        setView('product');
+                      }}
+                    />
                   </Suspense>
                 </ErrorBoundary>
               )}
