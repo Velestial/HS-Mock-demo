@@ -136,6 +136,8 @@ const App: React.FC = () => {
               onNavigateRods={() => setView('rods')}
               onNavigateFinalChance={() => setView('final-chance')}
               onNavigateAccount={() => setView('account')}
+              onNavigateTravelRod={() => { setPreviousView(view); setView('travel-rod'); }}
+              onNavigateSaltedBait={() => { setPreviousView(view); setView('salted-bait'); }}
               onProductSelect={(product) => {
                 setPreviousView(view);
                 setSelectedProduct(product);

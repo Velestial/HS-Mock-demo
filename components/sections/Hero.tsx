@@ -21,7 +21,7 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative w-full min-h-screen flex flex-col border-b border-black pt-16">
+    <section className="relative w-full min-h-screen flex flex-col border-b border-black pt-24">
 
 
 <div className="flex-grow flex flex-col justify-between relative z-10">

@@ -10,7 +10,7 @@ interface VideoHeroProps {
 
 const VideoHero: React.FC<VideoHeroProps> = ({ onShopAll }) => {
   return (
-    <section className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden border-b border-black pt-16">
+    <section className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden border-b border-black pt-24">
       {/* Video background */}
       <video
         autoPlay

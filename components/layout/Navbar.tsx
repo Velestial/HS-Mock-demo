@@ -18,18 +18,25 @@ interface NavbarProps {
   onNavigateFinalChance?: () => void;
   onNavigateAccount?: () => void;
   onNavigateShop?: () => void;
+  onNavigateTravelRod?: () => void;
+  onNavigateSaltedBait?: () => void;
   onProductSelect?: (product: Product) => void;
 }
 
 const shopItems = [
   { name: 'Rods', href: '#rods', desc: 'Travel & Inshore Series' },
   { name: 'Bundles', href: '#bundles', desc: 'Complete Kits' },
-  { name: 'Bait', href: '#bait', desc: 'Live & Artificial' },
+  { name: 'Bait', href: '#bait', desc: 'Natural & Artisanal' },
   { name: 'Tackle', href: '#tackle', desc: 'Terminal & Tools' },
-  { name: 'E-Books', href: '#ebooks', desc: 'Guides & Spots' }
+  { name: 'E-Books', href: '#ebooks', desc: 'Guides & Spots' },
 ];
 
-const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNavigateBundles, onNavigateBait, onNavigateTackle, onNavigateShop, onNavigateEbooks, onNavigateRods, onNavigateFinalChance, onNavigateAccount, onProductSelect }) => {
+const landingItems = [
+  { name: 'Travel Rods', href: '#travel-rod', desc: 'Tested Across the Country' },
+  { name: 'Salted Bait', href: '#salted-bait', desc: 'Natural & Artisanal' },
+];
+
+const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNavigateBundles, onNavigateBait, onNavigateTackle, onNavigateShop, onNavigateEbooks, onNavigateRods, onNavigateFinalChance, onNavigateAccount, onNavigateTravelRod, onNavigateSaltedBait, onProductSelect }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeHover, setActiveHover] = useState<string | null>(null);
   const [isShopExpandedMobile, setIsShopExpandedMobile] = useState(false);
@@ -126,6 +133,24 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
     }
   };
 
+  const handleTravelRodClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onNavigateTravelRod) {
+      onNavigateTravelRod();
+      setIsMenuOpen(false);
+      setActiveHover(null);
+    }
+  };
+
+  const handleSaltedBaitClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onNavigateSaltedBait) {
+      onNavigateSaltedBait();
+      setIsMenuOpen(false);
+      setActiveHover(null);
+    }
+  };
+
   const handleShopItemClick = (e: React.MouseEvent, itemHref: string) => {
     if (itemHref === '#bundles' && onNavigateBundles) {
       e.preventDefault();
@@ -152,6 +177,16 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
       onNavigateRods();
       setIsMenuOpen(false);
       setActiveHover(null);
+    } else if (itemHref === '#travel-rod' && onNavigateTravelRod) {
+      e.preventDefault();
+      onNavigateTravelRod();
+      setIsMenuOpen(false);
+      setActiveHover(null);
+    } else if (itemHref === '#salted-bait' && onNavigateSaltedBait) {
+      e.preventDefault();
+      onNavigateSaltedBait();
+      setIsMenuOpen(false);
+      setActiveHover(null);
     }
   };
 
@@ -161,6 +196,29 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
       className="fixed top-0 left-0 w-full z-50 bg-white border-b border-black"
       onMouseLeave={() => setActiveHover(null)}
     >
+      {/* Top utility bar */}
+      <div className="bg-black text-white border-b border-white/10">
+        <div className="max-w-[1920px] mx-auto flex items-center justify-between px-6 h-8">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-white/50 hidden sm:block">
+            Free Shipping on Orders $99+
+          </span>
+          <div className="flex items-center gap-6 ml-auto">
+            <button
+              onClick={(e) => { e.preventDefault(); if (onNavigateFAQ) { onNavigateFAQ(); setIsMenuOpen(false); } }}
+              className="font-mono text-[10px] uppercase tracking-widest text-white/70 hover:text-white transition-colors"
+            >
+              FAQ
+            </button>
+            <button
+              onClick={(e) => { e.preventDefault(); if (onNavigateFinalChance) { onNavigateFinalChance(); setIsMenuOpen(false); } }}
+              className="font-mono text-[10px] uppercase tracking-widest text-white/70 hover:text-white transition-colors"
+            >
+              Final Chance
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="flex justify-between items-center h-16 px-6 max-w-[1920px] mx-auto relative z-50 bg-white">
         {/* Logo Area */}
         <div className="flex items-center">
@@ -328,7 +386,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
             onMouseEnter={() => setActiveHover('Shop')}
             onMouseLeave={() => setActiveHover(null)}
           >
-            <div className="max-w-[1920px] mx-auto p-12 grid grid-cols-5 gap-12">
+            <div className="max-w-[1920px] mx-auto p-12 grid grid-cols-6 gap-12">
 
               {/* Categories Column */}
               <div className="col-span-1 flex flex-col space-y-6 border-r border-neutral-100 pr-8">
@@ -349,9 +407,28 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
                 ))}
               </div>
 
+              {/* Landing Pages Column */}
+              <div className="col-span-1 flex flex-col space-y-6 border-r border-neutral-100 pr-8">
+                <span className="font-mono text-[10px] uppercase text-neutral-400 mb-2 tracking-widest">Landing Pages</span>
+                {landingItems.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    onClick={(e) => handleShopItemClick(e, item.href)}
+                    className="group flex items-center justify-between cursor-pointer"
+                  >
+                    <div>
+                      <span className="block font-bold uppercase text-sm tracking-wide group-hover:underline underline-offset-4 decoration-1">{item.name}</span>
+                      <span className="block font-mono text-[10px] text-neutral-400 mt-1">{item.desc}</span>
+                    </div>
+                    <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-neutral-400" />
+                  </a>
+                ))}
+              </div>
+
               {/* Visual Area 1 - Promo */}
               <div
-                className="col-span-2 relative group overflow-hidden bg-neutral-100 h-[300px] cursor-pointer"
+                className="col-span-2 relative group overflow-hidden bg-neutral-100 h-[280px] cursor-pointer"
                 onClick={() => {
                   const product = products.find(p => p.name.toLowerCase().includes('surf') && p.name.toLowerCase().includes('11'));
                   if (product && onProductSelect) {
@@ -373,7 +450,7 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
               </div>
 
               {/* Visual Area 2 - Bundle */}
-              <div className="col-span-2 relative group overflow-hidden bg-black h-[300px] cursor-pointer" onClick={handleBundlesClick}>
+              <div className="col-span-2 relative group overflow-hidden bg-black h-[280px] cursor-pointer" onClick={handleBundlesClick}>
                 {(() => {
                   const bundle = products.find(p => p.id === 'bundle-all-in-one');
                   return bundle?.image ? (
@@ -461,6 +538,10 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigateHome, onNavigateFAQ, onNaviga
               <button onClick={handleBaitClick} className="text-2xl font-black uppercase tracking-tight text-left">Bait</button>
               <button onClick={handleTackleClick} className="text-2xl font-black uppercase tracking-tight text-left">Tackle</button>
               <button onClick={handleEbooksClick} className="text-2xl font-black uppercase tracking-tight text-left">E-Books</button>
+              <div className="border-t border-black/10 pt-4 flex flex-col space-y-4">
+                <button onClick={handleTravelRodClick} className="text-lg font-black uppercase tracking-tight text-left text-neutral-600">Travel Rods ↗</button>
+                <button onClick={handleSaltedBaitClick} className="text-lg font-black uppercase tracking-tight text-left text-neutral-600">Salted Bait ↗</button>
+              </div>
               <button onClick={handleFAQClick} className="text-2xl font-black uppercase tracking-tight text-left">FAQ</button>
 
               {user ? (

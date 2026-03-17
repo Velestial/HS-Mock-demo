@@ -122,8 +122,8 @@ const TravelRodPage: React.FC<TravelRodPageProps> = ({ onBack, onProductSelect, 
 
   return (
     <main className="bg-white min-h-screen">
-      {/* Back nav */}
-      <div className="border-b border-black/10 px-4 py-3">
+      {/* Back nav — top padding accounts for fixed navbar (top bar h-8 + main bar h-16 = 96px) */}
+      <div className="border-b border-black/10 px-4 pt-24 pb-3">
         <button
           onClick={onBack}
           className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest hover:underline underline-offset-4"
